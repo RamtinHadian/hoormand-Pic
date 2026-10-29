@@ -9,3 +9,10 @@ Every folder is one version of the app:
 - `v1.53.2/original/` – the same screens in the app's own maroon colours
 
 The ocean look is applied only to the pictures; the app itself is not recoloured.
+
+## Logo
+
+`logo/` – PNG with a transparent background:
+
+- `hoormand-logo.png` – the logo with the name and the line «سامانه اتوماسیون اداری» (640×582)
+- `hoormand-logo-full.png` – the same, with the four feature icons under it (900×937)
