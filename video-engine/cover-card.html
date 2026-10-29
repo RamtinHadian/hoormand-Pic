@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Medium.woff2);font-weight:500}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Bold.woff2);font-weight:700}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-ExtraBold.woff2);font-weight:800}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Black.woff2);font-weight:900}
+:root{--ink:#0d1730;--blue:#2f6fe0;--yellow:#ffd34d}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;font-family:V}
+#c{position:relative;width:1080px;height:1920px;overflow:hidden;
+  background:linear-gradient(180deg,#1f6fd6 0%,#3d8ee8 28%,#79b6f2 50%,#bfe0fb 66%,#eaf6ff 78%,#ffffff 100%)}
+svg.layer{position:absolute;inset:0;width:1080px;height:1920px}
+.sun{position:absolute;left:-160px;top:-180px;width:900px;height:900px;background:radial-gradient(closest-side,rgba(255,255,255,.35),transparent)}
+.badge{position:absolute;top:262px;left:56px;background:rgba(15,35,80,.72);color:#fff;font:800 40px V;border-radius:999px;padding:8px 30px}
+.t1{position:absolute;top:300px;left:0;right:0;text-align:center;font:900 230px/1 V;color:#fff;
+  text-shadow:0 6px 0 rgba(20,60,140,.25),0 18px 40px rgba(10,40,110,.35)}
+.t2{position:absolute;top:545px;left:0;right:0;text-align:center;font:900 300px/1 V;color:var(--ink);direction:ltr;letter-spacing:-6px;
+  text-shadow:0 14px 30px rgba(10,30,80,.25)}
+/* notepad */
+.pad{position:absolute;left:78px;top:900px;width:430px;height:600px;transform:rotate(-5deg);transform-origin:50% 100%}
+.pad .sheet{position:absolute;inset:0;border-radius:10px 10px 6px 6px;
+  background:repeating-linear-gradient(180deg,#fffdf6 0 54px,#e4e7ef 54px 56px);box-shadow:0 30px 60px rgba(20,40,90,.35),inset 0 0 0 1px #e6e2d6}
+.pad .back{position:absolute;left:14px;right:-14px;top:14px;bottom:-14px;border-radius:10px;background:#efe9da;box-shadow:0 20px 40px rgba(20,40,90,.3)}
+.rings{position:absolute;top:-30px;left:26px;right:26px;height:60px;display:flex;justify-content:space-between}
+.rings i{width:16px;height:56px;border-radius:9px;background:linear-gradient(90deg,#8a8f99,#e9edf3 45%,#7b808a);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.ph{position:absolute;top:44px;right:44px;font:800 52px V;color:#24334f}
+.ph:after{content:"";position:absolute;right:-6px;left:-6px;bottom:-8px;height:6px;border-radius:3px;background:#2f6fe0;transform:rotate(-1.5deg)}
+.it{position:absolute;right:26px;height:68px;display:flex;align-items:center;gap:14px;padding:0 20px;font:800 34px V;color:#2a3550;border-radius:6px;box-shadow:0 4px 8px rgba(0,0,0,.08)}
+.it b{width:40px;height:40px;border:4px solid #2a3550;border-radius:6px;display:flex;align-items:center;justify-content:center;font:900 30px V;background:rgba(255,255,255,.4)}
+.it small{font:700 26px V;color:#56607a;margin-right:6px}
+.box{position:absolute;right:46px;width:34px;height:34px;border:4px solid #3a4560;border-radius:6px}
+/* mug */
+.mug{position:absolute;left:24px;top:1310px;width:200px;height:220px}
+.mug .body{position:absolute;left:0;top:0;width:170px;height:210px;border-radius:12px 12px 40px 40px;background:linear-gradient(90deg,#d8dde6,#ffffff 40%,#e9edf3 70%,#c9cfd9)}
+.mug .rim{position:absolute;left:0;top:-14px;width:170px;height:30px;border-radius:50%;background:radial-gradient(ellipse at 50% 60%,#6b3f1f 40%,#f4f6fa 42%)}
+.mug .handle{position:absolute;left:140px;top:38px;width:86px;height:116px;border:24px solid #dfe4ec;border-left:none;border-radius:0 62px 62px 0;filter:drop-shadow(0 6px 8px rgba(30,50,90,.25))}
+/* pen */
+.pen{position:absolute;left:220px;top:1455px;width:330px;height:22px;border-radius:11px;background:linear-gradient(180deg,#3a3f4a,#11141a 60%,#2b2f38);transform:rotate(-8deg);box-shadow:0 10px 16px rgba(0,0,0,.3)}
+.pen:after{content:"";position:absolute;right:-30px;top:4px;border-left:34px solid #c9a24a;border-top:7px solid transparent;border-bottom:7px solid transparent}
+/* card */
+.card{position:absolute;right:44px;top:870px;width:540px;background:rgba(255,255,255,.97);border-radius:34px;padding:26px 26px 30px;box-shadow:0 30px 70px rgba(15,45,110,.3)}
+.ch{background:var(--yellow);border-radius:999px;padding:10px 20px;font:900 31px V;white-space:nowrap;color:var(--ink);text-align:center}
+.row{display:flex;align-items:center;gap:20px;margin-top:18px;border-radius:999px;padding:10px 12px 10px 26px;font:900 50px V;color:var(--ink)}
+.row .n{width:78px;height:78px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:900 52px V;color:var(--ink)}
+.hr{height:3px;background:#dfe5ef;margin:22px 10px 14px;border-radius:2px}
+.foot{text-align:center;font:800 38px V;color:#22304d}
+.foot em{display:inline-block;margin-top:8px;white-space:nowrap;font-style:normal;background:#dfe9ff;color:var(--blue);border-radius:999px;padding:6px 26px;font-weight:900;font-size:42px}
+/* brand */
+.brand{position:absolute;left:50%;top:1600px;transform:translateX(-50%);display:flex;align-items:center;gap:18px;background:#fff;border-radius:999px;padding:14px 40px 14px 22px;
+  box-shadow:0 18px 40px rgba(15,45,110,.25);direction:ltr}
+.brand img{height:70px}
+.brand div{display:flex;flex-direction:column;line-height:1.1;direction:rtl;text-align:right}
+.brand b{font:900 46px V;color:var(--ink)}
+.brand small{font:700 26px V;color:#5a6a8a;direction:ltr}
+</style>
+</head>
+<body>
+<div id="c">
+  <div class="sun"></div>
+  <svg class="layer" id="sky"></svg>
+  <div class="badge" id="badge"></div>
+  <div class="t1" id="t1"></div>
+  <div class="t2" id="t2"></div>
+  <div class="pad" id="pad"><div class="back"></div><div class="sheet"></div><div class="rings" id="rings"></div></div>
+  <div class="mug"><div class="handle"></div><div class="body"></div><div class="rim"></div></div>
+  <div class="pen"></div>
+  <svg class="layer" id="sea"></svg>
+  <div class="card" id="card"></div>
+  <div class="brand"><img src="assets/logo-mark.png"><div><b>هورمند</b><small id="handle"></small></div></div>
+</div>
+<script>
+function rnd(seed) { return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+function clouds(svgEl, blobs, idx, opts) {
+  const ns = 'http://www.w3.org/2000/svg';
+  svgEl.innerHTML = `<defs>
+   <filter id="f${idx}" x="-30%" y="-30%" width="160%" height="160%">
+     <feTurbulence type="fractalNoise" baseFrequency="${opts.freq}" numOctaves="5" seed="${idx * 7 + 3}" result="n"/>
+     <feDisplacementMap in="SourceGraphic" in2="n" scale="${opts.disp}" xChannelSelector="R" yChannelSelector="G" result="d"/>
+     <feGaussianBlur in="d" stdDeviation="${opts.blur}" result="b"/>
+     <feComponentTransfer in="b"><feFuncA type="linear" slope="${opts.slope}"/></feComponentTransfer>
+   </filter>
+   <radialGradient id="g${idx}" cx="45%" cy="35%" r="70%"><stop offset="0" stop-color="#ffffff"/><stop offset=".7" stop-color="#f3f8ff"/><stop offset="1" stop-color="#cfdcf0"/></radialGradient>
+  </defs><g filter="url(#f${idx})" fill="url(#g${idx})">${blobs.map(b => `<ellipse cx="${b[0]}" cy="${b[1]}" rx="${b[2]}" ry="${b[3]}" opacity="${b[4] ?? 1}"/>`).join('')}</g>`;
+}
+window.buildCover = async function (d) {
+  const r = rnd(42);
+  // wispy clouds high in the sky
+  const wisps = [];
+  for (let i = 0; i < 14; i++) wisps.push([r() * 1080, 120 + r() * 780, 60 + r() * 120, 14 + r() * 26, .55 + r() * .35]);
+  clouds(document.getElementById('sky'), wisps, 1, { freq: .018, disp: 70, blur: 6, slope: .9 });
+  // sea of clouds at the bottom (in front of the notepad's foot)
+  const sea = [];
+  for (let i = 0; i < 26; i++) sea.push([-60 + r() * 1200, 1510 + r() * 260, 110 + r() * 150, 60 + r() * 70]);
+  for (let i = 0; i < 10; i++) sea.push([r() * 1080, 1780 + r() * 140, 260, 120]);
+  clouds(document.getElementById('sea'), sea, 2, { freq: .012, disp: 90, blur: 3, slope: 1 });
+
+  const b = document.getElementById('badge'); if (d.badge) b.textContent = d.badge; else b.remove();
+  document.getElementById('t1').textContent = d.title;
+  document.getElementById('t2').textContent = d.big;
+  // notepad
+  const rings = document.getElementById('rings'); for (let i = 0; i < 12; i++) rings.appendChild(document.createElement('i'));
+  const pad = document.getElementById('pad');
+  const head = document.createElement('div'); head.className = 'ph'; head.textContent = d.pad.title; pad.appendChild(head);
+  const cols = ['#ffe07a', '#bcd6ff', '#ffc2d4', '#c9f2d8'];
+  d.pad.items.forEach((it, i) => {
+    const e = document.createElement('div'); e.className = 'it';
+    e.style.top = (150 + i * 84) + 'px'; e.style.background = cols[i % cols.length]; e.style.transform = `rotate(${[-1.5, 1, -0.5, 1.2][i % 4]}deg)`;
+    e.innerHTML = `<b>${it.done ? '✓' : ''}</b>${it.text}${it.note ? `<small>${it.note}</small>` : ''}`; pad.appendChild(e);
+  });
+  for (let k = 0; k < 3; k++) { const x = document.createElement('div'); x.className = 'box'; x.style.top = (150 + d.pad.items.length * 84 + 18 + k * 56) + 'px'; pad.appendChild(x); }
+  // info card
+  const rc = [['#fff1c9', '#ffd34d'], ['#e3ecff', '#a9c4ff'], ['#ffe3ea', '#ffb3c6'], ['#dcf7e7', '#8fe0b0']];
+  const card = document.getElementById('card');
+  card.innerHTML = `<div class="ch">${d.card.head}</div>` +
+    d.card.rows.map((row, i) => `<div class="row" style="background:${rc[i % 4][0]}"><div class="n" style="background:${rc[i % 4][1]}">${row.n}</div><span>${row.label}</span></div>`).join('') +
+    `<div class="hr"></div><div class="foot">${d.card.foot}<br><em>${d.card.highlight}</em></div>`;
+  document.getElementById('handle').textContent = '@' + d.instagram;
+  await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode().catch(() => {})));
+};
+</script>
+</body>
+</html>

@@ -88,7 +88,19 @@ The check still applies: a caption that mentions «هورمند» must be covere
 
 ## Reels cover
 
-`node cover.mjs scripts/epNN-*.json` makes `../clips/epNN-*-cover.jpg` from the script's `cover` block. The block takes these settings:
+`node cover.mjs scripts/epNN-*.json` makes `../clips/epNN-*-cover.jpg` from the script's `cover` block.
+
+The default is `"style": "card"`, an illustrated cover built from the episode's content. Ramtin chose this look; no photo of him is used. It has these parts:
+
+- a blue sky with clouds
+- a white headline in `title`
+- a big dark number or rule in `big`
+- a notepad in `pad`, with a `title` and `items`; each item has `text`, `note` and `done`
+- an info card in `card`, with `head`, three `rows` (each with `n` and `label`), `foot` and `highlight`
+- the Hoormand pill with @hoormandcrm
+- an optional `badge`, for example «قسمت ۱»
+
+The older `"style": "photo"` uses a frame of the recording and takes these settings:
 
 - `frame`: a frame number from the prep frames, or use `photo` to give a picture's path instead
 - `dy` and `scale`: where the photo sits
