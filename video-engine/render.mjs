@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 // Hoormand clip renderer.
 // usage: node render.mjs scripts/<name>.json [--out out.mp4] [--fps 30] [--stills 1,5,9] [--audio voice_or_music.mp3] [--no-music]
+// Two kinds of script:
+//   scenes mode    : { "scenes": [...] }                      graphics-only clip
+//   presenter mode : { "presenter": {"prep": "<dir from presenter_prep.py>"}, "captions": [...], "overlays": [...], "endCard": {...} }
 import { createRequire } from 'node:module';
 const { chromium } = createRequire(import.meta.url)('playwright');
 import { spawn, execFileSync } from 'node:child_process';
@@ -18,23 +21,10 @@ const catalog = JSON.parse(fs.readFileSync(path.join(HERE, 'catalog.json'), 'utf
 const brand = JSON.parse(fs.readFileSync(path.join(HERE, 'brand.json'), 'utf8'));
 const fps = +opt('fps', 30);
 const name = path.basename(scriptPath, '.json');
-const out = opt('out', path.join(HERE, '..', 'clips', name + '.mp4'));
+const out = path.resolve(opt('out', path.join(HERE, '..', 'clips', name + '.mp4')));
+const PRESENTER = !!script.presenter;
 
-// ---- rule check: talking about what Hoormand does => app screens must be on screen ----
-const SHOWS_SCREENS = new Set(['feature', 'modules']);
-const problems = [];
-script.scenes.forEach((sc, i) => {
-  if (sc.type === 'feature' && !catalog.features[sc.feature]) problems.push(`scene ${i + 1}: unknown feature "${sc.feature}"`);
-  if (sc.type === 'modules') sc.items.forEach(k => { if (!catalog.features[k]) problems.push(`scene ${i + 1}: unknown module "${k}"`); });
-  if (SHOWS_SCREENS.has(sc.type) || sc.type === 'end' || sc.noScreensOk) return;
-  const text = (sc.captions || []).map(c => typeof c === 'string' ? c : c.text).join(' ') + ' ' + (sc.big || '') + ' ' + (sc.sub || '');
-  for (const [k, f] of Object.entries(catalog.features))
-    for (const kw of f.keywords) if (text.includes(kw)) problems.push(`scene ${i + 1} (${sc.type}) talks about "${kw}" (${k}) but shows no app screens -> use a "feature" scene with feature "${k}"`);
-});
-if (problems.length) { console.error('Script check failed:\n - ' + problems.join('\n - ')); process.exit(2); }
-
-const data = {
-  scenes: script.scenes,
+const base = {
   features: catalog.features,
   brand: { ...brand, ...(script.brand || {}) },
   imgRoot: catalog.imageRoot.replace(/\/?$/, '/'),
@@ -43,20 +33,76 @@ const data = {
   logoMark: 'assets/logo-mark.png',
 };
 for (const f of Object.values(catalog.features)) for (const s of f.screens)
-  if (!fs.existsSync(path.join(HERE, data.imgRoot, s.file))) console.warn('missing image', s.file);
+  if (!fs.existsSync(path.join(HERE, base.imgRoot, s.file))) console.warn('missing image', s.file);
+
+// ---- rule check: talking about what Hoormand does => app screens must be on screen ----
+const problems = [];
+let data, prep, cutTimes = [], voice = null, whooshes = [];
+if (!PRESENTER) {
+  const SHOWS_SCREENS = new Set(['feature', 'modules']);
+  script.scenes.forEach((sc, i) => {
+    if (sc.type === 'feature' && !catalog.features[sc.feature]) problems.push(`scene ${i + 1}: unknown feature "${sc.feature}"`);
+    if (sc.type === 'modules') sc.items.forEach(k => { if (!catalog.features[k]) problems.push(`scene ${i + 1}: unknown module "${k}"`); });
+    if (SHOWS_SCREENS.has(sc.type) || sc.type === 'end' || sc.noScreensOk) return;
+    const text = (sc.captions || []).map(c => typeof c === 'string' ? c : c.text).join(' ') + ' ' + (sc.big || '') + ' ' + (sc.sub || '');
+    for (const [k, f] of Object.entries(catalog.features))
+      for (const kw of f.keywords) if (text.includes(kw)) problems.push(`scene ${i + 1} (${sc.type}) talks about "${kw}" (${k}) but shows no app screens -> use a "feature" scene with feature "${k}"`);
+  });
+  data = { ...base, scenes: script.scenes };
+  let acc = 0; for (const s of script.scenes.slice(0, -1)) { acc += s.dur; whooshes.push(acc); }
+} else {
+  const dir = path.resolve(path.dirname(scriptPath), script.presenter.prep);
+  prep = { dir, ...JSON.parse(fs.readFileSync(path.join(dir, 'cuts.json'), 'utf8')) };
+  voice = path.join(dir, 'voice.wav');
+  // original recording time -> time after pause removal
+  const map = t => { let acc = 0; for (const [a, b] of prep.keep) { if (t < a) return acc; if (t <= b) return acc + t - a; acc += b - a; } return acc; };
+  { let acc = 0; for (const [a, b] of prep.keep.slice(0, -1)) { acc += b - a; cutTimes.push(acc); } }
+  const caps = script.captions.map((c, i) => {
+    const [t, text, end] = c; const nxt = script.captions[i + 1];
+    return { at: map(t), end: map(end ?? (nxt ? nxt[0] : prep.original)), text };
+  });
+  const overlays = script.overlays.map(o => {
+    const m = { ...o };
+    for (const k of Object.keys(o)) if (/^(t0|t1|.*At)$/.test(k) && typeof o[k] === 'number') m[k] = map(o[k]);
+    if (o.cards) m.cards = o.cards.map(c => ({ ...c, at: map(c.at) }));
+    if (o.focus) m.focus = o.focus.map(f => ({ ...f, at: map(f.at) }));
+    if (o.type === 'feature' && !catalog.features[o.feature]) problems.push(`overlay: unknown feature "${o.feature}"`);
+    return m;
+  });
+  // every sentence that says what Hoormand does must sit under a feature overlay (real app screens)
+  caps.forEach(c => {
+    const hit = Object.entries(catalog.features).find(([, f]) => f.keywords.some(k => c.text.replace(/\*/g, '').includes(k)));
+    const mentionsHoormand = c.text.includes('هورمند');
+    if (!hit && !mentionsHoormand) return;
+    const covered = overlays.some(o => o.type === 'feature' && o.t0 <= c.at + .3 && o.t1 >= c.at);
+    if (mentionsHoormand && !covered) problems.push(`caption "${c.text}" (${c.at.toFixed(1)}s) talks about Hoormand but no feature overlay shows app screens there`);
+  });
+  const end = script.endCard ? { ...script.endCard, t0: prep.duration } : null;
+  const total = prep.duration + (end ? end.dur : 0);
+  data = { ...base, captions: caps, overlays, cutTimes, endCard: end, total };
+  whooshes = overlays.map(o => o.t0);
+}
+if (problems.length) { console.error('Script check failed:\n - ' + problems.join('\n - ')); process.exit(2); }
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
+page.on('pageerror', e => console.error('page error:', e.message));
 await page.goto(pathToFileURL(path.join(HERE, 'template.html')).href);
-const total = await page.evaluate(d => window.build(d), data);
+const total = await page.evaluate(([d, p]) => p ? window.buildPresenter(d) : window.build(d), [data, PRESENTER]);
 await page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode().catch(() => {}))); });
 console.log(`timeline ${total.toFixed(2)}s, ${Math.round(total * fps)} frames`);
+
+const frameSrc = f => PRESENTER ? pathToFileURL(path.join(prep.dir, 'frames', String(Math.min(prep.frames, f + 1)).padStart(5, '0') + '.jpg')).href : null;
+async function draw(t) {
+  if (PRESENTER) await page.evaluate(s => window.setFrame(s), frameSrc(Math.floor(t * fps + 1e-6)));
+  await page.evaluate(t => window.renderAt(t), t);
+}
 
 const stills = opt('stills');
 if (stills) {
   const dir = path.join(HERE, '..', 'clips', 'stills'); fs.mkdirSync(dir, { recursive: true });
   for (const s of String(stills).split(',')) {
-    await page.evaluate(t => window.renderAt(t), +s);
+    await draw(+s);
     await page.screenshot({ path: path.join(dir, `${name}-${s}.jpg`), type: 'jpeg', quality: 85 });
   }
   await browser.close(); console.log('stills in', dir); process.exit(0);
@@ -68,25 +114,29 @@ const ff = spawn('ffmpeg', ['-y', '-v', 'error', '-f', 'image2pipe', '-framerate
   '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '20', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', silent], { stdio: ['pipe', 'inherit', 'inherit'] });
 const N = Math.round(total * fps);
 for (let f = 0; f < N; f++) {
-  await page.evaluate(t => window.renderAt(t), f / fps);
+  await draw(f / fps);
   const buf = await page.screenshot({ type: 'jpeg', quality: 92 });
   if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));
-  if (f % 150 === 0) console.log(`frame ${f}/${N}`);
+  if (f % 300 === 0) console.log(`frame ${f}/${N}`);
 }
 ff.stdin.end(); await new Promise(r => ff.on('close', r)); await browser.close();
 
-// ---- audio: synthesized soft music bed + whooshes at scene cuts, optional user audio on top ----
-const cuts = []; let acc = 0; for (const s of script.scenes.slice(0, -1)) { acc += s.dur; cuts.push(acc); }
+// ---- audio: generated music bed (+ whooshes); voice on top in presenter mode ----
 const bed = out.replace(/\.mp4$/, '.music.wav');
-const userAudio = opt('audio');
+const userAudio = opt('audio') || voice;
 if (opt('no-music') && !userAudio) { fs.renameSync(silent, out); }
 else {
-  if (!opt('no-music')) execFileSync('python3', [path.join(HERE, 'music.py'), bed, String(total), cuts.join(',')], { stdio: 'inherit' });
+  if (!opt('no-music')) execFileSync('python3', [path.join(HERE, 'music.py'), bed, String(total), whooshes.join(',')], { stdio: 'inherit' });
   const inputs = ['-i', silent]; const parts = []; let k = 1;
-  if (!opt('no-music')) { inputs.push('-i', bed); parts.push(`[${k}:a]volume=${userAudio ? 0.35 : 1}[m${k}]`); k++; }
+  if (!opt('no-music')) {
+    inputs.push('-i', bed);
+    const endT = PRESENTER && data.endCard ? data.endCard.t0 : total;
+    const vol = userAudio ? `volume='if(lt(t,${endT.toFixed(2)}),0.14,0.55)':eval=frame` : 'volume=1';
+    parts.push(`[${k}:a]${vol}[m${k}]`); k++;
+  }
   if (userAudio) { inputs.push('-i', userAudio); parts.push(`[${k}:a]volume=1[m${k}]`); k++; }
   const labels = parts.map((_, i) => `[m${i + 1}]`).join('');
-  const fc = parts.join(';') + `;${labels}amix=inputs=${parts.length}:normalize=0,afade=t=out:st=${(total - 1.2).toFixed(2)}:d=1.2[a]`;
+  const fc = parts.join(';') + `;${labels}amix=inputs=${parts.length}:normalize=0:duration=longest,afade=t=out:st=${(total - 1.2).toFixed(2)}:d=1.2,alimiter=limit=0.95[a]`;
   execFileSync('ffmpeg', ['-y', '-v', 'error', ...inputs, '-filter_complex', fc, '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '160k', '-t', String(total), out], { stdio: 'inherit' });
   fs.rmSync(silent); fs.rmSync(bed, { force: true });
 }

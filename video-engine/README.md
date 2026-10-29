@@ -57,3 +57,31 @@ Captions are spread evenly over the scene. You can also give a caption its own t
 3. Add or adjust the entries in `catalog.json`.
 
 The music is generated from scratch by `music.py`, so it is royalty-free. The font is Vazirmatn (OFL licence, in `fonts/`).
+
+## Presenter clips (Ramtin on camera)
+
+The recording fills the frame. When a graphic is due, a light panel drops from the top, Ramtin's video slides down so his face stays in view, and the captions move up to the edge of the panel.
+
+1. **Prepare the recording.** `python3 presenter_prep.py raw.mp4 <prep_dir>`
+   - cuts long pauses into jump cuts
+   - applies a light colour grade and normalises the voice
+   - writes JPEG frames, `voice.wav` and `cuts.json`
+2. **Get word timings.** `python3 -I transcribe.py <whisper-small-dir> audio16k.wav words.json` uses faster-whisper.
+   - The Whisper-small CTranslate2 model can be downloaded from npm: `@skillninja/shortmovie-telop-model-p0`…`p3`. Join the four `model.bin.part*` files and check the result against `model.sha256`.
+   - Correct the wording against the teleprompter text.
+3. **Write the script.** Write `scripts/epNN-*.json`, using times from the original recording; the renderer maps them across the cuts.
+   - `presenter.prep`: the prep folder.
+   - `captions`: `[start, "text with *keyword*", optional end]`.
+   - `overlays`: graphics on the panel, each with `t0` and `t1`. The types are:
+     - `word`: a big word that gets erased.
+     - `list`: a call list, with an optional `questionAt`.
+     - `thermo`: a "still warm" lead.
+     - `steps`: three cards, with dates, owners and a struck-through note.
+     - `feature`: real app screens with a zoom `focus` sequence.
+     - `teaser`: the next episode, with a hidden number and its title.
+     - `follow`: the Instagram follow button being tapped.
+     - `share`: sending to friends.
+   - `endCard`: the closing brand card.
+4. **Render.** `node render.mjs scripts/epNN-*.json` puts the clip in `../clips/`. Voice and music are mixed, with the music kept low under the voice.
+
+The check still applies: a caption that mentions «هورمند» must be covered by a `feature` overlay, so the app screens are always on screen there.
