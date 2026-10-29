@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Bold.woff2);font-weight:700}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-ExtraBold.woff2);font-weight:800}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Black.woff2);font-weight:900}
+:root{--navy:#0f1f3d;--yellow:#ffd23f;--blue:#2f7fe0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0b1630;font-family:V}
+#c{position:relative;width:1080px;height:1920px;overflow:hidden}
+#photo{position:absolute;left:0;top:0;width:1080px;height:1920px;object-fit:cover;transform-origin:50% 0;filter:contrast(1.06) saturate(1.1)}
+.topfade{position:absolute;inset:0;background:linear-gradient(180deg,#081633 0%,rgba(8,22,51,.96) 30%,rgba(12,40,96,.5) 42%,rgba(12,40,96,0) 52%)}
+.botfade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,18,45,.92) 0%,rgba(6,18,45,.0) 22%)}
+.glow{position:absolute;left:-200px;top:-260px;width:1480px;height:1100px;background:radial-gradient(closest-side,rgba(47,127,224,.55),transparent)}
+.badge{position:absolute;top:270px;left:0;right:0;display:flex;justify-content:center}
+.badge span{background:var(--yellow);color:var(--navy);font:900 46px V;border-radius:999px;padding:10px 38px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.title{position:absolute;top:380px;left:40px;right:40px;text-align:center;color:#fff;font:900 128px/1.22 V;text-shadow:0 8px 30px rgba(0,0,0,.45)}
+.title .y{display:inline-block;background:var(--yellow);color:var(--navy);padding:0 26px 12px;border-radius:26px;transform:rotate(-2.5deg);text-shadow:none;margin:8px 0}
+.chip{position:absolute;left:0;right:0;display:flex;justify-content:center}
+.chip span{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.14);border:2px solid rgba(255,255,255,.35);color:#fff;font:800 48px V;border-radius:999px;padding:12px 40px;backdrop-filter:blur(8px)}
+.sticker{position:absolute;background:#fff;color:#e0354f;font:900 52px V;border-radius:22px;padding:10px 30px;transform:rotate(-8deg);box-shadow:0 14px 34px rgba(0,0,0,.35)}
+.brand{position:absolute;left:0;right:0;top:1730px;display:flex;justify-content:center;align-items:center;gap:18px;direction:ltr}
+.brand i{width:84px;height:84px;border-radius:22px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 26px rgba(0,0,0,.35)}
+.brand img{width:62px}
+.brand b{color:#fff;font:800 50px V;text-shadow:0 4px 16px rgba(0,0,0,.5)}
+</style>
+</head>
+<body>
+<div id="c">
+  <img id="photo">
+  <div class="glow"></div>
+  <div class="topfade"></div>
+  <div class="botfade"></div>
+  <div class="badge"><span id="badge"></span></div>
+  <div class="title" id="title"></div>
+  <div class="chip" id="chipw"><span id="chip"></span></div>
+  <div class="sticker" id="sticker"></div>
+  <div class="brand"><i><img src="assets/logo-mark.png"></i><b id="handle"></b></div>
+</div>
+<script>
+window.buildCover = async function (d) {
+  const ph = document.getElementById('photo');
+  ph.src = d.photo; ph.style.transform = `translateY(${d.dy ?? 380}px) scale(${d.scale ?? 1.1})`;
+  document.getElementById('badge').textContent = d.badge || '';
+  if (!d.badge) document.querySelector('.badge').remove();
+  document.getElementById('title').innerHTML = d.title.replace(/\*([^*]+)\*/g, '<span class="y">$1</span>');
+  const cw = document.getElementById('chipw');
+  if (d.chip) { document.getElementById('chip').textContent = d.chip; cw.style.top = (d.chipTop || 850) + 'px'; } else cw.remove();
+  const st = document.getElementById('sticker');
+  if (d.sticker) { st.textContent = d.sticker; st.style.left = (d.stickerX ?? 60) + 'px'; st.style.top = (d.stickerY ?? 1180) + 'px'; } else st.remove();
+  document.getElementById('handle').textContent = '@' + d.instagram;
+  await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode().catch(() => {})));
+};
+</script>
+</body>
+</html>

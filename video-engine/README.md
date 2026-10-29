@@ -85,3 +85,16 @@ The recording fills the frame. When a graphic is due, a light panel drops from t
 4. **Render.** `node render.mjs scripts/epNN-*.json` puts the clip in `../clips/`. Voice and music are mixed, with the music kept low under the voice.
 
 The check still applies: a caption that mentions «هورمند» must be covered by a `feature` overlay, so the app screens are always on screen there.
+
+## Reels cover
+
+`node cover.mjs scripts/epNN-*.json` makes `../clips/epNN-*-cover.jpg` from the script's `cover` block. The block takes these settings:
+
+- `frame`: a frame number from the prep frames, or use `photo` to give a picture's path instead
+- `dy` and `scale`: where the photo sits
+- `badge`, for example «قسمت ۱»
+- `title`: may contain `*keyword*` and `<br>`
+- `chip`, `chipTop`
+- `sticker`, `stickerX`, `stickerY`
+
+Keep the title inside y 240–1680, because the Instagram grid shows only that middle 3:4.
