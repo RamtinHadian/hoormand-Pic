@@ -1,0 +1,421 @@
+{
+ "_doc": "Each feature of Hoormand -> real app screenshots. 'keywords' are matched against caption text: when a caption talks about one of these features, the scene MUST show its screens (render.mjs checks this). focus = where the camera zooms: x,y = centre (0..1 of the picture), s = zoom.",
+ "imageRoot": "../v1.53.2/ocean",
+ "features": {
+  "letters": {
+   "title": "نامه‌نگاری رسمی",
+   "short": "نامه‌نگاری",
+   "icon": "letter",
+   "keywords": [
+    "نامه",
+    "سربرگ",
+    "امضا",
+    "نامه‌نگاری",
+    "مکاتبات"
+   ],
+   "screens": [
+    {
+     "file": "letter-editor.jpg",
+     "focus": {
+      "x": 0.5,
+      "y": 0.42,
+      "s": 1.75
+     }
+    },
+    {
+     "file": "menu-letters.jpg",
+     "focus": {
+      "x": 0.7,
+      "y": 0.45,
+      "s": 1.5
+     }
+    }
+   ]
+  },
+  "files": {
+   "title": "ارسال فایل",
+   "short": "ارسال فایل",
+   "icon": "send",
+   "keywords": [
+    "فایل",
+    "ارسال فایل",
+    "اسناد",
+    "پیوست"
+   ],
+   "screens": [
+    {
+     "file": "files-send.jpg",
+     "focus": {
+      "x": 0.72,
+      "y": 0.42,
+      "s": 1.65
+     }
+    },
+    {
+     "file": "menu-files.jpg",
+     "focus": {
+      "x": 0.7,
+      "y": 0.45,
+      "s": 1.5
+     }
+    }
+   ]
+  },
+  "chat": {
+   "title": "گفتگوی همکاران",
+   "short": "گفتگو",
+   "icon": "chat",
+   "keywords": [
+    "گفتگو",
+    "پیام",
+    "چت"
+   ],
+   "screens": [
+    {
+     "file": "files-chat.jpg",
+     "focus": {
+      "x": 0.78,
+      "y": 0.55,
+      "s": 1.9
+     }
+    }
+   ]
+  },
+  "tasks": {
+   "title": "مدیریت وظایف",
+   "short": "وظایف",
+   "icon": "task",
+   "keywords": [
+    "وظیفه",
+    "وظایف",
+    "تسک"
+   ],
+   "screens": [
+    {
+     "file": "task-modal.jpg",
+     "focus": {
+      "x": 0.75,
+      "y": 0.5,
+      "s": 1.6
+     }
+    },
+    {
+     "file": "task-detail.jpg",
+     "focus": {
+      "x": 0.25,
+      "y": 0.55,
+      "s": 1.6
+     }
+    },
+    {
+     "file": "menu-tasks.jpg",
+     "focus": {
+      "x": 0.7,
+      "y": 0.45,
+      "s": 1.5
+     }
+    }
+   ]
+  },
+  "crm": {
+   "title": "مدیریت مشتری",
+   "short": "مشتریان",
+   "icon": "users",
+   "keywords": [
+    "مشتری",
+    "مشتری‌ها",
+    "فروش",
+    "فرصت",
+    "پیش‌فاکتور",
+    "CRM"
+   ],
+   "screens": [
+    {
+     "file": "crm-pipeline.jpg",
+     "focus": {
+      "x": 0.68,
+      "y": 0.72,
+      "s": 1.75
+     }
+    },
+    {
+     "file": "customer-detail.jpg",
+     "focus": {
+      "x": 0.25,
+      "y": 0.42,
+      "s": 1.7
+     }
+    },
+    {
+     "file": "crm-customers.jpg",
+     "focus": {
+      "x": 0.7,
+      "y": 0.5,
+      "s": 1.5
+     }
+    },
+    {
+     "file": "deal-new.jpg",
+     "focus": {
+      "x": 0.5,
+      "y": 0.5,
+      "s": 1.5
+     }
+    }
+   ]
+  },
+  "ai": {
+   "title": "هوش مصنوعی",
+   "short": "هوش مصنوعی",
+   "icon": "sparkle",
+   "keywords": [
+    "هوش مصنوعی",
+    "تحلیل خودکار",
+    "AI",
+    "کوچینگ"
+   ],
+   "screens": [
+    {
+     "file": "sales-analysis.jpg",
+     "focus": {
+      "x": 0.62,
+      "y": 0.2,
+      "s": 2.0
+     }
+    },
+    {
+     "file": "sales-coaching.jpg",
+     "focus": {
+      "x": 0.5,
+      "y": 0.5,
+      "s": 1.6
+     }
+    }
+   ]
+  },
+  "reports": {
+   "title": "گزارش مدیریتی",
+   "short": "گزارش‌ها",
+   "icon": "chart",
+   "keywords": [
+    "گزارش",
+    "آمار",
+    "داشبورد",
+    "تحلیل"
+   ],
+   "screens": [
+    {
+     "file": "reports-top.jpg",
+     "focus": {
+      "x": 0.55,
+      "y": 0.6,
+      "s": 1.5
+     }
+    },
+    {
+     "file": "sales-analysis.jpg",
+     "focus": {
+      "x": 0.7,
+      "y": 0.42,
+      "s": 1.7
+     }
+    },
+    {
+     "file": "daily-report.jpg",
+     "focus": {
+      "x": 0.7,
+      "y": 0.45,
+      "s": 1.5
+     }
+    }
+   ]
+  },
+  "calls": {
+   "title": "تماس‌ها و دفتر تلفن",
+   "short": "تماس‌ها",
+   "icon": "phone",
+   "keywords": [
+    "تماس",
+    "تلفن",
+    "دفتر تلفن"
+   ],
+   "screens": [
+    {
+     "file": "menu-calls.jpg",
+     "focus": {
+      "x": 0.7,
+      "y": 0.45,
+      "s": 1.5
+     }
+    },
+    {
+     "file": "phonebook.jpg",
+     "focus": {
+      "x": 0.6,
+      "y": 0.5,
+      "s": 1.5
+     }
+    }
+   ]
+  },
+  "warehouse": {
+   "title": "انبار",
+   "short": "انبار",
+   "icon": "box",
+   "keywords": [
+    "انبار",
+    "موجودی",
+    "کالا"
+   ],
+   "screens": [
+    {
+     "file": "wh-stock.jpg",
+     "focus": {
+      "x": 0.65,
+      "y": 0.45,
+      "s": 1.5
+     }
+    },
+    {
+     "file": "wh-products.jpg",
+     "focus": {
+      "x": 0.65,
+      "y": 0.45,
+      "s": 1.5
+     }
+    }
+   ]
+  },
+  "support": {
+   "title": "پشتیبانی",
+   "short": "پشتیبانی",
+   "icon": "headset",
+   "keywords": [
+    "پشتیبانی",
+    "تیکت"
+   ],
+   "screens": [
+    {
+     "file": "support-main.jpg",
+     "focus": {
+      "x": 0.6,
+      "y": 0.45,
+      "s": 1.5
+     }
+    }
+   ]
+  },
+  "warranty": {
+   "title": "گارانتی",
+   "short": "گارانتی",
+   "icon": "shield",
+   "keywords": [
+    "گارانتی",
+    "ضمانت"
+   ],
+   "screens": [
+    {
+     "file": "warranty-main.jpg",
+     "focus": {
+      "x": 0.6,
+      "y": 0.45,
+      "s": 1.5
+     }
+    }
+   ]
+  },
+  "sepidar": {
+   "title": "اتصال به سپیدار",
+   "short": "سپیدار",
+   "icon": "link",
+   "keywords": [
+    "سپیدار",
+    "حسابداری"
+   ],
+   "screens": [
+    {
+     "file": "sepidar-quotes.jpg",
+     "focus": {
+      "x": 0.65,
+      "y": 0.45,
+      "s": 1.5
+     }
+    },
+    {
+     "file": "sepidar-prices.jpg",
+     "focus": {
+      "x": 0.65,
+      "y": 0.45,
+      "s": 1.5
+     }
+    }
+   ]
+  },
+  "office": {
+   "title": "امور اداری",
+   "short": "امور اداری",
+   "icon": "calendar",
+   "keywords": [
+    "مرخصی",
+    "صورتجلسه",
+    "یادآور",
+    "تابلو اعلانات",
+    "امور اداری"
+   ],
+   "screens": [
+    {
+     "file": "leave.jpg",
+     "focus": {
+      "x": 0.65,
+      "y": 0.45,
+      "s": 1.5
+     }
+    },
+    {
+     "file": "minutes.jpg",
+     "focus": {
+      "x": 0.65,
+      "y": 0.45,
+      "s": 1.5
+     }
+    },
+    {
+     "file": "reminders.jpg",
+     "focus": {
+      "x": 0.65,
+      "y": 0.45,
+      "s": 1.5
+     }
+    }
+   ]
+  },
+  "admin": {
+   "title": "دسترسی‌ها و کاربران",
+   "short": "دسترسی‌ها",
+   "icon": "key",
+   "keywords": [
+    "دسترسی",
+    "کاربران",
+    "سطح دسترسی"
+   ],
+   "screens": [
+    {
+     "file": "admin-permissions.jpg",
+     "focus": {
+      "x": 0.55,
+      "y": 0.5,
+      "s": 1.5
+     }
+    },
+    {
+     "file": "admin-users.jpg",
+     "focus": {
+      "x": 0.6,
+      "y": 0.45,
+      "s": 1.5
+     }
+    }
+   ]
+  }
+ }
+}

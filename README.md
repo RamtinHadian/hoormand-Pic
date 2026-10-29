@@ -18,3 +18,7 @@ The ocean look is applied only to the pictures; the app itself is not recoloured
 - `hoormand-logo-full.png` – the same, with the four feature icons under it (900×937)
 - `hoormand-logo-white.png` – white text, for dark backgrounds (640×582)
 - `hoormand-logo-full-white.png` – the full logo with white text and extra margin, for dark backgrounds (980×1017)
+
+## Clips
+
+`clips/` – finished Instagram clips (1080×1920). They are made with `video-engine/` (see its README); every clip that talks about a feature shows these app screens.
