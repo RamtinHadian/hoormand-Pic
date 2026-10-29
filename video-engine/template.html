@@ -280,7 +280,10 @@ B.end = (sc, root, t0, t1) => {
   let y = 1040;
   if (sc.line) { const l = h(`<div class="endline" style="top:${y}px">${richText(sc.line).replace('class="y"', 'style="color:var(--yellow)"')}</div>`); root.appendChild(l); enter(l, t0 + .5); y += 130; }
   const site = h(`<div class="endsite" style="top:${y}px"><span>${svg('globe')}${DATA.brand.website}</span></div>`); root.appendChild(site); pop(site, t0 + .8); y += 140;
-  if (DATA.brand.instagram) { const ig = h(`<div class="endsite" style="top:${y}px"><span>${svg('insta')}@${DATA.brand.instagram}</span></div>`); root.appendChild(ig); pop(ig, t0 + 1.0); }
+  if (DATA.brand.instagram) {
+    const lb = h(`<div class="endline" style="top:${y + 10}px;font-size:42px;color:#cfe0ff">برای قسمت‌های بعد، ما رو دنبال کنید</div>`); root.appendChild(lb); enter(lb, t0 + .9);
+    const ig = h(`<div class="endsite" style="top:${y + 85}px"><span>${svg('insta')}@${DATA.brand.instagram}</span></div>`); root.appendChild(ig); pop(ig, t0 + 1.1);
+  }
 };
 
 // ---------- build ----------
@@ -299,7 +302,7 @@ window.build = function (data) {
     B[sc.type](sc, root, t0, t1);
     // captions
     const list = sc.captions || [];
-    const capY = sc.type === 'end' ? 1560 : (sc.captionY || 1022);
+    const capY = sc.type === 'end' ? 1660 : (sc.captionY || 1022);
     const pad = .1, span = (t1 - t0 - pad) / Math.max(1, list.length);
     list.forEach((c, i) => {
       if (typeof c === 'string') c = { text: c };

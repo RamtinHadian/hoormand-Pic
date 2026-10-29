@@ -151,7 +151,7 @@
   P.follow = (o, root) => {
     const x = h(`<div class="xp"><span>${S('sparkle')}از اکسپلور اومدی؟</span></div>`); root.appendChild(x); pop(x, o.c0, .4);
     const c = h(`<div class="card igc"><div class="igava"><div><img src="${DATA.logoMark}"></div></div>
-      <div class="ignm">${o.name || 'هورمند'}</div><div class="igsub">${o.sub || 'اتوماسیون اداری هوشمند'}</div>
+      <div class="ignm" dir="ltr">${o.name || DATA.brand.instagram || 'هورمند'}</div><div class="igsub">${o.sub || 'هورمند | اتوماسیون اداری هوشمند'}</div>
       <div class="igbtn">دنبال کردن</div></div>`); root.appendChild(c); fadeIn(c, o.c0 + .25, .45, 60);
     const btn = c.querySelector('.igbtn');
     const hand = h(`<svg class="hand" viewBox="0 0 24 24"><path d="M9 11V5a1.5 1.5 0 0 1 3 0v5h.5V8.5a1.5 1.5 0 0 1 3 0V11h.5v-1a1.5 1.5 0 0 1 3 0v4.5c0 3.6-2.4 6.5-6 6.5h-1.2c-2 0-3.4-.8-4.6-2.4L4 15.2a1.5 1.5 0 0 1 2.2-2L9 15z" fill="#fff" stroke="#0f1f3d" stroke-width="1.3" stroke-linejoin="round"/></svg>`);
@@ -168,11 +168,18 @@
     fr.forEach((n, i) => {
       const el = h(`<div class="friend" style="left:${xs[i]}px"><div class="av" style="background:${AV[(i + 2) % 6]}">${n[0]}</div><div class="ok">${svg('task')}</div><div class="fn">${n}</div></div>`);
       root.appendChild(el); fadeIn(el, o.c0 + .5 + i * .15, .35);
-      const okk = el.querySelector('.ok'); pop(okk, (o.sendAt || o.c0 + 1.5) + i * .35, .3);
+      const okk = el.querySelector('.ok'); pop(okk, (o.sendAt || o.c0 + 1.5) + i * .45 + .4, .3);
     });
-    hook(t => { const sa = o.sendAt || o.c0 + 1.5; const k = Math.floor(clamp((t - sa) / .35, 0, 2.99));
-      const u = ((t - sa) / .35) % 1; if (t < sa) { pl.style.translate = '0 0'; return; }
-      const tx = [760, 440, 120][k] - 470 + 25, ty = 330; pl.style.translate = `${tx * EASE.out(u)}px ${ty * Math.sin(Math.PI * u) * .6}px`; });
+    // one small plane per friend flies out of the big plane, lands on the avatar and disappears
+    const sa = o.sendAt || o.c0 + 1.5;
+    anim(pl, [{ t: sa - .2, s: 1 }, ...fr.flatMap((_, i) => [{ t: sa + i * .45, s: .9, e: 'out' }, { t: sa + i * .45 + .15, s: 1.08, e: 'out' }]), { t: sa + fr.length * .45 + .3, s: 1 }]);
+    fr.forEach((_, i) => {
+      const m = h(`<div class="plane" style="width:70px;height:70px;left:510px;top:270px;box-shadow:none">${svg('send', 'style="width:38px;height:38px"')}</div>`);
+      root.appendChild(m);
+      const dx = xs[i] + 100 - 545, dy = 635 - 305, t1 = sa + i * .45;
+      anim(m, [{ t: t1 - .001, o: 0, x: 0, y: 0, s: .5 }, { t: t1 + .05, o: 1, s: .9 }, { t: t1 + .2, x: dx * .5, y: dy * .5 - 90, s: 1, e: 'lin' },
+               { t: t1 + .4, x: dx, y: dy, s: .6, o: 1, e: 'in' }, { t: t1 + .5, o: 0, s: .3 }]);
+    });
   };
 
   window.buildPresenter = function (data) {
@@ -216,7 +223,7 @@
       const e = data.endCard, root = h(`<section class="scene"></section>`); stage.appendChild(root);
       anim(root, [{ t: e.t0 - .001, o: 0 }, { t: e.t0 + .4, o: 1 }]);
       B.end({ line: e.line }, root, e.t0, e.t0 + e.dur);
-      if (e.sub) { const s = h(`<div class="endline" style="top:1560px;font-size:48px;color:#cfe0ff">${e.sub}</div>`); root.appendChild(s); enter(s, e.t0 + 1.0); }
+      if (e.sub) { const s = h(`<div class="endline" style="top:1640px;font-size:44px;color:#cfe0ff">${e.sub}</div>`); root.appendChild(s); enter(s, e.t0 + 1.0); }
       const wm = document.getElementById('wm'); anim(wm, [{ t: 0, o: .85 }, { t: e.t0, o: .85 }, { t: e.t0 + .3, o: 0 }]);
     }
     window.__pv = pv;
