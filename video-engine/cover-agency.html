@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Medium.woff2);font-weight:500}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Bold.woff2);font-weight:700}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-ExtraBold.woff2);font-weight:800}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Black.woff2);font-weight:900}
+:root{--lime:#c8f53a;--lime2:#9cc81a;--bg:#0e0f0d;--fg:#f4f5f0;--mute:#9a9d95;--chip:#1c1d1a}
+.light{--bg:#ecebe6;--fg:#111210;--mute:#5d5f58;--chip:#111210}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden}
+#c{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg);font-family:V}
+#c.dark{background:radial-gradient(70% 45% at 30% 75%,#1f2219 0%,#0e0f0d 70%)}
+#c.light{background:radial-gradient(70% 45% at 40% 70%,#f7f7f2 0%,#e6e5df 75%)}
+svg.full{position:absolute;inset:0;width:1080px;height:1920px}
+.logo{position:absolute;top:262px;right:70px;display:flex;align-items:center;gap:14px;direction:ltr}
+.logo i{width:58px;height:58px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center}
+.logo img{width:44px}
+.logo b{font:800 34px V;color:var(--fg);letter-spacing:4px}
+.meta{position:absolute;top:262px;left:70px;text-align:left;font:500 28px/1.45 V;color:var(--mute);direction:rtl}
+.head{position:absolute;top:360px;right:70px;left:70px;text-align:right;font:900 150px/1.08 V;color:var(--fg);letter-spacing:-2px}
+.head .l{color:var(--lime)}
+.light .head .l{color:#7da30b}
+.sub{position:absolute;right:72px;width:560px;text-align:right;font:500 38px/1.5 V;color:var(--mute)}
+.chip{position:absolute;width:118px;height:118px;border-radius:30px;background:var(--chip);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 18px 30px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.06)}
+.chip svg{width:58px;height:58px}
+.chip span{font:900 40px V;color:#fff}
+.cta{position:absolute;top:1590px;right:70px;display:flex;align-items:center;gap:20px}
+.cta i{width:80px;height:80px;border-radius:50%;background:var(--lime);display:flex;align-items:center;justify-content:center}
+.cta i svg{width:40px;height:40px}
+.cta b{font:700 34px/1.3 V;color:var(--fg)}
+.handle{position:absolute;top:1612px;left:70px;font:700 32px V;color:var(--mute);direction:ltr}
+#obj{position:absolute;inset:0;width:1080px;height:1920px}
+</style>
+</head>
+<body>
+<div id="c">
+  <svg class="full" id="bgfx"></svg>
+  <svg id="obj" viewBox="0 0 1080 1920"></svg>
+  <div class="logo"><i><img src="assets/logo-mark.png"></i><b>HOORMAND</b></div>
+  <div class="meta" id="meta"></div>
+  <div class="head" id="head"></div>
+  <div class="sub" id="sub"></div>
+  <div id="chips"></div>
+  <div class="cta"><i><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6" fill="none" stroke="#111" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i><b id="cta"></b></div>
+  <div class="handle" id="handle"></div>
+</div>
+<script>
+const L1 = '#d6ff4a', L2 = '#b4e021', L3 = '#7fa30c', L4 = '#4f6606';
+const defs = `<defs>
+  <linearGradient id="lime" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${L1}"/><stop offset=".45" stop-color="${L2}"/><stop offset="1" stop-color="${L4}"/></linearGradient>
+  <linearGradient id="limeV" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${L1}"/><stop offset=".6" stop-color="${L2}"/><stop offset="1" stop-color="${L3}"/></linearGradient>
+  <radialGradient id="limeR" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#eaff9a"/><stop offset=".35" stop-color="${L2}"/><stop offset="1" stop-color="${L4}"/></radialGradient>
+  <linearGradient id="blk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a4d47"/><stop offset=".35" stop-color="#1c1d1b"/><stop offset="1" stop-color="#050505"/></linearGradient>
+  <radialGradient id="blkR" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#5a5d57"/><stop offset=".4" stop-color="#1d1e1c"/><stop offset="1" stop-color="#030303"/></radialGradient>
+  <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="22"/></filter>
+  <filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="10" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>`;
+const OBJ = {
+  // notification bell with a badge — follow-ups / reminders
+  bell: (x, y, s, badge) => `<g transform="translate(${x} ${y}) scale(${s})">
+    <ellipse cx="0" cy="330" rx="260" ry="40" fill="#000" opacity=".45" filter="url(#soft)"/>
+    <path d="M-30 -250 a30 30 0 0 1 60 0 v30 h-60z" fill="url(#blk)"/>
+    <path d="M-200 180 C -200 -60 -150 -230 0 -230 C 150 -230 200 -60 200 180 L 240 230 L -240 230 Z" fill="url(#limeR)"/>
+    <path d="M-120 -120 C -150 -40 -160 60 -160 150" stroke="#f3ffc2" stroke-width="22" stroke-linecap="round" fill="none" opacity=".6"/>
+    <ellipse cx="0" cy="230" rx="240" ry="38" fill="url(#lime)"/>
+    <ellipse cx="0" cy="226" rx="212" ry="26" fill="${L4}" opacity=".55"/>
+    <circle cx="0" cy="290" r="62" fill="url(#blkR)"/>
+    ${badge ? `<g transform="translate(150 -170)"><circle r="78" fill="url(#blkR)" stroke="${L1}" stroke-width="8"/><text y="26" text-anchor="middle" font-family="V" font-weight="900" font-size="84" fill="#fff">${badge}</text></g>` : ''}
+  </g>`,
+  // megaphone — advertising
+  megaphone: (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s}) rotate(-18)">
+    <ellipse cx="40" cy="330" rx="300" ry="40" fill="#000" opacity=".4" filter="url(#soft)"/>
+    <path d="M-250 -60 L -60 -90 L -60 90 L -250 60 Z" fill="url(#blk)"/>
+    <rect x="-300" y="-70" width="70" height="140" rx="20" fill="url(#blk)"/>
+    <path d="M-70 -95 L 230 -230 L 230 230 L -70 95 Z" fill="url(#lime)"/>
+    <path d="M-50 -80 L 200 -195" stroke="#f3ffc2" stroke-width="16" stroke-linecap="round" opacity=".6"/>
+    <ellipse cx="230" cy="0" rx="62" ry="232" fill="url(#limeV)"/>
+    <ellipse cx="236" cy="0" rx="42" ry="196" fill="url(#blk)"/>
+    <path d="M-120 90 L -110 210 L -60 210 L -70 92 Z" fill="url(#blk)"/>
+    <g stroke="currentColor" stroke-width="10" stroke-linecap="round" fill="none" opacity=".9"><path d="M330 -170 l70 -40"/><path d="M345 0 h85"/><path d="M330 170 l70 40"/></g>
+  </g>`,
+};
+const ICON = {
+  heart: '<path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6C19 16.5 12 21 12 21z" fill="#fff"/>',
+  chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/>',
+  send: '<path d="M22 2 11 13M22 2 15 22l-4-9-9-4z" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>',
+  cal: '<rect x="3" y="4" width="18" height="17" rx="3" stroke="#fff" stroke-width="2.2" fill="none"/><path d="M3 9h18M8 2v4M16 2v4" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>',
+  check: '<path d="M4 12l5 5L20 6" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+  coin: '<circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="2.2" fill="none"/><path d="M12 7v10M9 9.5h4.5a1.8 1.8 0 0 1 0 3.5h-3a1.8 1.8 0 0 0 0 3.5H15" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>',
+  phone: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z" fill="#fff"/>',
+};
+window.buildCover = async function (d) {
+  const c = document.getElementById('c'); c.className = d.theme || 'dark';
+  const dark = c.className === 'dark';
+  // background fx: dot grid + glowing lime sweep
+  let g = defs;
+  for (let y = 1050; y < 1560; y += 34) for (let x = 60; x < 1020; x += 34) g += `<circle cx="${x}" cy="${y}" r="2" fill="${dark ? '#ffffff' : '#000000'}" opacity="${dark ? .05 : .06}"/>`;
+  g += `<path d="${d.sweep || 'M -60 1500 C 260 1640 760 1560 1140 1080'}" stroke="${L1}" stroke-width="12" fill="none" stroke-linecap="round" filter="url(#glow)" opacity="${dark ? 1 : .9}"/>`;
+  document.getElementById('bgfx').innerHTML = g;
+  const o = d.object || {};
+  document.getElementById('obj').style.color = dark ? '#fff' : '#111';
+  document.getElementById('obj').innerHTML = defs + (OBJ[o.type] ? OBJ[o.type](o.x ?? 360, o.y ?? 1230, o.s ?? 1, o.badge) : '');
+  document.getElementById('meta').innerHTML = (d.meta || []).join('<br>');
+  const lines = d.lines; document.getElementById('head').innerHTML = lines.map((t, i) => `<div class="${i === lines.length - 1 ? 'l' : ''}">${t}</div>`).join('');
+  if (d.headSize) document.getElementById('head').style.fontSize = d.headSize + 'px';
+  const sub = document.getElementById('sub'); sub.innerHTML = d.sub || ''; sub.style.top = (d.subTop ?? 870) + 'px';
+  const chips = document.getElementById('chips');
+  (d.chips || []).forEach(ch => { const e = document.createElement('div'); e.className = 'chip'; e.style.left = ch.x + 'px'; e.style.top = ch.y + 'px'; e.style.transform = `rotate(${ch.r || 0}deg)`;
+    e.innerHTML = ch.icon ? `<svg viewBox="0 0 24 24">${ICON[ch.icon]}</svg>` : `<span>${ch.text}</span>`; if (ch.lime) { e.style.background = 'var(--lime)'; e.querySelector('span') && (e.querySelector('span').style.color = '#111'); }
+    chips.appendChild(e); });
+  document.getElementById('cta').innerHTML = d.cta || 'ادامه‌ش<br>توی ریلز';
+  document.getElementById('handle').textContent = '@' + d.instagram;
+  await document.fonts.ready;
+  const h = document.getElementById('head'); let fs = parseFloat(getComputedStyle(h).fontSize);
+  while ([...h.children].some(x => x.scrollWidth > 940) && fs > 90) { fs -= 6; h.style.fontSize = fs + 'px'; }
+};
+</script>
+</body>
+</html>

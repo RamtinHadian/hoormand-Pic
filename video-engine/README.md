@@ -90,7 +90,20 @@ The check still applies: a caption that mentions «هورمند» must be covere
 
 `node cover.mjs scripts/epNN-*.json` makes `../clips/epNN-*-cover.jpg` from the script's `cover` block.
 
-The default is `"style": "noir"`, after Ramtin's Pinterest reference. It has these parts:
+The default is `"style": "agency"`, after Ramtin's Pinterest reference. It uses no photo and no Nastaliq, and it has these parts:
+
+- a black (`"theme": "dark"`) or off-white (`"theme": "light"`) background with lime accents
+- the HOORMAND logo, with small `meta` lines
+- a big bold headline in `lines`; the last line is lime
+- a small `sub` text
+- a 3D-looking object that fits the topic, set in `object`. The types so far are `bell` (follow-ups, with an optional `badge`) and `megaphone` (advertising); more can be added in `OBJ`.
+- floating icon or text `chips`
+- a glowing lime sweep line and a dot grid
+- a lime arrow button with «ادامه‌ش توی ریلز», and @hoormandcrm
+
+Alternate the dark and light themes between episodes so the profile grid looks like the reference.
+
+`"style": "noir"` follows an earlier Pinterest reference. It has these parts:
 
 - his cut-out photo in dark, high-contrast black and white
 - a charcoal studio background

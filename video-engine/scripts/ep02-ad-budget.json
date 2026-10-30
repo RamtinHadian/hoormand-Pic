@@ -388,16 +388,50 @@
   "sub": "لینک در بیو"
  },
  "cover": {
-  "style": "note",
-  "photo": "/tmp/claude-0/-home-claude/dd8303c6-2cc3-5f59-b185-b7b641ac4577/scratchpad/photos/ep2-outline.png",
-  "badge": "قسمت ۲",
-  "kicker": "قبل از کمپین بعدی:",
-  "headline": "پول تبلیغات رو اول<br>خرج *مشتری قدیمی* کن",
-  "pw": 900,
-  "px": 120,
-  "py": 930,
-  "headTop": 620,
-  "kickTop": 360
+  "style": "agency",
+  "theme": "light",
+  "meta": [
+   "قسمت ۲",
+   "کوچینگ فروش"
+  ],
+  "lines": [
+   "پول تبلیغات",
+   "رو هدر",
+   "نده."
+  ],
+  "sub": "جذب مشتری جدید ۵ تا ۲۵ برابر<br>گرون‌تر از نگه داشتن<br>مشتری فعلیه.",
+  "object": {
+   "type": "megaphone",
+   "x": 400,
+   "y": 1330,
+   "s": 0.95
+  },
+  "chips": [
+   {
+    "icon": "heart",
+    "x": 830,
+    "y": 1120,
+    "r": -6
+   },
+   {
+    "icon": "chart",
+    "x": 890,
+    "y": 1290,
+    "r": 4
+   },
+   {
+    "icon": "send",
+    "x": 810,
+    "y": 1460,
+    "r": -4
+   },
+   {
+    "icon": "coin",
+    "x": 90,
+    "y": 1060,
+    "r": -10
+   }
+  ]
  },
  "coverCard": {
   "style": "card",
@@ -468,5 +502,17 @@
   "pw": 980,
   "px": 50,
   "py": 300
+ },
+ "coverNote": {
+  "style": "note",
+  "photo": "/tmp/claude-0/-home-claude/dd8303c6-2cc3-5f59-b185-b7b641ac4577/scratchpad/photos/ep2-outline.png",
+  "badge": "قسمت ۲",
+  "kicker": "قبل از کمپین بعدی:",
+  "headline": "پول تبلیغات رو اول<br>خرج *مشتری قدیمی* کن",
+  "pw": 900,
+  "px": 120,
+  "py": 930,
+  "headTop": 620,
+  "kickTop": 360
  }
 }
