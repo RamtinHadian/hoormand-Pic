@@ -16,9 +16,15 @@ The ocean look is applied only to the pictures; the app itself is not recoloured
 
 - `hoormand-logo.png` – the logo with the name and the line «سامانه اتوماسیون اداری» (640×582)
 - `hoormand-logo-full.png` – the same, with the four feature icons under it (900×937)
+<<<<<<< HEAD
 - `hoormand-logo-white.png` – white text, for dark backgrounds (640×582)
 - `hoormand-logo-full-white.png` – the full logo with white text and extra margin, for dark backgrounds (980×1017)
 
 ## Clips
 
 `clips/` – finished Instagram clips (1080×1920). They are made with `video-engine/` (see its README); every clip that talks about a feature shows these app screens.
+
+
+## v1.53.3
+
+`v1.53.3/ocean/` – what was built in this version (ocean and navy colours): the new «هوش مصنوعی» tab of the system settings (`ai-settings.png`) with the table of who may use the AI (`ai-access.png`), writing the minutes from the voice of a meeting (`minutes-voice.png`) and turning a reminder into a task (`reminder-to-task.png`).
