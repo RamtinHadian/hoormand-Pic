@@ -68,6 +68,24 @@
   .plane{position:absolute;left:470px;top:230px;width:150px;height:150px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;box-shadow:0 18px 40px rgba(47,127,224,.45)}
   .plane svg{width:80px;height:80px;stroke:#fff;stroke-width:2;fill:none;stroke-linejoin:round}
   .sharettl{position:absolute;top:80px;left:60px;right:60px;text-align:center;font:900 54px V;color:var(--navy)}
+
+  .vs{position:absolute;top:150px;width:420px;height:560px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;border-radius:40px}
+  .vs .vbig{width:170px;height:170px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .vs .vbig svg{width:96px;height:96px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .vs .lb{font:900 46px V;color:var(--navy);white-space:nowrap}
+  .vs .sb{font:800 32px V;border-radius:999px;padding:8px 24px}
+  .vsx{position:absolute;top:385px;left:485px;width:110px;height:110px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font:900 30px V;box-shadow:0 10px 24px rgba(0,0,0,.25)}
+  .coin{position:absolute;width:74px;height:74px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3b0,#ffcf3a 55%,#e0a400);display:flex;align-items:center;justify-content:center;font:900 30px V;color:#8a5a00;box-shadow:0 6px 14px rgba(0,0,0,.2)}
+  .src{position:absolute;top:80px;left:0;right:0;display:flex;justify-content:center}
+  .src span{display:flex;gap:12px;align-items:center;background:#fff;border-radius:999px;padding:10px 30px;font:800 34px V;color:var(--navy2);box-shadow:0 8px 20px rgba(20,50,110,.14)}
+  .statnum{position:absolute;top:190px;left:0;right:0;text-align:center;font:900 160px/1 V;color:var(--navy)}
+  .statnum em{font-style:normal;color:#e0354f}
+  .statsub{position:absolute;top:400px;left:0;right:0;text-align:center;font:800 46px V;color:var(--navy2)}
+  .sbar{position:absolute;left:90px;height:96px;border-radius:24px;display:flex;align-items:center;padding:0 30px;font:900 38px V;color:#fff;transform-origin:right;white-space:nowrap}
+  .sbar.r{right:90px;left:auto;background:linear-gradient(270deg,#ff6b6b,#e0354f)}
+  .sbar.g{right:90px;left:auto;background:linear-gradient(270deg,#3ee39a,#1fbf7a)}
+  .chips{position:absolute;top:670px;left:40px;right:40px;display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
+  .chips span{background:#fff;border-radius:999px;padding:12px 30px;font:800 38px V;color:var(--navy);box-shadow:0 10px 24px rgba(20,50,110,.16);border:3px solid #ffd34d}
   `;
   const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
@@ -112,6 +130,10 @@
       if (o.dateAt) { const d = h(`<div class="dt">${c.date}</div>`); el.appendChild(d); pop(d, o.dateAt + i * .15, .35); }
       if (o.ownerAt) { const w = h(`<div class="ow">${S('users', 'ic" style="width:30px;height:30px')}${c.owner}</div>`); el.appendChild(w); pop(w, o.ownerAt + i * .15, .35); }
     });
+    if (o.chips) {
+      const cw = h(`<div class="chips"></div>`); root.appendChild(cw);
+      o.chips.forEach(c => { const e = h(`<span>${c.text}</span>`); cw.appendChild(e); pop(e, c.at, .35); });
+    }
     if (o.strikeAt) {
       const n = h(`<div class="note">«${o.strikeText || 'یادم می‌مونه'}»</div>`); root.appendChild(n); pop(n, o.strikeAt - .2, .35);
       const sk = h(`<div class="strike"></div>`); root.appendChild(sk);
@@ -142,6 +164,34 @@
       tx = clamp(tx, W - 1000 * k, 0); ty = clamp(ty, H - 625 * k, 0);
       img.style.transform = `translate(${tx}px,${ty}px) scale(${k})`;
     });
+  };
+  P.versus = (o, root) => {
+    const R = h(`<div class="card vs" style="right:60px;background:#eafbf2"><div class="vbig" style="background:#c9f2d8"><svg viewBox="0 0 24 24" stroke="#1a9a5e">${ICONS.users}</svg></div>
+      <div class="lb">${o.right || 'مشتری‌های قبلی'}</div><div class="sb" style="background:#fff;color:#1a9a5e">${o.rightSub || 'منتظر یه تماس'}</div></div>`);
+    const L = h(`<div class="card vs" style="left:60px;background:#fff3f3"><div class="vbig" style="background:#ffd9d9"><svg viewBox="0 0 24 24" stroke="#e0354f"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg></div>
+      <div class="lb">${o.left || 'غریبه‌ها'}</div><div class="sb" style="background:#fff;color:#e0354f">${o.leftSub || 'بودجهٔ تبلیغات'}</div></div>`);
+    root.append(R, L); pop(L, o.c0, .4); pop(R, o.c0 + .15, .4);
+    const x = h(`<div class="vsx">در برابر</div>`); root.appendChild(x); pop(x, o.c0 + .3, .35);
+    for (let i = 0; i < 6; i++) {
+      const c = h(`<div class="coin">تومان</div>`); root.appendChild(c);
+      const t = o.c0 + .6 + i * .35;
+      anim(c, [{ t: t - .001, o: 0, x: 503, y: 40, s: .6 }, { t: t + .1, o: 1, s: 1 }, { t: t + .7, x: 200 + (i % 3) * 40, y: 300 + (i % 2) * 50, s: .7, e: 'in' }, { t: t + .8, o: 0 }]);
+      c.style.left = '0px'; c.style.top = '0px';
+    }
+    if (o.waitAt) anim(R, [{ t: o.waitAt, s: 1 }, { t: o.waitAt + .2, s: 1.06 }, { t: o.waitAt + .4, s: 1 }, { t: o.waitAt + .6, s: 1.06 }, { t: o.waitAt + .8, s: 1 }]);
+  };
+  P.stat = (o, root) => {
+    const sr = h(`<div class="src"><span>${S('chart', 'ic" style="width:36px;height:36px')}${o.source}</span></div>`); root.appendChild(sr); pop(sr, o.c0, .4);
+    const n = h(`<div class="statnum">${richSub(o.number).replace('<em>', '<em>')}</div>`); root.appendChild(n);
+    const ra = o.revealAt || o.c0 + .5;
+    anim(n, [{ t: o.c0 + .2, o: 0, s: .8, b: 22 }, { t: o.c0 + .6, o: 1, s: 1, b: 22 }, { t: ra, b: 22 }, { t: ra + .5, b: 0, s: 1.06, e: 'out' }, { t: ra + .8, s: 1 }]);
+    const sb = h(`<div class="statsub">${o.sub}</div>`); root.appendChild(sb); fadeIn(sb, ra + .3);
+    const ba = o.barsAt || ra + .8;
+    const b1 = h(`<div class="sbar r" style="top:540px;width:900px">${o.bar1 || 'جذب مشتری جدید'}</div>`), b2 = h(`<div class="sbar g" style="top:680px;width:500px">${o.bar2 || 'نگه داشتن مشتری'}</div>`);
+    root.append(b1, b2);
+    [[b1, ba], [b2, ba + .5]].forEach(([b, t]) => anim(b, [{ t: t - .001, o: 0 }, { t: t + .05, o: 1, e: 'lin' }]));
+    hook(t => { b1.style.transform = `scaleX(${EASE.out(clamp((t - ba) / .8, 0, 1))})`; b2.style.transform = `scaleX(${EASE.out(clamp((t - ba - .5) / .8, 0, 1))})`; });
+    if (o.labelsAt) { const l1 = h(`<div class="pill r" style="position:absolute;left:90px;top:840px;font-size:40px">${o.label1 || 'گرون'}</div>`), l2 = h(`<div class="pill" style="position:absolute;right:90px;top:840px;font-size:40px;background:#dcf7e7;color:#1a9a5e">${o.label2 || 'ارزون'}</div>`); root.append(l1, l2); pop(l1, o.labelsAt); pop(l2, o.labelsAt + .2); }
   };
   P.teaser = (o, root) => {
     const b = h(`<div class="badge"><span>${o.badge || 'قسمت بعد'}</span></div>`); root.appendChild(b); pop(b, o.c0, .4);

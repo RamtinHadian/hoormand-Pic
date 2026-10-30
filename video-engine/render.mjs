@@ -66,6 +66,7 @@ if (!PRESENTER) {
     for (const k of Object.keys(o)) if (/^(t0|t1|.*At)$/.test(k) && typeof o[k] === 'number') m[k] = map(o[k]);
     if (o.cards) m.cards = o.cards.map(c => ({ ...c, at: map(c.at) }));
     if (o.focus) m.focus = o.focus.map(f => ({ ...f, at: map(f.at) }));
+    if (o.chips) m.chips = o.chips.map(c => ({ ...c, at: map(c.at) }));
     if (o.type === 'feature' && !catalog.features[o.feature]) problems.push(`overlay: unknown feature "${o.feature}"`);
     return m;
   });

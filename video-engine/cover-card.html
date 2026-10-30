@@ -14,7 +14,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;font-family:V}
   background:linear-gradient(180deg,#1f6fd6 0%,#3d8ee8 28%,#79b6f2 50%,#bfe0fb 66%,#eaf6ff 78%,#ffffff 100%)}
 svg.layer{position:absolute;inset:0;width:1080px;height:1920px}
 .sun{position:absolute;left:-160px;top:-180px;width:900px;height:900px;background:radial-gradient(closest-side,rgba(255,255,255,.35),transparent)}
-.badge{position:absolute;top:262px;left:56px;background:rgba(15,35,80,.72);color:#fff;font:800 40px V;border-radius:999px;padding:8px 30px}
+.badge{position:absolute;top:200px;left:56px;background:rgba(15,35,80,.72);color:#fff;font:800 40px V;border-radius:999px;padding:8px 30px}
 .t1{position:absolute;top:290px;left:0;right:0;text-align:center;font:900 236px/1 V;color:#fff;transform:rotate(-3deg);
   text-shadow:0 2px 0 #dfe9fb,0 4px 0 #c9d9f5,0 6px 0 #b3c8ee,0 8px 0 #9db6e6,0 10px 0 #87a4de,0 22px 40px rgba(10,40,110,.45)}
 .t2{position:absolute;top:540px;left:0;right:0;text-align:center;font:900 310px/1 V;direction:ltr;letter-spacing:-6px;
@@ -111,12 +111,16 @@ window.buildCover = async function (d) {
   clouds(document.getElementById('sea'), sea, 2, { freq: .012, disp: 90, blur: 3, slope: 1 });
 
   const b = document.getElementById('badge'); if (d.badge) b.textContent = d.badge; else b.remove();
-  document.getElementById('t1').textContent = d.title;
-  document.getElementById('t2').textContent = d.big;
+  const t1 = document.getElementById('t1'), t2 = document.getElementById('t2');
+  t1.textContent = d.title; t2.textContent = d.big;
+  if (d.title.length > 6) t1.style.fontSize = Math.max(120, Math.round(236 * 6 / d.title.length)) + 'px';
+  if (d.big.length > 5) { t2.style.fontSize = Math.max(200, Math.round(310 * 5 / d.big.length)) + 'px'; t2.style.letterSpacing = '0'; t2.style.direction = 'rtl'; }
+  if (d.title.length > 6) { t1.style.top = '320px'; t2.style.top = '500px'; }
   // notepad
   const rings = document.getElementById('rings'); for (let i = 0; i < 12; i++) rings.appendChild(document.createElement('i'));
   const pad = document.getElementById('pad');
   const head = document.createElement('div'); head.className = 'ph'; head.textContent = d.pad.title; pad.appendChild(head);
+  if (d.pad.title.length > 10) head.style.fontSize = '40px';
   const cols = ['#ffe07a', '#bcd6ff', '#ffc2d4', '#c9f2d8'];
   d.pad.items.forEach((it, i) => {
     const e = document.createElement('div'); e.className = 'it';
@@ -128,7 +132,7 @@ window.buildCover = async function (d) {
   const rc = [['#fff1c9', '#ffd34d'], ['#e3ecff', '#a9c4ff'], ['#ffe3ea', '#ffb3c6'], ['#dcf7e7', '#8fe0b0']];
   const card = document.getElementById('card');
   card.innerHTML = `<div class="ch">${d.card.head}</div>` +
-    d.card.rows.map((row, i) => `<div class="row" style="background:${rc[i % 4][0]}"><div class="n" style="background:${rc[i % 4][1]}">${row.n}</div><span>${row.label}</span></div>`).join('') +
+    d.card.rows.map((row, i) => `<div class="row" style="background:${rc[i % 4][0]}"><div class="n" style="background:${rc[i % 4][1]}">${row.n}</div><span style="${row.label.length > 9 ? 'font-size:40px' : ''}">${row.label}</span></div>`).join('') +
     `<div class="hr"></div><div class="foot">${d.card.foot}<br><em>${d.card.highlight}</em></div>`;
   document.getElementById('handle').textContent = '@' + d.instagram;
   // sparkles + floating 3D icon tiles
@@ -141,9 +145,11 @@ window.buildCover = async function (d) {
     phone: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
     chart: '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-7"/>', send: '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/>' };
   (d.floats || ['bell', 'cal']).slice(0, 2).forEach((n, i) => {
-    const pos = [[900, 470, 10, '#ff8a3d'], [40, 770, -10, '#2f6fe0']][i];
+    const pos = [[910, 205, 10, '#ff8a3d'], [40, 770, -10, '#2f6fe0']][i];
     const e = document.createElement('div'); e.className = 'float'; e.style.left = pos[0] + 'px'; e.style.top = pos[1] + 'px'; e.style.transform = `rotate(${pos[2]}deg)`;
     e.innerHTML = `<svg viewBox="0 0 24 24" stroke="${pos[3]}">${IC[n] || IC.bell}</svg>`; deco.appendChild(e); });
+  await document.fonts.ready;
+  const r2 = t2.getBoundingClientRect(); const sw = document.querySelector('.swoosh'); sw.style.top = (r2.bottom - 30) + 'px';
   const tp = document.createElement('div'); tp.className = 'tape'; document.getElementById('pad').appendChild(tp);
   await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode().catch(() => {})));
 };
