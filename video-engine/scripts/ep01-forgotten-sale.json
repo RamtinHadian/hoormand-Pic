@@ -397,20 +397,14 @@
   "sub": "لینک در بیو"
  },
  "cover": {
-  "style": "hero",
+  "style": "noir",
   "photo": "/tmp/claude-0/-home-claude/dd8303c6-2cc3-5f59-b185-b7b641ac4577/scratchpad/photos/ep1-relit.png",
   "badge": "قسمت ۱",
-  "num": "۳",
-  "line1": "پیگیری برای",
-  "line2": "نجات فروشت",
-  "pw": 860,
-  "px": -130,
-  "py": 450,
-  "flip": false,
-  "fadeRight": 14,
-  "pillFront": true,
-  "dim": 0.45,
-  "fadeSides": 12
+  "neon": "فراموشی",
+  "sub": "فروشی که به فراموشی باخت<br>قانون *۳ پیگیری*",
+  "pw": 1100,
+  "px": -120,
+  "py": 330
  },
  "coverCard": {
   "style": "card",
@@ -458,5 +452,21 @@
    "bell",
    "cal"
   ]
+ },
+ "coverHero": {
+  "style": "hero",
+  "photo": "/tmp/claude-0/-home-claude/dd8303c6-2cc3-5f59-b185-b7b641ac4577/scratchpad/photos/ep1-relit.png",
+  "badge": "قسمت ۱",
+  "num": "۳",
+  "line1": "پیگیری برای",
+  "line2": "نجات فروشت",
+  "pw": 860,
+  "px": -130,
+  "py": 450,
+  "flip": false,
+  "fadeRight": 14,
+  "pillFront": true,
+  "dim": 0.45,
+  "fadeSides": 12
  }
 }

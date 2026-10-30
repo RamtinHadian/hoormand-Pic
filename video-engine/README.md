@@ -90,7 +90,18 @@ The check still applies: a caption that mentions «هورمند» must be covere
 
 `node cover.mjs scripts/epNN-*.json` makes `../clips/epNN-*-cover.jpg` from the script's `cover` block.
 
-The default is `"style": "hero"`, built from a photo Ramtin takes of himself.
+The default is `"style": "noir"`, after Ramtin's Pinterest reference. It has these parts:
+
+- his cut-out photo in dark, high-contrast black and white
+- a charcoal studio background
+- a big neon-teal Nastaliq word in `neon`, with a glowing ring arc around it
+- a small spaced `sub` line underneath; it may contain `*teal*` words and `<br>`
+- a thin line with a dot above «قسمت N», set with `badge`
+- HOORMAND in spaced serif letters, with @hoormandcrm under it
+
+The photo's place is set with `pw`, `px` and `py`, and `dim` sets its brightness (default 0.52). The ring is set with `ringY`, `ringR`, `ringFrom` and `ringTo`. The fonts are Noto Nastaliq Urdu and Cormorant Garamond (both OFL, in `fonts/`).
+
+`"style": "hero"` is also built from a photo Ramtin takes of himself.
 
 1. **Cut out the person.** Run `npm i @imgly/background-removal-node` in a separate folder (its models come bundled), then remove the background from the photo.
 2. **Relight the cut-out.** `python3 -I relight.py cut.png relit.png --key left|right [--alpha-fix] [--erase x0,y0,x1,y1]` gives it a cinema-style look:

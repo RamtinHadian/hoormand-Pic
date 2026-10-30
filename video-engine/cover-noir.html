@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Medium.woff2);font-weight:500}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Bold.woff2);font-weight:700}
+@font-face{font-family:N;src:url(fonts/NotoNastaliq-700.woff2);font-weight:700}
+@font-face{font-family:C;src:url(fonts/Cormorant-600.woff2);font-weight:600}
+@font-face{font-family:C;src:url(fonts/Cormorant-500.woff2);font-weight:500}
+:root{--teal:#2ee6d6;--tealsoft:#b9fff7}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0b0c0e}
+#c{position:relative;width:1080px;height:1920px;overflow:hidden;
+  background:radial-gradient(80% 55% at 50% 28%,#3a3d42 0%,#202226 45%,#0c0d0f 85%)}
+.streak{position:absolute;left:230px;top:-200px;width:620px;height:1500px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.07) 40%,rgba(255,255,255,.12) 50%,rgba(255,255,255,.07) 60%,transparent);filter:blur(30px)}
+.grain{position:absolute;inset:0;opacity:.09;mix-blend-mode:overlay}
+#person{position:absolute;filter:grayscale(1) contrast(1.28) brightness(.66)}
+.haze{position:absolute;inset:0;background:
+  radial-gradient(60% 30% at 85% 100%,rgba(28,214,198,.45),transparent 70%),
+  radial-gradient(50% 25% at 0% 92%,rgba(28,214,198,.18),transparent 70%),
+  linear-gradient(180deg,transparent 52%,rgba(8,9,11,.75) 70%,rgba(8,9,11,.92) 100%)}
+svg.ring{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.tag{position:absolute;left:0;right:0;top:110px;display:flex;flex-direction:column;align-items:center;gap:0}
+.tag .ln{width:2px;height:150px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.85))}
+.tag .dot{width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 0 14px #fff}
+.tag span{margin-top:18px;font:500 40px V;color:#f1f4f5;letter-spacing:6px}
+.neon{position:absolute;left:0;right:0;text-align:center;font:700 210px/1.9 N;color:var(--tealsoft);
+  text-shadow:0 0 4px #e9fffc,0 0 14px #5ff5e8,0 0 34px #1fe0cf,0 0 70px #14c4b5,0 0 120px rgba(20,196,181,.7)}
+.sub{position:absolute;left:60px;right:60px;text-align:center;font:500 50px/1.6 V;color:#eef6f5;letter-spacing:3px;text-shadow:0 2px 14px rgba(0,0,0,.7)}
+.sub em{font-style:normal;color:var(--teal);text-shadow:0 0 12px rgba(46,230,214,.7)}
+.brand{position:absolute;left:0;right:0;top:1600px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.brand b{font:600 52px C;color:#f4f6f6;letter-spacing:16px;padding-left:16px}
+.brand small{direction:ltr;unicode-bidi:isolate;font:500 34px C;color:var(--teal);letter-spacing:3px;text-shadow:0 0 10px rgba(46,230,214,.6)}
+</style>
+</head>
+<body>
+<div id="c">
+  <div class="streak"></div>
+  <img id="person">
+  <div class="haze"></div>
+  <svg class="grain" viewBox="0 0 1080 1920"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="1080" height="1920" filter="url(#g)"/></svg>
+  <svg class="ring" viewBox="0 0 1080 1920">
+    <defs><filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <path id="arc" fill="none" stroke="#7ff8ee" stroke-width="7" stroke-linecap="round" filter="url(#glow)"/>
+  </svg>
+  <div class="tag"><div class="ln"></div><div class="dot"></div><span id="tag"></span></div>
+  <div class="neon" id="neon"></div>
+  <div class="sub" id="sub"></div>
+  <div class="brand"><b>HOORMAND</b><small id="handle"></small></div>
+</div>
+<script>
+window.buildCover = async function (d) {
+  const p = document.getElementById('person');
+  p.src = d.photo; p.style.width = (d.pw || 1000) + 'px'; p.style.left = (d.px ?? 40) + 'px'; p.style.top = (d.py ?? 300) + 'px';
+  if (d.flip) p.style.transform = 'scaleX(-1)';
+  p.style.filter = `grayscale(1) contrast(1.28) brightness(${d.dim ?? .52})`;
+  document.getElementById('tag').textContent = d.badge || '';
+  const neon = document.getElementById('neon'); neon.innerHTML = `<span>${d.neon}</span>`; neon.style.top = (d.neonTop ?? 930) + 'px';
+  if (d.neonSize) neon.style.fontSize = d.neonSize + 'px';
+  const sub = document.getElementById('sub'); sub.innerHTML = (d.sub || '').replace(/\*([^*]+)\*/g, '<em>$1</em>'); sub.style.top = (d.subTop ?? 1385) + 'px';
+  document.getElementById('handle').textContent = '@' + d.instagram;
+  // neon ring arc behind the word
+  const cx = 540, cy = d.ringY ?? 1170, r = d.ringR ?? 300, a0 = (d.ringFrom ?? 200) * Math.PI / 180, a1 = (d.ringTo ?? 470) * Math.PI / 180;
+  const P = a => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  const [x0, y0] = P(a0), [x1, y1] = P(a1);
+  document.getElementById('arc').setAttribute('d', `M${x0} ${y0} A${r} ${r} 0 1 1 ${x1} ${y1}`);
+  await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode().catch(() => {})));
+  const ph = p.getBoundingClientRect().height, stop = Math.min(99, ((1520 - (d.py ?? 300)) / ph) * 100);
+  const m = `linear-gradient(180deg,transparent 0%,#000 7%,#000 ${stop - 18}%,transparent ${stop}%),linear-gradient(90deg,transparent 0%,#000 14%,#000 86%,transparent 100%)`;
+  p.style.webkitMaskImage = m; p.style.maskImage = m; p.style.webkitMaskComposite = 'source-in'; p.style.maskComposite = 'intersect';
+  const sp = neon.firstChild; let fs = parseFloat(getComputedStyle(neon).fontSize);
+  while (sp.getBoundingClientRect().width > 960 && fs > 80) { fs -= 8; neon.style.fontSize = fs + 'px'; }
+};
+</script>
+</body>
+</html>
