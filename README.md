@@ -31,3 +31,7 @@ The ocean look is applied only to the pictures; the app itself is not recoloured
 ## v1.53.5
 
 `v1.53.5/ocean/` – «امروز من»: the page layout the person chooses (`today-layout.png`) and the limit of four cards at once (`today-layout-limit.png`).
+
+## v1.53.6
+
+`v1.53.6/ocean/admin-affairs-sticky-tabs.png` – the sub-menu of «امور اداری» stays under the header while the page scrolls, like the customers menu.
