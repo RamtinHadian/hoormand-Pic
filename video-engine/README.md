@@ -108,6 +108,8 @@ The default is `"style": "hero"`, built from a photo Ramtin takes of himself.
 
    The photo's place is set with `pw`, `px`, `py` and `flip`. `fadeRight` softens a photo edge that is cut off straight. `pillFront` puts the pill in front of the photo when a hand would cover it.
 
+   Ramtin wants himself in the background, not the focus. Use `"dim": 0.45` and `"fadeSides": 12`: these turn the photo into a dark blue duotone behind the panel and soften its sides.
+
 Ramtin's raw photos are not kept in the repo.
 
 The illustrated `"style": "card"` builds the cover from the episode's content and uses no photo. It has these parts:

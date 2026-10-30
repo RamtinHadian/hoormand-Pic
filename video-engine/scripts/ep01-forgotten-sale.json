@@ -408,7 +408,9 @@
   "py": 450,
   "flip": false,
   "fadeRight": 14,
-  "pillFront": true
+  "pillFront": true,
+  "dim": 0.45,
+  "fadeSides": 12
  },
  "coverCard": {
   "style": "card",

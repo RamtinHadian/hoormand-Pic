@@ -396,7 +396,9 @@
   "line2": "مشتری جدید!",
   "pw": 820,
   "px": 60,
-  "py": 420
+  "py": 420,
+  "dim": 0.45,
+  "fadeSides": 12
  },
  "coverCard": {
   "style": "card",

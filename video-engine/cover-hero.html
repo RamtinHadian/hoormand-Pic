@@ -83,8 +83,14 @@ window.buildCover = async function (d) {
   // keep the person's fade ending just under the title box
   const ph = p.getBoundingClientRect().height, stop = Math.min(99, ((1450 - (d.py ?? 470)) / ph) * 100);
   let m = `linear-gradient(180deg,#000 ${stop - 6}%,transparent ${stop}%)`;
-  if (d.fadeRight) { m += `,linear-gradient(${d.flip ? 270 : 90}deg,#000 ${100 - d.fadeRight}%,transparent 100%)`; p.style.webkitMaskComposite = 'source-in'; p.style.maskComposite = 'intersect'; }
+  if (d.fadeSides) { m += `,linear-gradient(90deg,transparent 0%,#000 ${d.fadeSides}%,#000 ${100 - d.fadeSides}%,transparent 100%)`; p.style.webkitMaskComposite = 'source-in'; p.style.maskComposite = 'intersect'; }
+  else if (d.fadeRight) { m += `,linear-gradient(${d.flip ? 270 : 90}deg,#000 ${100 - d.fadeRight}%,transparent 100%)`; p.style.webkitMaskComposite = 'source-in'; p.style.maskComposite = 'intersect'; }
   p.style.webkitMaskImage = m; p.style.maskImage = m;
+  if (d.dim) {  // push the person into the background: darker, cooler, softer
+    p.style.filter = `grayscale(1) brightness(${d.dim}) contrast(1.15) blur(.8px)`;
+    p.style.mixBlendMode = 'luminosity'; p.style.opacity = .75; p.style.zIndex = 0;
+    document.querySelector('.panel').style.zIndex = 2; document.querySelector('.brandname').style.zIndex = 3; document.querySelector('.pill').style.zIndex = 3;
+  }
   if (d.pillFront) { document.querySelector('.pill').style.zIndex = 5; document.getElementById('person').style.zIndex = 1; }
   // shrink headline lines that are too wide for the box
   for (const id of ['l1', 'l2']) { const e = document.getElementById(id); let fs = parseFloat(getComputedStyle(e).fontSize); while (e.scrollWidth > 670 && fs > 50) { fs -= 4; e.style.fontSize = fs + 'px'; } }
