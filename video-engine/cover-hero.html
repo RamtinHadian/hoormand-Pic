@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Medium.woff2);font-weight:500}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Bold.woff2);font-weight:700}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-ExtraBold.woff2);font-weight:800}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Black.woff2);font-weight:900}
+:root{--blue:#1d62d8;--deep:#154fb8;--yellow:#ffd23f;--ink:#0d1b3d}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;font-family:V}
+#c{position:relative;width:1080px;height:1920px;overflow:hidden;background:#1a5fd4}
+/* blurred bright office behind */
+#office{position:absolute;inset:-60px;filter:blur(22px)}
+#office .base{position:absolute;inset:0;background:radial-gradient(70% 50% at 50% 30%,#7fc3ff 0%,#3d8ef0 40%,#1a5fd4 75%)}
+#office .lamp{position:absolute;background:linear-gradient(90deg,rgba(255,255,255,.0),rgba(235,248,255,.95),rgba(255,255,255,.0));border-radius:20px}
+#office .col{position:absolute;border-radius:40px;background:rgba(220,240,255,.55)}
+#office .bok{position:absolute;border-radius:50%;background:rgba(200,235,255,.5)}
+.tint{position:absolute;inset:0;background:linear-gradient(180deg,rgba(25,95,215,.25),rgba(25,95,215,.5) 60%,rgba(22,85,200,.85))}
+svg.shape{position:absolute;inset:0;width:1080px;height:1920px}
+.panel{position:absolute;left:600px;top:595px;width:430px;height:750px;border-radius:170px 60px 60px 60px;
+  background:linear-gradient(160deg,rgba(60,140,245,.92),rgba(26,96,214,.96) 55%);box-shadow:0 30px 70px rgba(5,30,90,.35)}
+.lower{position:absolute;left:80px;top:1300px;width:1100px;height:800px;border-radius:190px 0 0 0;background:linear-gradient(180deg,#1d62d8,#1857c9)}
+.brandname{position:absolute;right:135px;top:745px;color:#fff;font:800 42px V}
+.pill{position:absolute;left:560px;top:815px;width:410px;height:100px;border-radius:50px;background:linear-gradient(90deg,#fff7a8,#ffd23f);
+  display:flex;align-items:center;justify-content:flex-start;gap:20px;padding-right:40px;box-shadow:0 12px 28px rgba(0,0,0,.18)}
+.pill b{font:900 54px V;color:var(--ink)}
+.pill svg{width:44px;height:44px}
+#person{position:absolute;z-index:1;-webkit-mask-image:linear-gradient(180deg,#000 82%,transparent 99%);mask-image:linear-gradient(180deg,#000 82%,transparent 99%);
+  filter:drop-shadow(0 20px 40px rgba(0,20,80,.35))}
+.tab{position:absolute;z-index:6;left:210px;top:1205px;width:620px;height:70px;border-radius:30px 30px 0 0;background:#fff}
+.play{position:absolute;z-index:7;left:258px;top:1152px;width:84px;height:84px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(0,0,0,.25);border:4px solid #fff}
+.play svg{width:38px;height:38px;margin-left:6px}
+.box{position:absolute;z-index:6;left:150px;top:1252px;width:750px;min-height:240px;border-radius:30px;background:linear-gradient(180deg,#2167dc,#1a5bd0);
+  border:2px solid rgba(255,255,255,.35);box-shadow:0 26px 60px rgba(5,30,90,.4);padding:26px 40px 30px;text-align:center}
+.l1{font:800 92px/1.15 V;color:#fff;white-space:nowrap}
+.l1 em{font-style:normal;font-weight:900;font-size:150px;color:var(--yellow);vertical-align:-14px;margin-left:22px;text-shadow:0 6px 0 rgba(0,0,0,.12)}
+.l2{font:900 104px/1.15 V;color:#fff;white-space:nowrap;text-shadow:0 6px 18px rgba(0,0,0,.18)}
+.handle{position:absolute;z-index:6;left:0;right:0;top:1590px;display:flex;justify-content:center}
+.handle span{display:flex;align-items:center;gap:16px;direction:ltr;background:rgba(255,255,255,.14);border:2px solid rgba(255,255,255,.35);border-radius:999px;padding:10px 32px 10px 14px;color:#fff;font:800 42px V}
+.handle i{width:66px;height:66px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+.handle img{width:48px}
+</style>
+</head>
+<body>
+<div id="c">
+  <div id="office"><div class="base"></div></div>
+  <div class="tint"></div>
+  <div class="lower"></div>
+  <svg class="shape" viewBox="0 0 1080 1920">
+    <path d="M955 282 C 975 420 1010 455 1080 440 L1080 775 C 1010 690 930 625 785 612 C 905 575 950 470 955 282 Z" fill="#fff"/>
+    <path d="M0 1515 C 70 1520 92 1560 96 1640 C 104 1780 160 1835 252 1846 C 140 1862 70 1885 0 1920 Z" fill="#fff"/>
+  </svg>
+  <div class="panel"></div>
+  <div class="brandname" id="brandname">هورمند</div>
+  <div class="pill"><svg viewBox="0 0 24 24"><path d="M5 3l15 9-15 9z" fill="#1d62d8"/></svg><b id="badge"></b></div>
+  <img id="person">
+  <div class="tab"></div>
+  <div class="box"><div class="l1" id="l1"></div><div class="l2" id="l2"></div></div>
+  <div class="play"><svg viewBox="0 0 24 24"><path d="M5 3l15 9-15 9z" fill="#ffd23f"/></svg></div>
+  <div class="handle"><span><i><img src="assets/logo-mark.png"></i><b id="handle" style="font-weight:800"></b></span></div>
+</div>
+<script>
+window.buildCover = async function (d) {
+  const off = document.getElementById('office');
+  const add = (cls, st) => { const e = document.createElement('div'); e.className = cls; Object.assign(e.style, st); off.appendChild(e); };
+  // perspective ceiling lights converging to the centre + a bright column + bokeh
+  [[120, 0.2], [260, .3], [420, .45], [560, .6], [690, .75]].forEach(([y, k]) => {
+    add('lamp', { left: (540 - 520 * k) + 'px', top: y + 'px', width: (1040 * k) + 'px', height: (16 + 26 * k) + 'px', opacity: .9 });
+  });
+  add('col', { left: '480px', top: '80px', width: '120px', height: '900px' });
+  add('col', { left: '0px', top: '500px', width: '160px', height: '900px', opacity: .5 });
+  add('col', { left: '960px', top: '500px', width: '160px', height: '900px', opacity: .5 });
+  [[120, 1100, 90], [900, 1150, 120], [300, 1500, 70], [820, 1700, 100], [60, 760, 60]].forEach(([x, y, r]) => add('bok', { left: x + 'px', top: y + 'px', width: r + 'px', height: r + 'px' }));
+  document.getElementById('badge').textContent = d.badge || '';
+  document.getElementById('l1').innerHTML = `<em>${d.num}</em>${d.line1}`;
+  document.getElementById('l2').textContent = d.line2;
+  document.getElementById('handle').textContent = '@' + d.instagram;
+  const p = document.getElementById('person');
+  p.src = d.photo; p.style.width = (d.pw || 900) + 'px'; p.style.left = (d.px ?? 40) + 'px'; p.style.top = (d.py ?? 470) + 'px'; if (d.flip) p.style.transform = 'scaleX(-1)';
+  await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode().catch(() => {})));
+  // keep the person's fade ending just under the title box
+  const ph = p.getBoundingClientRect().height, stop = Math.min(99, ((1450 - (d.py ?? 470)) / ph) * 100);
+  let m = `linear-gradient(180deg,#000 ${stop - 6}%,transparent ${stop}%)`;
+  if (d.fadeRight) { m += `,linear-gradient(${d.flip ? 270 : 90}deg,#000 ${100 - d.fadeRight}%,transparent 100%)`; p.style.webkitMaskComposite = 'source-in'; p.style.maskComposite = 'intersect'; }
+  p.style.webkitMaskImage = m; p.style.maskImage = m;
+  if (d.pillFront) { document.querySelector('.pill').style.zIndex = 5; document.getElementById('person').style.zIndex = 1; }
+  // shrink headline lines that are too wide for the box
+  for (const id of ['l1', 'l2']) { const e = document.getElementById(id); let fs = parseFloat(getComputedStyle(e).fontSize); while (e.scrollWidth > 670 && fs > 50) { fs -= 4; e.style.fontSize = fs + 'px'; } }
+};
+</script>
+</body>
+</html>

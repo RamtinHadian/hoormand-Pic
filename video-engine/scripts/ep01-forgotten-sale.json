@@ -397,6 +397,20 @@
   "sub": "لینک در بیو"
  },
  "cover": {
+  "style": "hero",
+  "photo": "/tmp/claude-0/-home-claude/dd8303c6-2cc3-5f59-b185-b7b641ac4577/scratchpad/photos/ep1-relit.png",
+  "badge": "قسمت ۱",
+  "num": "۳",
+  "line1": "پیگیری برای",
+  "line2": "نجات فروشت",
+  "pw": 860,
+  "px": -130,
+  "py": 450,
+  "flip": false,
+  "fadeRight": 14,
+  "pillFront": true
+ },
+ "coverCard": {
   "style": "card",
   "badge": "قسمت ۱",
   "title": "قانون",

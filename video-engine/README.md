@@ -90,7 +90,27 @@ The check still applies: a caption that mentions «هورمند» must be covere
 
 `node cover.mjs scripts/epNN-*.json` makes `../clips/epNN-*-cover.jpg` from the script's `cover` block.
 
-The default is `"style": "card"`, an illustrated cover built from the episode's content. Ramtin chose this look; no photo of him is used. It has these parts:
+The default is `"style": "hero"`, built from a photo Ramtin takes of himself.
+
+1. **Cut out the person.** Run `npm i @imgly/background-removal-node` in a separate folder (its models come bundled), then remove the background from the photo.
+2. **Relight the cut-out.** `python3 -I relight.py cut.png relit.png --key left|right [--alpha-fix] [--erase x0,y0,x1,y1]` gives it a cinema-style look:
+   - a warm key light on one side, with a gentle fill
+   - a cool rim light on the edges
+   - a filmic contrast curve
+   - teal-and-orange tones
+   - light skin smoothing
+3. **Lay out the cover.** `cover-hero.html` places the relit photo on a layout like this:
+   - a blurred blue office behind him
+   - white curved corners
+   - a blue side panel with «هورمند» and a yellow pill that shows the episode
+   - a headline box: a big yellow `num`, followed by `line1` and `line2`
+   - the @hoormandcrm handle
+
+   The photo's place is set with `pw`, `px`, `py` and `flip`. `fadeRight` softens a photo edge that is cut off straight. `pillFront` puts the pill in front of the photo when a hand would cover it.
+
+Ramtin's raw photos are not kept in the repo.
+
+The illustrated `"style": "card"` builds the cover from the episode's content and uses no photo. It has these parts:
 
 - a blue sky with clouds
 - a white headline in `title`
