@@ -27,3 +27,7 @@ The ocean look is applied only to the pictures; the app itself is not recoloured
 ## v1.53.3
 
 `v1.53.3/ocean/` – what was built in this version (ocean and navy colours): the new «هوش مصنوعی» tab of the system settings (`ai-settings.png`) with the table of who may use the AI (`ai-access.png`), writing the minutes from the voice of a meeting (`minutes-voice.png`) and turning a reminder into a task (`reminder-to-task.png`).
+
+## v1.53.5
+
+`v1.53.5/ocean/` – «امروز من»: the page layout the person chooses (`today-layout.png`) and the limit of four cards at once (`today-layout-limit.png`).
