@@ -2,11 +2,11 @@
 
 Pictures of the Hoormand office-automation system, taken from the demo (demo data only, no real customers).
 
-Every folder is one version of the app:
+The pictures are always the CURRENT state of the app: when something changes, its picture is replaced in place (same file name) and a new screen gets a new file. There are no folders per version; the version of the picture is the last commit.
 
-- `v1.53.2/ocean/` – all screens and windows (1440×900), ocean-blue and navy colours
-- `v1.53.2/ocean-tall/` – the same screens on a tall page (1440×2600), so long lists and report charts show in full
-- `v1.53.2/original/` – the same screens in the app's own maroon colours
+- `ocean/` – every screen and window (1440×900) in ocean-blue and navy colours, plus the newest features as PNG: `ai-settings.png`, `ai-access.png` (who may use the AI), `minutes-voice.png` (minutes from the voice of a meeting), `reminder-to-task.png`, `today-layout.png`, `today-layout-limit.png`, `today-page.png` («امروز من» layout) and `admin-affairs-sticky-tabs.png`
+- `ocean-tall/` – the same screens on a tall page (1440×2600), so long lists and report charts show in full
+- `original/` – the same screens in the app's own maroon colours
 
 The ocean look is applied only to the pictures; the app itself is not recoloured.
 
@@ -22,16 +22,3 @@ The ocean look is applied only to the pictures; the app itself is not recoloured
 ## Clips
 
 `clips/` – finished Instagram clips (1080×1920). They are made with `video-engine/` (see its README); every clip that talks about a feature shows these app screens.
-
-
-## v1.53.3
-
-`v1.53.3/ocean/` – what was built in this version (ocean and navy colours): the new «هوش مصنوعی» tab of the system settings (`ai-settings.png`) with the table of who may use the AI (`ai-access.png`), writing the minutes from the voice of a meeting (`minutes-voice.png`) and turning a reminder into a task (`reminder-to-task.png`).
-
-## v1.53.5
-
-`v1.53.5/ocean/` – «امروز من»: the page layout the person chooses (`today-layout.png`) and the limit of four cards at once (`today-layout-limit.png`).
-
-## v1.53.6
-
-`v1.53.6/ocean/admin-affairs-sticky-tabs.png` – the sub-menu of «امور اداری» stays under the header while the page scrolls, like the customers menu.
