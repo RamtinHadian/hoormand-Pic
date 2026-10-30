@@ -397,14 +397,16 @@
   "sub": "لینک در بیو"
  },
  "cover": {
-  "style": "noir",
-  "photo": "/tmp/claude-0/-home-claude/dd8303c6-2cc3-5f59-b185-b7b641ac4577/scratchpad/photos/ep1-relit.png",
+  "style": "note",
+  "photo": "/tmp/claude-0/-home-claude/dd8303c6-2cc3-5f59-b185-b7b641ac4577/scratchpad/photos/ep1-outline.png",
   "badge": "قسمت ۱",
-  "neon": "فراموشی",
-  "sub": "فروشی که به فراموشی باخت<br>قانون *۳ پیگیری*",
-  "pw": 1100,
-  "px": -120,
-  "py": 330
+  "kicker": "یادت باشه:",
+  "headline": "فروش رو به رقیب نمی‌بازی؛<br>به *فراموشی* می‌بازی",
+  "pw": 1120,
+  "px": -90,
+  "py": 880,
+  "headSize": 86,
+  "headTop": 590
  },
  "coverCard": {
   "style": "card",
@@ -468,5 +470,15 @@
   "pillFront": true,
   "dim": 0.45,
   "fadeSides": 12
+ },
+ "coverNoir": {
+  "style": "noir",
+  "photo": "/tmp/claude-0/-home-claude/dd8303c6-2cc3-5f59-b185-b7b641ac4577/scratchpad/photos/ep1-relit.png",
+  "badge": "قسمت ۱",
+  "neon": "فراموشی",
+  "sub": "فروشی که به فراموشی باخت<br>قانون *۳ پیگیری*",
+  "pw": 1100,
+  "px": -120,
+  "py": 330
  }
 }

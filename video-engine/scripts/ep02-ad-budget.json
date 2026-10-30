@@ -388,14 +388,16 @@
   "sub": "لینک در بیو"
  },
  "cover": {
-  "style": "noir",
-  "photo": "/tmp/claude-0/-home-claude/dd8303c6-2cc3-5f59-b185-b7b641ac4577/scratchpad/photos/ep2-relit.png",
+  "style": "note",
+  "photo": "/tmp/claude-0/-home-claude/dd8303c6-2cc3-5f59-b185-b7b641ac4577/scratchpad/photos/ep2-outline.png",
   "badge": "قسمت ۲",
-  "neon": "تبلیغات",
-  "sub": "پول تبلیغات رو کجا خرج می‌کنید؟<br>مشتری جدید *تا ۲۵ برابر* گرون‌تره",
-  "pw": 980,
-  "px": 50,
-  "py": 300
+  "kicker": "قبل از کمپین بعدی:",
+  "headline": "پول تبلیغات رو اول<br>خرج *مشتری قدیمی* کن",
+  "pw": 900,
+  "px": 120,
+  "py": 930,
+  "headTop": 620,
+  "kickTop": 360
  },
  "coverCard": {
   "style": "card",
@@ -456,5 +458,15 @@
   "py": 420,
   "dim": 0.45,
   "fadeSides": 12
+ },
+ "coverNoir": {
+  "style": "noir",
+  "photo": "/tmp/claude-0/-home-claude/dd8303c6-2cc3-5f59-b185-b7b641ac4577/scratchpad/photos/ep2-relit.png",
+  "badge": "قسمت ۲",
+  "neon": "تبلیغات",
+  "sub": "پول تبلیغات رو کجا خرج می‌کنید؟<br>مشتری جدید *تا ۲۵ برابر* گرون‌تره",
+  "pw": 980,
+  "px": 50,
+  "py": 300
  }
 }

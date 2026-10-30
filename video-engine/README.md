@@ -101,6 +101,16 @@ The default is `"style": "noir"`, after Ramtin's Pinterest reference. It has the
 
 The photo's place is set with `pw`, `px` and `py`, and `dim` sets its brightness (default 0.52). The ring is set with `ringY`, `ringR`, `ringFrom` and `ringTo`. The fonts are Noto Nastaliq Urdu and Cormorant Garamond (both OFL, in `fonts/`).
 
+`"style": "note"` follows another Pinterest reference. It has these parts:
+
+- a dark backdrop with grain and scratches
+- a yellow handwritten Nastaliq line in `kicker`, for example «یادت باشه:»
+- a big Naskh headline in `headline`; it may contain `*yellow*` words and `<br>`
+- Ramtin's relit cut-out with a thick yellow sticker outline (`outline.py`)
+- a white bottom bar that reads «تماشای ریلز ←»
+
+Layout is set with `kickTop`, `headTop`, `headSize`, `pw`, `px` and `py`.
+
 `"style": "hero"` is also built from a photo Ramtin takes of himself.
 
 1. **Cut out the person.** Run `npm i @imgly/background-removal-node` in a separate folder (its models come bundled), then remove the background from the photo.

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Medium.woff2);font-weight:500}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Bold.woff2);font-weight:700}
+@font-face{font-family:K;src:url(fonts/NotoNaskh-700.woff2);font-weight:700}
+@font-face{font-family:K;src:url(fonts/NotoNaskh-600.woff2);font-weight:600}
+@font-face{font-family:N;src:url(fonts/NotoNastaliq-700.woff2);font-weight:700}
+:root{--yellow:#ffd400}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#1d1d1f}
+#c{position:relative;width:1080px;height:1920px;overflow:hidden;background:radial-gradient(90% 70% at 50% 40%,#2c2c2f,#1a1a1c 70%,#141416)}
+svg.tex{position:absolute;inset:0;width:1080px;height:1920px}
+.kick{position:absolute;left:0;right:0;text-align:center;font:700 92px/1.5 N;color:var(--yellow);transform:rotate(-4deg)}
+.head{position:absolute;left:40px;right:40px;text-align:center;font:700 104px/1.42 K;color:#f6f4ef;text-shadow:0 4px 20px rgba(0,0,0,.4)}
+.head em{font-style:normal;color:var(--yellow)}
+#person{position:absolute}
+.bar{position:absolute;left:0;right:0;bottom:0;height:200px;background:#fbfaf7;display:flex;align-items:center;justify-content:center;gap:28px}
+.bar span{font:700 48px V;color:#1b1b1d;letter-spacing:8px}
+.bar svg{width:90px;height:40px}
+.ep{position:absolute;top:250px;right:70px;font:700 38px V;color:#1b1b1d;background:var(--yellow);border-radius:999px;padding:6px 26px}
+.handle{position:absolute;top:258px;left:70px;font:700 36px V;color:#d9d6cf;direction:ltr;letter-spacing:1px}
+</style>
+</head>
+<body>
+<div id="c">
+  <svg class="tex" id="tex" viewBox="0 0 1080 1920"></svg>
+  <div class="ep" id="ep"></div>
+  <div class="handle" id="handle"></div>
+  <div class="kick" id="kick"></div>
+  <div class="head" id="head"></div>
+  <img id="person">
+  <div class="bar"><svg viewBox="0 0 90 40"><path d="M88 20H6M22 4 4 20l18 16" fill="none" stroke="#1b1b1d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="cta"></span></div>
+</div>
+<script>
+function rnd(seed) { return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+window.buildCover = async function (d) {
+  // film grain, dust and fine scratches on the dark backdrop
+  const r = rnd(7); let s = `<filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .09 0"/></filter><rect width="1080" height="1920" filter="url(#n)"/>`;
+  for (let i = 0; i < 26; i++) { const x = r() * 1080, y = r() * 1700, l = 30 + r() * 120, a = r() * 6.28;
+    s += `<path d="M${x} ${y} q ${l / 2 * Math.cos(a + .4)} ${l / 2 * Math.sin(a + .4)} ${l * Math.cos(a)} ${l * Math.sin(a)}" stroke="rgba(255,255,255,${.12 + r() * .2})" stroke-width="${1 + r() * 1.5}" fill="none"/>`; }
+  for (let i = 0; i < 60; i++) s += `<circle cx="${r() * 1080}" cy="${r() * 1700}" r="${.8 + r() * 2}" fill="rgba(255,255,255,${.12 + r() * .25})"/>`;
+  document.getElementById('tex').innerHTML = s;
+  document.getElementById('ep').textContent = d.badge || '';
+  document.getElementById('handle').textContent = '@' + d.instagram;
+  const k = document.getElementById('kick'); k.textContent = d.kicker; k.style.top = (d.kickTop ?? 330) + 'px';
+  const h = document.getElementById('head'); h.innerHTML = d.headline.replace(/\*([^*]+)\*/g, '<em>$1</em>'); h.style.top = (d.headTop ?? 560) + 'px';
+  if (d.headSize) h.style.fontSize = d.headSize + 'px';
+  document.getElementById('cta').textContent = d.cta || 'تماشای ریلز';
+  const p = document.getElementById('person');
+  p.src = d.photo; p.style.width = (d.pw || 1000) + 'px'; p.style.left = (d.px ?? 80) + 'px'; p.style.top = (d.py ?? 980) + 'px';
+  if (d.flip) p.style.transform = 'scaleX(-1)';
+  await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode().catch(() => {})));
+};
+</script>
+</body>
+</html>
