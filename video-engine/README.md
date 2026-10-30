@@ -97,7 +97,7 @@ The default is `"style": "agency"`, after Ramtin's Pinterest reference. It uses 
 - a big bold headline in `lines`; the last line is lime
 - a small `sub` text
 - a 3D-looking object that fits the topic, set in `object`. The types so far are `bell` (follow-ups, with an optional `badge`) and `megaphone` (advertising); more can be added in `OBJ`.
-- floating icon or text `chips`
+- floating icon or text `chips`, an optional `timeline` (step cards joined by a dashed line; one can be `on`), and an optional `toast` notification card
 - a glowing lime sweep line and a dot grid
 - a lime arrow button with «ادامه‌ش توی ریلز», and @hoormandcrm
 
