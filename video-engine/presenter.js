@@ -111,6 +111,20 @@
   .ringbadge svg{width:44px;height:44px;fill:#fff}
   .stamp{position:absolute;right:80px;top:600px;border:8px solid #e0354f;color:#e0354f;font:900 60px V;border-radius:24px;padding:10px 30px;transform:rotate(-8deg);background:rgba(255,255,255,.9)}
   .goodtoast{position:absolute;left:70px;right:70px;top:780px;display:flex;align-items:center;gap:20px;background:#eafbf2;border:3px solid #1fbf7a;border-radius:28px;padding:18px 30px;font:800 40px V;color:#137a4d}
+  .tpc{position:absolute;top:110px;width:440px;height:400px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+  .tpc .av{width:120px;height:120px;font-size:50px}
+  .tpc .nm{font:900 44px V;color:var(--navy)}
+  .tpc .day{font:800 30px V;border-radius:999px;padding:6px 24px;background:#eef2f8;color:#5a6a8a}
+  .tpc .pr{font:900 64px V;color:var(--navy);white-space:nowrap}
+  .tpc .pr small{font:800 30px V;color:var(--muted)}
+  .neq{position:absolute;left:470px;top:240px;width:140px;height:140px;border-radius:50%;background:#e0354f;color:#fff;display:flex;align-items:center;justify-content:center;font:900 96px/1 V;box-shadow:0 14px 34px rgba(224,53,79,.4)}
+  .cust{position:absolute;left:70px;right:70px;top:580px;height:230px;display:flex;align-items:center;gap:30px;padding:0 44px}
+  .cust .av{width:130px;height:130px;font-size:56px}
+  .cust .q{font:900 50px V;color:var(--navy)}
+  .cust .tw{flex:1}
+  .cust .tb{height:34px;border-radius:17px;background:#e3e9f4;overflow:hidden;margin-top:18px}
+  .cust .tb i{display:block;height:100%;border-radius:17px;background:linear-gradient(90deg,#1fbf7a,#3ee39a);transform-origin:right}
+  .cust .tp{font:900 60px V;color:#1fbf7a;white-space:nowrap}
   `;
   const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
@@ -162,6 +176,7 @@
     if (o.chips) {
       const cw = h(`<div class="chips"></div>`); root.appendChild(cw);
       o.chips.forEach(c => { const e = h(`<span>${c.text}</span>`); cw.appendChild(e); pop(e, c.at, .35); });
+      if (o.chipsOutAt) hook(t => { cw.style.opacity = 1 - clamp((t - o.chipsOutAt) / .4, 0, 1); });
     }
     if (o.strikeAt) { sfx(o.strikeAt + .35, 'scratch', .8);
       const n = h(`<div class="note">«${o.strikeText || 'یادم می‌مونه'}»</div>`); root.appendChild(n); pop(n, o.strikeAt - .2, .35);
@@ -257,6 +272,26 @@
     if (o.noTimeAt) { const st = h(`<div class="stamp">${o.noTimeText || 'وقت گشتن نیست!'}</div>`); root.appendChild(st); sfx(o.noTimeAt, 'buzz', .7);
       anim(st, [{ t: o.noTimeAt - .001, o: 0, s: 1.8 }, { t: o.noTimeAt + .25, o: 1, s: 1, e: 'out' }]); }
     if (o.autoAt) { const g = h(`<div class="goodtoast">✓ ${o.autoText || 'سابقه باید خودش بیاد جلوی چشم'}</div>`); root.appendChild(g); fadeIn(g, o.autoAt); sfx(o.autoAt, 'ding', .7); }
+  };
+  // two colleagues quote the same customer two different prices -> trust gone
+  P.twoprice = (o, root) => {
+    const card = (c, x, bg) => h(`<div class="card tpc" style="${x};background:${bg}"><div class="av" style="background:${c.color}">${c.name[0]}</div>
+      <div class="nm">${c.name}</div><div class="day">${c.day}</div><div class="pr">${c.price} <small>تومان</small></div></div>`);
+    const a = o.a || { name: 'همکارتون', day: 'دیروز', price: '۴۲ میلیون', color: '#5b8def' };
+    const b = o.b || { name: 'شما', day: 'امروز', price: '۴۸ میلیون', color: '#ff8a5b' };
+    const A = card(a, 'right:60px', '#fff'), B = card(b, 'left:60px', '#fff');
+    root.append(A, B); pop(A, o.aAt || o.c0, .45); pop(B, o.bAt || o.c0 + 1, .45);
+    sfx((o.aAt || o.c0) + .1, 'coin', .5); sfx((o.bAt || o.c0 + 1) + .1, 'coin', .5);
+    if (o.neqAt) { const n = h(`<div class="neq">≠</div>`); root.appendChild(n); pop(n, o.neqAt, .4); sfx(o.neqAt, 'buzz', .7);
+      hook(t => { const on = t > o.neqAt; [A, B].forEach(c => c.style.boxShadow = on ? '0 0 0 6px #ffb3bf,0 18px 50px rgba(224,53,79,.18)' : ''); }); }
+    if (o.custAt) {
+      const c = h(`<div class="card cust"><div class="av" style="background:#33c49b">م</div><div class="tw"><div class="q">${o.ask || 'مشتری: «کدومش راسته؟»'}</div><div class="tb"><i></i></div></div><div class="tp">۱۰۰٪</div></div>`);
+      root.appendChild(c); fadeIn(c, o.custAt, .4, 60);
+      const bar = c.querySelector('.tb i'), tp = c.querySelector('.tp'), fa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+      if (o.dropAt) { sfx(o.dropAt, 'down', .9);
+        hook(t => { const u = EASE.io(clamp((t - o.dropAt) / 1.1, 0, 1)); const v = Math.round(100 * (1 - u)); bar.style.transform = `scaleX(${Math.max(v, 2) / 100})`;
+          bar.style.background = u > .3 ? 'linear-gradient(90deg,#ff6b6b,#e0354f)' : ''; tp.textContent = fa(v) + '٪'; tp.style.color = u > .2 ? '#e0354f' : '#1fbf7a'; }); }
+    }
   };
   P.teaser = (o, root) => {
     const b = h(`<div class="badge"><span>${o.badge || 'قسمت بعد'}</span></div>`); root.appendChild(b); pop(b, o.c0, .4);

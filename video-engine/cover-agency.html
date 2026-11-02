@@ -182,6 +182,22 @@ const OBJ = {
     </g>
     ${badge ? `<g transform="translate(240 -300)"><circle r="76" fill="url(#blkR)"/><circle r="76" fill="none" stroke="${L1}" stroke-width="9"/><text y="28" text-anchor="middle" font-family="V" font-weight="900" font-size="70" fill="#fff">${badge}</text></g>` : ''}
   </g>`,
+  // two price tags that disagree — inconsistent pricing (name / note = the two prices)
+  tags: (x, y, s, badge, name, note) => {
+    const tag = (fill, edge, txt, col, lbl, lcol) => `
+      <path d="M-230 -130 h330 l130 130 l-130 130 h-330 a40 40 0 0 1 -40 -40 v-180 a40 40 0 0 1 40 -40z" fill="${edge}" transform="translate(16 20)"/>
+      <path d="M-230 -130 h330 l130 130 l-130 130 h-330 a40 40 0 0 1 -40 -40 v-180 a40 40 0 0 1 40 -40z" fill="${fill}"/>
+      <circle cx="125" cy="0" r="22" fill="none" stroke="${col}" stroke-width="10" opacity=".8"/>
+      <text x="-105" y="-38" direction="rtl" text-anchor="middle" font-family="V" font-weight="700" font-size="38" fill="${lcol}">${lbl}</text>
+      <text x="-105" y="50" direction="rtl" text-anchor="middle" font-family="V" font-weight="900" font-size="66" fill="${col}">${txt}</text>`;
+    return `<g transform="translate(${x} ${y}) scale(${s})">
+    <ellipse cx="0" cy="420" rx="330" ry="60" fill="#000" opacity=".5" filter="url(#soft)"/>
+    <path d="M-290 330 v70 a290 46 0 0 0 580 0 v-70z" fill="url(#blk)"/>
+    <ellipse cx="0" cy="330" rx="290" ry="46" fill="#2a2c28"/><ellipse cx="0" cy="330" rx="290" ry="46" fill="none" stroke="#4a4d46" stroke-width="3"/>
+    <g transform="translate(30 -170) rotate(-14)">${tag('url(#blk)', '#000', note || '۴۸ میلیون', '#fff', 'امروز', '#9a9d95')}</g>
+    <g transform="translate(-10 120) rotate(8)">${tag('url(#limeR)', L4, name || '۴۲ میلیون', '#111', 'دیروز', '#2d3a06')}</g>
+    ${badge ? `<g transform="translate(250 -40)"><circle r="78" fill="#e0354f"/><text y="34" text-anchor="middle" font-family="V" font-weight="900" font-size="100" fill="#fff">${badge}</text></g>` : ''}
+  </g>`; },
   // megaphone — advertising
   megaphone: (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s}) rotate(-18)">
     <ellipse cx="40" cy="330" rx="300" ry="40" fill="#000" opacity=".4" filter="url(#soft)"/>

@@ -493,6 +493,30 @@
      }
     }
    ]
+  },
+  "prices": {
+   "title": "قیمت‌های داده‌شده",
+   "short": "قیمت‌ها",
+   "icon": "users",
+   "keywords": [],
+   "screens": [
+    {
+     "file": "customer-summary-deals-amounts.png",
+     "focus": {
+      "x": 0.62,
+      "y": 0.5,
+      "s": 1.9
+     }
+    },
+    {
+     "file": "customer-open-deals-summary.png",
+     "focus": {
+      "x": 0.5,
+      "y": 0.3,
+      "s": 1.8
+     }
+    }
+   ]
   }
  }
 }
