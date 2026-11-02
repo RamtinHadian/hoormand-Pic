@@ -41,7 +41,8 @@
   .fchip svg{width:48px;height:48px;stroke:#fff;stroke-width:2;fill:none}
   .fbrowser{position:absolute;left:40px;top:160px;width:1000px;border-radius:30px;background:#fff;overflow:hidden;box-shadow:0 26px 60px rgba(20,50,110,.25)}
   .fbrowser .shot{height:700px}
-  .fbrowser .shot img{transform-origin:0 0;width:1000px;height:625px}
+  .fbrowser .shot img{transform-origin:0 0;width:1000px}
+  .fbrowser .shot{background:#eef3fb}
   .badge{position:absolute;top:70px;left:0;right:0;display:flex;justify-content:center}
   .badge span{background:var(--navy);color:#fff;font:900 44px V;border-radius:999px;padding:12px 40px}
   .lockcard{position:absolute;left:240px;right:240px;top:190px;height:300px;display:flex;align-items:center;justify-content:center;gap:30px}
@@ -178,19 +179,21 @@
       <div class="shot" style="position:relative;overflow:hidden"><img src="${DATA.imgRoot + scr}" style="position:absolute;left:0;top:0"></div></div>`);
     root.appendChild(br); anim(br, [{ t: o.c0 + .1, o: 0, y: 80, s: .94 }, { t: o.c0 + .6, o: 1, y: 0, s: 1 }]);
     const img = br.querySelector('img'); const W = 1000, H = 700;
-    const seq = [{ at: o.c0, x: .5, y: .5, s: H / 625 }, ...(o.focus || [])];
+    img.style.height = 'auto';
+    const ihOf = () => img.naturalWidth ? 1000 * img.naturalHeight / img.naturalWidth : 625;
+    const seq = [{ at: o.c0, x: .5, y: .5, s: null }, ...(o.focus || [])];
     (o.focus || []).forEach(f => sfx(f.at, 'zoom', .5));
     hook(t => {
-      let a = seq[0], b = seq[0];
-      for (let i = 0; i < seq.length; i++) { if (seq[i].at <= t) { a = seq[i]; b = seq[i + 1] || seq[i]; } }
-      const u = b === a ? 0 : EASE.io(clamp((t - b.at) / .9 + 1, 0, 1));
-      const blend = (b !== a && t >= b.at) ? 1 : 0; // seq entries switch at their 'at'
-      const cur = a; // a is the latest focus reached
+      const ih = ihOf(), s0 = ih >= H ? 1 : (H / ih <= 1.6 ? H / ih : 1);   // fill the window unless the picture is a small card
+      const S = f => f.s ?? s0;
+      let cur = seq[0];
+      for (let i = 0; i < seq.length; i++) if (seq[i].at <= t) cur = seq[i];
       const prev = seq[Math.max(0, seq.indexOf(cur) - 1)];
       const v = EASE.io(clamp((t - cur.at) / .9, 0, 1));
-      const k = lerp(prev.s, cur.s, v), x = lerp(prev.x, cur.x, v), y = lerp(prev.y, cur.y, v);
-      let tx = W / 2 - x * 1000 * k, ty = H / 2 - y * 625 * k;
-      tx = clamp(tx, W - 1000 * k, 0); ty = clamp(ty, H - 625 * k, 0);
+      const k = lerp(S(prev), S(cur), v), x = lerp(prev.x, cur.x, v), y = lerp(prev.y, cur.y, v);
+      let tx = W / 2 - x * 1000 * k, ty = H / 2 - y * ih * k;
+      tx = 1000 * k <= W ? (W - 1000 * k) / 2 : clamp(tx, W - 1000 * k, 0);
+      ty = ih * k <= H ? (H - ih * k) / 2 : clamp(ty, H - ih * k, 0);
       img.style.transform = `translate(${tx}px,${ty}px) scale(${k})`;
     });
   };

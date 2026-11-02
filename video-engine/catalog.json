@@ -1,6 +1,6 @@
 {
  "_doc": "Each feature of Hoormand -> real app screenshots. 'keywords' are matched against caption text: when a caption talks about one of these features, the scene MUST show its screens (render.mjs checks this). focus = where the camera zooms: x,y = centre (0..1 of the picture), s = zoom.",
- "imageRoot": "../v1.53.2/ocean",
+ "imageRoot": "../ocean",
  "features": {
   "letters": {
    "title": "نامه‌نگاری رسمی",
@@ -482,6 +482,14 @@
       "x": 0.5,
       "y": 0.25,
       "s": 1.6
+     }
+    },
+    {
+     "file": "customer-calls-card.png",
+     "focus": {
+      "x": 0.5,
+      "y": 0.5,
+      "s": 1.0
      }
     }
    ]
