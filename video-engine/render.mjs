@@ -91,6 +91,7 @@ page.on('pageerror', e => console.error('page error:', e.message));
 await page.goto(pathToFileURL(path.join(HERE, 'template.html')).href);
 const total = await page.evaluate(([d, p]) => p ? window.buildPresenter(d) : window.build(d), [data, PRESENTER]);
 await page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode().catch(() => {}))); });
+const sfxEvents = await page.evaluate(() => window.SFX || []);
 console.log(`timeline ${total.toFixed(2)}s, ${Math.round(total * fps)} frames`);
 
 const frameSrc = f => PRESENTER ? pathToFileURL(path.join(prep.dir, 'frames', String(Math.min(prep.frames, f + 1)).padStart(5, '0') + '.jpg')).href : null;
@@ -136,6 +137,13 @@ else {
     parts.push(`[${k}:a]${vol}[m${k}]`); k++;
   }
   if (userAudio) { inputs.push('-i', userAudio); parts.push(`[${k}:a]volume=1[m${k}]`); k++; }
+  if (sfxEvents.length && !opt('no-sfx')) {
+    const ev = out.replace(/\.mp4$/, '.sfx.json'), wav = out.replace(/\.mp4$/, '.sfx.wav');
+    fs.writeFileSync(ev, JSON.stringify(sfxEvents));
+    execFileSync('python3', [path.join(HERE, 'sfx.py'), ev, wav, String(total)], { stdio: 'inherit' });
+    inputs.push('-i', wav); parts.push(`[${k}:a]volume=${userAudio ? 0.42 : 0.7}[m${k}]`); k++;
+    process.on('exit', () => { fs.rmSync(ev, { force: true }); fs.rmSync(wav, { force: true }); });
+  }
   const labels = parts.map((_, i) => `[m${i + 1}]`).join('');
   const fc = parts.join(';') + `;${labels}amix=inputs=${parts.length}:normalize=0:duration=longest,afade=t=out:st=${(total - 1.2).toFixed(2)}:d=1.2,alimiter=limit=0.95[a]`;
   execFileSync('ffmpeg', ['-y', '-v', 'error', ...inputs, '-filter_complex', fc, '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '160k', '-t', String(total), out], { stdio: 'inherit' });

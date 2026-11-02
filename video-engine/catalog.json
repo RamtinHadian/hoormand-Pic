@@ -461,6 +461,30 @@
      }
     }
    ]
+  },
+  "callerid": {
+   "title": "شناسایی تماس‌گیرنده",
+   "short": "تماس‌ها",
+   "icon": "phone",
+   "keywords": [],
+   "screens": [
+    {
+     "file": "menu-calls.jpg",
+     "focus": {
+      "x": 0.83,
+      "y": 0.38,
+      "s": 2.2
+     }
+    },
+    {
+     "file": "customer-report.jpg",
+     "focus": {
+      "x": 0.5,
+      "y": 0.25,
+      "s": 1.6
+     }
+    }
+   ]
   }
  }
 }

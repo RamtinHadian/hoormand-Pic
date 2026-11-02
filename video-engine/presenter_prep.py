@@ -13,6 +13,7 @@ ap.add_argument('--keep-gap', type=float, default=0.22, help='seconds of pause l
 ap.add_argument('--min-silence', type=float, default=0.3)
 ap.add_argument('--noise', default='-32dB')
 ap.add_argument('--fps', type=int, default=30)
+ap.add_argument('--drop', action='append', default=[], help='a-b seconds of the raw recording to cut out (e.g. a mouth sound effect); repeatable')
 a = ap.parse_args()
 os.makedirs(os.path.join(a.out, 'frames'), exist_ok=True)
 
@@ -28,6 +29,14 @@ for s, e in zip(starts, ends):
     if s + half > cur: keep.append([cur, s + half])
     cur = max(cur, e - half)
 keep.append([cur, dur])
+for dr in a.drop:
+    da, db = map(float, dr.split('-'))
+    nk = []
+    for x, y in keep:
+        if db <= x or da >= y: nk.append([x, y]); continue
+        if da > x: nk.append([x, da])
+        if db < y: nk.append([db, y])
+    keep = nk
 keep = [[round(x, 3), round(y, 3)] for x, y in keep if y - x > 0.05]
 
 sel = '+'.join(f'between(t,{x},{y})' for x, y in keep)

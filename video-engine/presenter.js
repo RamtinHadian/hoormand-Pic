@@ -45,7 +45,7 @@
   .badge{position:absolute;top:70px;left:0;right:0;display:flex;justify-content:center}
   .badge span{background:var(--navy);color:#fff;font:900 44px V;border-radius:999px;padding:12px 40px}
   .lockcard{position:absolute;left:240px;right:240px;top:190px;height:300px;display:flex;align-items:center;justify-content:center;gap:30px}
-  .lockcard b{font:900 170px V;color:var(--navy);filter:blur(16px)}
+  .lockcard b{font:900 170px V;color:var(--navy);filter:blur(16px);white-space:nowrap}
   .lockcard svg{width:110px;height:110px;stroke:var(--navy);stroke-width:2;fill:none}
   .ttl{position:absolute;top:540px;left:40px;right:40px;text-align:center;font:900 84px V;color:var(--navy);line-height:1.35}
   .ttl em{font-style:normal;color:var(--blue)}
@@ -86,19 +86,47 @@
   .sbar.g{right:90px;left:auto;background:linear-gradient(270deg,#3ee39a,#1fbf7a)}
   .chips{position:absolute;top:670px;left:40px;right:40px;display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
   .chips span{background:#fff;border-radius:999px;padding:12px 30px;font:800 38px V;color:var(--navy);box-shadow:0 10px 24px rgba(20,50,110,.16);border:3px solid #ffd34d}
+
+  .phone{position:absolute;left:330px;top:110px;width:420px;height:760px;border-radius:64px;background:linear-gradient(160deg,#1d2a48,#0b1326);border:10px solid #2a3a5e;box-shadow:0 30px 70px rgba(10,30,80,.35);display:flex;flex-direction:column;align-items:center;padding-top:90px;gap:16px}
+  .phone .cav{width:150px;height:150px;border-radius:50%;background:#33466f;display:flex;align-items:center;justify-content:center}
+  .phone .cav svg{width:84px;height:84px;stroke:#cfe0ff;stroke-width:1.8;fill:none}
+  .phone .cn{font:800 40px V;color:#fff;direction:ltr}
+  .phone .cs{font:500 30px V;color:#9fb3da}
+  .phone .btns{position:absolute;bottom:70px;left:0;right:0;display:flex;justify-content:space-around}
+  .phone .btns i{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .phone .btns svg{width:50px;height:50px;fill:#fff}
+  .bubble{position:absolute;right:60px;top:170px;background:#fff;border-radius:36px 36px 8px 36px;padding:24px 36px;font:900 58px V;color:var(--navy);box-shadow:0 18px 40px rgba(20,50,110,.2)}
+  .trust{position:absolute;left:50px;top:560px;width:270px}
+  .trust .tl{font:800 32px V;color:var(--navy);margin-bottom:12px}
+  .trust .tb{height:40px;border-radius:20px;background:#e3e9f4;overflow:hidden}
+  .trust .tb i{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#1fbf7a,#3ee39a);transform-origin:right}
+  .trust .tp{font:900 70px V;color:#e0354f;margin-top:8px}
+  .sbox{position:absolute;left:70px;right:70px;top:120px;height:120px;border-radius:60px;background:#fff;box-shadow:0 14px 34px rgba(20,50,110,.16);display:flex;align-items:center;gap:20px;padding:0 40px;font:700 40px V;color:var(--navy)}
+  .sbox svg{width:50px;height:50px;stroke:#7d8bab;stroke-width:2.4;fill:none}
+  .sbox .cur{width:4px;height:48px;background:var(--blue)}
+  .skel{position:absolute;left:70px;right:70px;height:96px;border-radius:24px;background:linear-gradient(90deg,#eef2f8 0%,#f8faff 50%,#eef2f8 100%);background-size:200% 100%}
+  .ringbadge{position:absolute;left:70px;top:640px;display:flex;align-items:center;gap:20px;background:#fff;border-radius:999px;padding:16px 36px 16px 20px;box-shadow:0 14px 34px rgba(20,50,110,.18);font:800 40px V;color:var(--navy)}
+  .ringbadge i{width:80px;height:80px;border-radius:50%;background:#1fbf7a;display:flex;align-items:center;justify-content:center}
+  .ringbadge svg{width:44px;height:44px;fill:#fff}
+  .stamp{position:absolute;right:80px;top:600px;border:8px solid #e0354f;color:#e0354f;font:900 60px V;border-radius:24px;padding:10px 30px;transform:rotate(-8deg);background:rgba(255,255,255,.9)}
+  .goodtoast{position:absolute;left:70px;right:70px;top:780px;display:flex;align-items:center;gap:20px;background:#eafbf2;border:3px solid #1fbf7a;border-radius:28px;padding:18px 30px;font:800 40px V;color:#137a4d}
   `;
   const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   const AV = ['#5b8def', '#ff8a5b', '#33c49b', '#b06cff', '#f5b62e', '#e85d8a'];
   const S = (n, cls = 'ic') => svg(n, `class="${cls}"`);
-  const fadeIn = (el, t, d = .35, dy = 30) => anim(el, [{ t: t - .001, o: 0, y: dy }, { t: t + d, o: 1, y: 0 }]);
+  window.SFX = [];
+  const sfx = (t, type, g = 1) => { if (window.__sfxOn) window.SFX.push({ t, type, g }); };
+  const fadeIn = (el, t, d = .35, dy = 30) => { sfx(t, 'soft', .5); anim(el, [{ t: t - .001, o: 0, y: dy }, { t: t + d, o: 1, y: 0 }]); };
+  const _pop = window.pop; window.pop = (el, t, d) => { sfx(t, 'pop', .6); _pop(el, t, d); };
 
   const P = {};
   P.word = (o, root) => {
     if (o.sub) { const s = h(`<div class="wordsub">${o.sub}</div>`); root.appendChild(s); fadeIn(s, o.c0); }
-    const w = h(`<div class="wordbig">${o.text}</div>`); root.appendChild(w);
+    const w = h(`<div class="wordbig">${o.text}</div>`); root.appendChild(w); if (o.size) w.style.fontSize = o.size + 'px'; if (o.top) w.style.top = o.top + 'px';
+    sfx(o.c0, 'thud', .8);
     anim(w, [{ t: o.c0, o: 0, s: .7, b: 14 }, { t: o.c0 + .5, o: 1, s: 1, b: 0, e: 'back' }, { t: o.eraseAt || o.t1, s: 1 }, { t: (o.eraseAt || o.t1) + 1.2, s: 1, b: 6 }]);
-    if (o.eraseAt) { const wp = h(`<div class="wiper"></div>`); root.appendChild(wp);
+    if (o.eraseAt) { sfx(o.eraseAt, 'scratch', .7); const wp = h(`<div class="wiper"></div>`); root.appendChild(wp);
       hook(t => { const u = EASE.io(clamp((t - o.eraseAt) / 1.1, 0, 1)); wp.style.width = (960 * u) + 'px'; }); }
   };
   P.list = (o, root) => {
@@ -134,7 +162,7 @@
       const cw = h(`<div class="chips"></div>`); root.appendChild(cw);
       o.chips.forEach(c => { const e = h(`<span>${c.text}</span>`); cw.appendChild(e); pop(e, c.at, .35); });
     }
-    if (o.strikeAt) {
+    if (o.strikeAt) { sfx(o.strikeAt + .35, 'scratch', .8);
       const n = h(`<div class="note">«${o.strikeText || 'یادم می‌مونه'}»</div>`); root.appendChild(n); pop(n, o.strikeAt - .2, .35);
       const sk = h(`<div class="strike"></div>`); root.appendChild(sk);
       hook(t => { const u = EASE.out(clamp((t - o.strikeAt - .35) / .4, 0, 1)); sk.style.transform = `scaleX(${u})`; sk.style.opacity = u > 0 ? 1 : 0; });
@@ -151,6 +179,7 @@
     root.appendChild(br); anim(br, [{ t: o.c0 + .1, o: 0, y: 80, s: .94 }, { t: o.c0 + .6, o: 1, y: 0, s: 1 }]);
     const img = br.querySelector('img'); const W = 1000, H = 700;
     const seq = [{ at: o.c0, x: .5, y: .5, s: H / 625 }, ...(o.focus || [])];
+    (o.focus || []).forEach(f => sfx(f.at, 'zoom', .5));
     hook(t => {
       let a = seq[0], b = seq[0];
       for (let i = 0; i < seq.length; i++) { if (seq[i].at <= t) { a = seq[i]; b = seq[i + 1] || seq[i]; } }
@@ -172,18 +201,19 @@
       <div class="lb">${o.left || 'غریبه‌ها'}</div><div class="sb" style="background:#fff;color:#e0354f">${o.leftSub || 'بودجهٔ تبلیغات'}</div></div>`);
     root.append(R, L); pop(L, o.c0, .4); pop(R, o.c0 + .15, .4);
     const x = h(`<div class="vsx">در برابر</div>`); root.appendChild(x); pop(x, o.c0 + .3, .35);
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < (o.noCoins ? 0 : 6); i++) { sfx(o.c0 + .6 + i * .35, 'coin', .45);
       const c = h(`<div class="coin">تومان</div>`); root.appendChild(c);
       const t = o.c0 + .6 + i * .35;
       anim(c, [{ t: t - .001, o: 0, x: 503, y: 40, s: .6 }, { t: t + .1, o: 1, s: 1 }, { t: t + .7, x: 200 + (i % 3) * 40, y: 300 + (i % 2) * 50, s: .7, e: 'in' }, { t: t + .8, o: 0 }]);
       c.style.left = '0px'; c.style.top = '0px';
     }
+    if (o.waitAt) sfx(o.waitAt, 'ring', .7);
     if (o.waitAt) anim(R, [{ t: o.waitAt, s: 1 }, { t: o.waitAt + .2, s: 1.06 }, { t: o.waitAt + .4, s: 1 }, { t: o.waitAt + .6, s: 1.06 }, { t: o.waitAt + .8, s: 1 }]);
   };
   P.stat = (o, root) => {
     const sr = h(`<div class="src"><span>${S('chart', 'ic" style="width:36px;height:36px')}${o.source}</span></div>`); root.appendChild(sr); pop(sr, o.c0, .4);
     const n = h(`<div class="statnum">${richSub(o.number).replace('<em>', '<em>')}</div>`); root.appendChild(n);
-    const ra = o.revealAt || o.c0 + .5;
+    const ra = o.revealAt || o.c0 + .5; sfx(ra - .7, 'riser', .7); sfx(ra, 'ding', .9);
     anim(n, [{ t: o.c0 + .2, o: 0, s: .8, b: 22 }, { t: o.c0 + .6, o: 1, s: 1, b: 22 }, { t: ra, b: 22 }, { t: ra + .5, b: 0, s: 1.06, e: 'out' }, { t: ra + .8, s: 1 }]);
     const sb = h(`<div class="statsub">${o.sub}</div>`); root.appendChild(sb); fadeIn(sb, ra + .3);
     const ba = o.barsAt || ra + .8;
@@ -193,9 +223,42 @@
     hook(t => { b1.style.transform = `scaleX(${EASE.out(clamp((t - ba) / .8, 0, 1))})`; b2.style.transform = `scaleX(${EASE.out(clamp((t - ba - .5) / .8, 0, 1))})`; });
     if (o.labelsAt) { const l1 = h(`<div class="pill r" style="position:absolute;left:90px;top:840px;font-size:40px">${o.label1 || 'گرون'}</div>`), l2 = h(`<div class="pill" style="position:absolute;right:90px;top:840px;font-size:40px;background:#dcf7e7;color:#1a9a5e">${o.label2 || 'ارزون'}</div>`); root.append(l1, l2); pop(l1, o.labelsAt); pop(l2, o.labelsAt + .2); }
   };
+  // incoming call -> «ببخشید، شما؟» -> trust drops
+  P.call = (o, root) => {
+    const ph = h(`<div class="phone"><div class="cav"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div>
+      <div class="cn">${o.number || '۰۹۱۲ ••• ۴۵۶۷'}</div><div class="cs">${o.status || 'تماس ورودی…'}</div>
+      <div class="btns"><i style="background:#e0354f"><svg viewBox="0 0 24 24" style="transform:rotate(135deg)"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></i><i style="background:#1fbf7a"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></i></div></div>`);
+    root.appendChild(ph); fadeIn(ph, o.c0, .4, 80);
+    const ringEnd = o.askAt || o.c0 + 2;
+    for (let t = o.c0 + .3; t < ringEnd - .2; t += 1.1) sfx(t, 'ring', .55);
+    hook(t => { const on = t > o.c0 + .3 && t < ringEnd; ph.style.rotate = on ? (Math.sin(t * 60) * 2.2) + 'deg' : '0deg'; });
+    if (o.askAt) { const b = h(`<div class="bubble">${o.ask || '«ببخشید، شما؟»'}</div>`); root.appendChild(b); pop(b, o.askAt, .4); }
+    if (o.dropAt) {
+      const tr = h(`<div class="trust"><div class="tl">اعتماد مشتری</div><div class="tb"><i></i></div><div class="tp">۱۰۰٪</div></div>`); root.appendChild(tr); fadeIn(tr, o.askAt || o.c0 + 1);
+      const bar = tr.querySelector('i'), tp = tr.querySelector('.tp'); sfx(o.dropAt, 'down', .9);
+      const fa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+      hook(t => { const u = EASE.io(clamp((t - o.dropAt) / .9, 0, 1)); const v = Math.round(100 - 50 * u); bar.style.transform = `scaleX(${v / 100})`; bar.style.background = u > .5 ? 'linear-gradient(90deg,#ff6b6b,#e0354f)' : ''; tp.textContent = fa(v) + '٪'; tp.style.color = u > .2 ? '#e0354f' : '#1fbf7a'; });
+    }
+  };
+  // searching the history by hand while the phone rings
+  P.search = (o, root) => {
+    const sb = h(`<div class="sbox"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span></span><i class="cur"></i></div>`); root.appendChild(sb); fadeIn(sb, o.c0);
+    const span = sb.querySelector('span'), cur = sb.querySelector('.cur'), txt = o.typing || 'سابقهٔ مشتری…', t0 = o.c0 + .4;
+    for (let i = 0; i < txt.length; i += 2) sfx(t0 + i * .08, 'type', .35);
+    hook(t => { span.textContent = txt.slice(0, Math.max(0, Math.floor((t - t0) / .08))); cur.style.opacity = (Math.floor(t * 3) % 2) ? 1 : 0; });
+    [280, 400, 520].forEach((y, i) => { const k = h(`<div class="skel" style="top:${y}px"></div>`); root.appendChild(k); fadeIn(k, o.c0 + .2 + i * .1, .3, 20);
+      hook(t => { k.style.backgroundPosition = `${(-t * 120) % 200}% 0`; }); });
+    if (o.ringAt) { const rb = h(`<div class="ringbadge"><i><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></i>${o.ringText || 'تلفن زنگ می‌زنه!'}</div>`); root.appendChild(rb); pop(rb, o.ringAt, .35);
+      for (let t = o.ringAt; t < (o.noTimeAt || o.ringAt + 2); t += 1.1) sfx(t, 'ring', .5);
+      hook(t => { rb.style.rotate = (t > o.ringAt && t < (o.noTimeAt || 1e9)) ? (Math.sin(t * 55) * 3) + 'deg' : '0deg'; }); }
+    if (o.noTimeAt) { const st = h(`<div class="stamp">${o.noTimeText || 'وقت گشتن نیست!'}</div>`); root.appendChild(st); sfx(o.noTimeAt, 'buzz', .7);
+      anim(st, [{ t: o.noTimeAt - .001, o: 0, s: 1.8 }, { t: o.noTimeAt + .25, o: 1, s: 1, e: 'out' }]); }
+    if (o.autoAt) { const g = h(`<div class="goodtoast">✓ ${o.autoText || 'سابقه باید خودش بیاد جلوی چشم'}</div>`); root.appendChild(g); fadeIn(g, o.autoAt); sfx(o.autoAt, 'ding', .7); }
+  };
   P.teaser = (o, root) => {
     const b = h(`<div class="badge"><span>${o.badge || 'قسمت بعد'}</span></div>`); root.appendChild(b); pop(b, o.c0, .4);
-    const lc = h(`<div class="card lockcard"><b>${o.secret || '×۲۵'}</b>${S('key')}</div>`); root.appendChild(lc); pop(lc, o.numberAt || o.c0 + .4, .45);
+    sfx(o.numberAt || o.c0 + .4, 'thud', .8); if (o.titleAt) sfx(o.titleAt, 'riser', .5);
+    const lc = h(`<div class="card lockcard"><b style="${(o.secret || '').length > 4 ? 'font-size:120px' : ''}">${o.secret || '×۲۵'}</b>${S('key')}</div>`); root.appendChild(lc); pop(lc, o.numberAt || o.c0 + .4, .45);
     if (o.titleAt) { const tt = h(`<div class="ttl">${richSub(o.title)}</div>`); root.appendChild(tt); fadeIn(tt, o.titleAt, .45, 40); }
   };
   P.follow = (o, root) => {
@@ -206,7 +269,7 @@
     const btn = c.querySelector('.igbtn');
     const hand = h(`<svg class="hand" viewBox="0 0 24 24"><path d="M9 11V5a1.5 1.5 0 0 1 3 0v5h.5V8.5a1.5 1.5 0 0 1 3 0V11h.5v-1a1.5 1.5 0 0 1 3 0v4.5c0 3.6-2.4 6.5-6 6.5h-1.2c-2 0-3.4-.8-4.6-2.4L4 15.2a1.5 1.5 0 0 1 2.2-2L9 15z" fill="#fff" stroke="#0f1f3d" stroke-width="1.3" stroke-linejoin="round"/></svg>`);
     root.appendChild(hand);
-    const ca = o.clickAt || o.c0 + 1.6;
+    const ca = o.clickAt || o.c0 + 1.6; sfx(ca, 'click', 1); sfx(ca + .05, 'ding', .6);
     anim(hand, [{ t: ca - 1.0, o: 0, x: 700, y: 900 }, { t: ca - .2, o: 1, x: 520, y: 600, e: 'io' }, { t: ca, s: .85 }, { t: ca + .15, s: 1 }, { t: ca + 1, o: 0, x: 600, y: 700 }]);
     hook(t => { const on = t >= ca; btn.className = 'igbtn' + (on ? ' done' : ''); btn.textContent = on ? 'دنبال می‌کنید ✓' : 'دنبال کردن'; });
   };
@@ -221,7 +284,7 @@
       const okk = el.querySelector('.ok'); pop(okk, (o.sendAt || o.c0 + 1.5) + i * .45 + .4, .3);
     });
     // one small plane per friend flies out of the big plane, lands on the avatar and disappears
-    const sa = o.sendAt || o.c0 + 1.5;
+    const sa = o.sendAt || o.c0 + 1.5; sfx(sa - .1, 'whoosh', .9); fr.forEach((_, i) => sfx(sa + i * .45, 'swish', .7));
     anim(pl, [{ t: sa - .2, s: 1 }, ...fr.flatMap((_, i) => [{ t: sa + i * .45, s: .9, e: 'out' }, { t: sa + i * .45 + .15, s: 1.08, e: 'out' }]), { t: sa + fr.length * .45 + .3, s: 1 }]);
     fr.forEach((_, i) => {
       const m = h(`<div class="plane" style="width:70px;height:70px;left:510px;top:270px;box-shadow:none">${svg('send', 'style="width:38px;height:38px"')}</div>`);
@@ -246,6 +309,8 @@
     const ovs = data.overlays.slice().sort((a, b) => a.t0 - b.t0);
     const iv = [];
     ovs.forEach(o => { const l = iv[iv.length - 1]; if (l && o.t0 - l[1] < .8) l[1] = Math.max(l[1], o.t1); else iv.push([o.t0, o.t1]); });
+    window.__sfxOn = true;
+    iv.forEach(([a, b]) => { sfx(a, 'whoosh', 1); sfx(b - .35, 'whooshOut', .45); });
     const pAt = t => { let p = 0; for (const [a, b] of iv) { const u = Math.min(EASE.out(clamp((t - a) / .45, 0, 1)), 1 - EASE.in(clamp((t - (b - .35)) / .35, 0, 1))); p = Math.max(p, u); } return p; };
     ovs.forEach(o => {
       const panelAlready = iv.some(([a, b]) => a < o.t0 - .01 && b >= o.t0);
@@ -270,6 +335,7 @@
     });
     // end card
     if (data.endCard) {
+      sfx(data.endCard.t0, 'riser', .6); sfx(data.endCard.t0 + .7, 'ding', .8);
       const e = data.endCard, root = h(`<section class="scene"></section>`); stage.appendChild(root);
       anim(root, [{ t: e.t0 - .001, o: 0 }, { t: e.t0 + .4, o: 1 }]);
       B.end({ line: e.line }, root, e.t0, e.t0 + e.dur);
