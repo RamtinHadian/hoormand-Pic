@@ -5,6 +5,7 @@
 // style "noir": dark black-and-white photo with neon teal Nastaliq headline (Ramtin's Pinterest reference);
 // style "hero": Ramtin's own relit, cut-out photo (relight.py) on a blue studio layout with a headline box;
 // style "card": illustrated sky cover; style "photo": a frame of the recording.
+// usage: node cover.mjs scripts/<name>.json [--variant N]  (N picks coverVariants[N-1] -> <name>-cover-N.jpg)
 // usage: node cover.mjs scripts/<name>.json   (uses the script's "cover" block) -> ../clips/<name>-cover.jpg
 // Keep text inside y 240..1680: Instagram's profile grid shows only the middle 3:4.
 import { createRequire } from 'node:module';
@@ -17,7 +18,8 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const scriptPath = process.argv[2];
 const script = JSON.parse(fs.readFileSync(scriptPath, 'utf8'));
 const brand = JSON.parse(fs.readFileSync(path.join(HERE, 'brand.json'), 'utf8'));
-const c = script.cover; if (!c) { console.error('script has no "cover" block'); process.exit(1); }
+const vi = process.argv.indexOf('--variant'); const variant = vi > 0 ? +process.argv[vi + 1] : null;
+const c = variant === null ? script.cover : script.coverVariants?.[variant - 1]; if (!c) { console.error('script has no such cover block'); process.exit(1); }
 const name = path.basename(scriptPath, '.json');
 const style = c.style || 'agency';
 const card = style === 'card';
@@ -26,7 +28,7 @@ if (style === 'photo' && !photo && script.presenter) {
   const dir = path.resolve(path.dirname(scriptPath), script.presenter.prep);
   photo = path.join(dir, 'frames', String(c.frame).padStart(5, '0') + '.jpg');
 }
-const out = path.join(HERE, '..', 'clips', name + '-cover.jpg');
+const out = path.join(HERE, '..', 'clips', name + '-cover' + (variant ? '-' + variant : '') + '.jpg');
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
 await page.goto(pathToFileURL(path.join(HERE, { card: 'cover-card.html', photo: 'cover.html', hero: 'cover-hero.html', noir: 'cover-noir.html', note: 'cover-note.html', agency: 'cover-agency.html' }[style])).href);

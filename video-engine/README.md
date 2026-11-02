@@ -96,7 +96,7 @@ The default is `"style": "agency"`, after Ramtin's Pinterest reference. It uses 
 - the HOORMAND logo, with small `meta` lines
 - a big bold headline in `lines`; the last line is lime
 - a small `sub` text
-- a 3D-looking object that fits the topic, set in `object`. The types so far are `bell` (follow-ups, with an optional `badge`) and `megaphone` (advertising); more can be added in `OBJ`.
+- a 3D-looking object that fits the topic, set in `object`. The types so far are `bell` (follow-ups), `megaphone` (advertising), `phone` (incoming call), `bubble` (speech bubble), `monitor` (customer card on a screen) and `idcard` (customer ID card); they take an optional `badge`, and `name` and `note` where text shows. More can be added in `OBJ`. Extra cover options go in `coverVariants`; render one with `node cover.mjs script.json --variant N`.
 - floating icon or text `chips`, an optional `timeline` (step cards joined by a dashed line; one can be `on`), and an optional `toast` notification card
 - a glowing lime sweep line and a dot grid
 - a lime arrow button with «ادامه‌ش توی ریلز», and @hoormandcrm
