@@ -198,6 +198,28 @@ const OBJ = {
     <g transform="translate(-10 120) rotate(8)">${tag('url(#limeR)', L4, name || '۴۲ میلیون', '#111', 'دیروز', '#2d3a06')}</g>
     ${badge ? `<g transform="translate(250 -40)"><circle r="78" fill="#e0354f"/><text y="34" text-anchor="middle" font-family="V" font-weight="900" font-size="100" fill="#fff">${badge}</text></g>` : ''}
   </g>`; },
+  // price record sheet — every quoted price logged with date and who said it (name = title, note = price)
+  ledger: (x, y, s, badge, name, note) => {
+    const row = (yy, date, who, on) => `<rect x="-250" y="${yy}" width="500" height="96" rx="20" fill="${on ? '#111' : '#1f2a05'}" opacity="${on ? 1 : .12}"/>
+      <text x="220" y="${yy + 42}" direction="rtl" text-anchor="start" font-family="V" font-weight="900" font-size="34" fill="${on ? '#fff' : '#111'}">${note || '۴۲ میلیون'}</text>
+      <text x="220" y="${yy + 78}" direction="rtl" text-anchor="start" font-family="V" font-weight="500" font-size="24" fill="${on ? '#b9bdb2' : '#2d3a06'}">${date} · ${who}</text>
+      <circle cx="-200" cy="${yy + 48}" r="28" fill="${on ? L1 : '#111'}"/><path d="M-213 ${yy + 48} l9 9 l17 -18" stroke="${on ? '#111' : L1}" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+    return `<g transform="translate(${x} ${y}) scale(${s})">
+    <ellipse cx="0" cy="420" rx="330" ry="60" fill="#000" opacity=".5" filter="url(#soft)"/>
+    <path d="M-290 330 v70 a290 46 0 0 0 580 0 v-70z" fill="url(#blk)"/>
+    <ellipse cx="0" cy="330" rx="290" ry="46" fill="#2a2c28"/><ellipse cx="0" cy="330" rx="290" ry="46" fill="none" stroke="#4a4d46" stroke-width="3"/>
+    <g transform="rotate(-7 0 0)">
+      <rect x="-300" y="-380" width="600" height="660" rx="44" fill="${L4}" transform="translate(18 22)"/>
+      <rect x="-300" y="-380" width="600" height="660" rx="44" fill="url(#limeR)"/>
+      <rect x="-300" y="-380" width="600" height="660" rx="44" fill="none" stroke="#f3ffc2" stroke-width="4" opacity=".6"/>
+      <rect x="-90" y="-412" width="180" height="64" rx="22" fill="url(#blk)"/>
+      <text x="0" y="-260" direction="rtl" text-anchor="middle" font-family="V" font-weight="900" font-size="46" fill="#111">${name || 'قیمت‌های اعلام‌شده'}</text>
+      <path d="M-250 -225 h500" stroke="#111" stroke-width="4" opacity=".25"/>
+      ${row(-190, '۱۲ مهر', 'همکارتون')}${row(-80, '۲۸ مهر', 'فروش')}${row(30, '۵ آبان', 'شما', true)}
+      <rect x="-250" y="160" width="300" height="20" rx="10" fill="#111" opacity=".35"/><rect x="-250" y="200" width="200" height="20" rx="10" fill="#111" opacity=".2"/>
+    </g>
+    ${badge ? `<g transform="translate(260 -360)"><circle r="78" fill="url(#blkR)"/><circle r="78" fill="none" stroke="${L1}" stroke-width="9"/><text y="30" text-anchor="middle" font-family="V" font-weight="900" font-size="80" fill="#fff">${badge}</text></g>` : ''}
+  </g>`; },
   // megaphone — advertising
   megaphone: (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s}) rotate(-18)">
     <ellipse cx="40" cy="330" rx="300" ry="40" fill="#000" opacity=".4" filter="url(#soft)"/>
