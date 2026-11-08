@@ -517,6 +517,30 @@
      }
     }
    ]
+  },
+  "stale": {
+   "title": "فرصت‌های بی‌حرکت",
+   "short": "بی‌حرکت‌ها",
+   "icon": "sparkle",
+   "keywords": [],
+   "screens": [
+    {
+     "file": "today-page.png",
+     "focus": {
+      "x": 0.26,
+      "y": 0.62,
+      "s": 2.2
+     }
+    },
+    {
+     "file": "crm-funnel-ai-result.png",
+     "focus": {
+      "x": 0.5,
+      "y": 0.3,
+      "s": 1.6
+     }
+    }
+   ]
   }
  }
 }

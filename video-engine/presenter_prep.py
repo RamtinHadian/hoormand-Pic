@@ -13,6 +13,7 @@ ap.add_argument('--keep-gap', type=float, default=0.22, help='seconds of pause l
 ap.add_argument('--min-silence', type=float, default=0.3)
 ap.add_argument('--noise', default='-32dB')
 ap.add_argument('--fps', type=int, default=30)
+ap.add_argument('--audio-only', action='store_true', help='input is a voice recording (no picture): no frames, studio voice chain')
 ap.add_argument('--drop', action='append', default=[], help='a-b seconds of the raw recording to cut out (e.g. a mouth sound effect); repeatable')
 a = ap.parse_args()
 os.makedirs(os.path.join(a.out, 'frames'), exist_ok=True)
@@ -40,6 +41,17 @@ for dr in a.drop:
 keep = [[round(x, 3), round(y, 3)] for x, y in keep if y - x > 0.05]
 
 sel = '+'.join(f'between(t,{x},{y})' for x, y in keep)
+if a.audio_only:
+    # studio voice chain: rumble cut, denoise, de-mud, presence + air, de-ess, gentle compression, broadcast loudness
+    chain = ("highpass=f=75,afftdn=nf=-30:tn=1,equalizer=f=250:t=q:w=1.2:g=-3,equalizer=f=3200:t=q:w=1.4:g=3,"
+             "equalizer=f=9500:t=q:w=1.5:g=2,deesser=i=0.35,acompressor=threshold=-21dB:ratio=3:attack=8:release=120:makeup=2,"
+             "loudnorm=I=-15:TP=-1.5:LRA=7")
+    subprocess.run(['ffmpeg', '-y', '-v', 'error', '-i', a.raw, '-af', f"aselect='{sel}',asetpts=N/SR/TB,{chain}",
+                    '-ar', '48000', '-ac', '2', os.path.join(a.out, 'voice.wav')], check=True)
+    newdur = float(subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', os.path.join(a.out, 'voice.wav')]).decode())
+    json.dump({'keep': keep, 'fps': a.fps, 'frames': 0, 'audioOnly': True, 'duration': newdur, 'original': dur}, open(os.path.join(a.out, 'cuts.json'), 'w'), indent=1)
+    print(f'original {dur:.2f}s -> {newdur:.2f}s, {len(keep)} parts (audio only)')
+    sys.exit(0)
 cut = os.path.join(a.out, 'cut.mp4')
 subprocess.run(['ffmpeg', '-y', '-v', 'error', '-i', a.raw,
                 '-vf', f"select='{sel}',setpts=N/{a.fps}/TB,fps={a.fps},scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,eq=contrast=1.06:saturation=1.12:brightness=0.01",

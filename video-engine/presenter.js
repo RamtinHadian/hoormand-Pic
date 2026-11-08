@@ -125,6 +125,93 @@
   .cust .tb{height:34px;border-radius:17px;background:#e3e9f4;overflow:hidden;margin-top:18px}
   .cust .tb i{display:block;height:100%;border-radius:17px;background:linear-gradient(90deg,#1fbf7a,#3ee39a);transform-origin:right}
   .cust .tp{font:900 60px V;color:#1fbf7a;white-space:nowrap}
+
+  /* voice-only episodes: an animated ocean stage with Ramtin's voice visualised */
+  #vs{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;
+    background:radial-gradient(120% 70% at 50% 35%,#1e5fc4 0%,#0f3e8f 38%,#0a2459 70%,#071636 100%)}
+  #vs .blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55}
+  #vs .grid{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.13) 2px,transparent 2.5px);background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(70% 55% at 50% 45%,#000 30%,transparent 80%)}
+  #vs .pt{position:absolute;width:8px;height:8px;border-radius:50%;background:#bfe3ff;box-shadow:0 0 14px #8fd0ff}
+  #vs .ring{position:absolute;left:390px;top:610px;width:300px;height:300px;border-radius:50%;border:4px solid rgba(140,210,255,.55)}
+  #vs .host{position:absolute;left:390px;top:610px;width:300px;height:300px;border-radius:50%;padding:12px;
+    background:conic-gradient(from 0deg,#3ee0ff,#2f7fe0,#8b6bff,#ffd23f,#3ee0ff);box-shadow:0 0 70px rgba(80,180,255,.55)}
+  #vs .host div{width:100%;height:100%;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+  #vs .host img{width:150px}
+  #vs .mic{position:absolute;left:600px;top:820px;width:96px;height:96px;border-radius:50%;background:#ffd23f;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 26px rgba(0,0,0,.3)}
+  #vs .mic svg{width:52px;height:52px;fill:none;stroke:#0f1f3d;stroke-width:2.2;stroke-linecap:round}
+  #vs .wave{position:absolute;left:90px;right:90px;top:1000px;height:160px;display:flex;align-items:center;justify-content:space-between}
+  #vs .wave i{display:block;width:11px;border-radius:6px;background:linear-gradient(180deg,#9fe6ff,#3ea0ff 50%,#9fe6ff)}
+  #vs .hn{position:absolute;left:0;right:0;top:1190px;text-align:center;font:900 54px V;color:#fff;text-shadow:0 6px 20px rgba(0,0,0,.35)}
+  #vs .hr{position:absolute;left:0;right:0;top:1272px;display:flex;justify-content:center}
+  #vs .hr span{font:800 32px V;color:#0f1f3d;background:#ffd23f;border-radius:999px;padding:6px 26px}
+
+  .dcard{left:110px;right:110px;top:110px;height:600px;padding:40px 50px}
+  .dtop{display:flex;align-items:center;gap:22px;justify-content:flex-start}
+  .dtop b{font:900 54px V;color:var(--navy)}
+  .damt{font:900 64px V;color:var(--blue);margin-top:26px}
+  .ecg{position:absolute;left:50px;right:50px;top:250px;width:760px;height:170px}
+  .ecg path{fill:none;stroke:#1fbf7a;stroke-width:7;stroke-linejoin:round;stroke-linecap:round}
+  .dday{position:absolute;right:50px;bottom:40px;font:800 40px V;border-radius:999px;padding:10px 30px}
+  .flat{position:absolute;left:0;right:0;top:760px;text-align:center;font:900 70px V;color:#e0354f}
+  .dtile{position:absolute;top:210px;width:120px;height:170px;border-radius:28px;background:#fff;box-shadow:0 14px 34px rgba(20,50,110,.16);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--navy)}
+  .dtile small{font:700 26px V;opacity:.8}
+  .dtile b{font:900 70px/1.1 V}
+  .wbig{position:absolute;top:420px;left:0;right:0;text-align:center;font:900 220px/1 V;color:#e0354f;text-shadow:0 14px 40px rgba(224,53,79,.25)}
+  .wsub2{position:absolute;top:690px;left:0;right:0;text-align:center;font:800 50px V;color:var(--navy2)}
+  .fline{position:absolute;left:150px;right:150px;top:262px;height:12px;border-radius:6px;background:#dbe5f5}
+  .fline i{display:block;height:100%;border-radius:6px;background:linear-gradient(270deg,#2f7fe0,#7b6bff);transform-origin:right}
+  .fnode{position:absolute;top:200px;width:120px;display:flex;flex-direction:column;align-items:center;gap:18px}
+  .fdot{width:120px;height:120px;border-radius:50%;background:#fff;border:6px solid #dbe5f5;display:flex;align-items:center;justify-content:center;font:900 52px V;color:#9aa8c2;box-shadow:0 12px 30px rgba(20,50,110,.14)}
+  .fnode.on .fdot{background:var(--blue);border-color:#cfe1fb;color:#fff}
+  .flb{font:900 34px/1.25 V;color:var(--navy);text-align:center;width:220px}
+  .ftok{position:absolute;left:0;top:0;width:140px;height:64px;border-radius:32px;background:var(--yellow);font:900 32px V;color:var(--navy);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(0,0,0,.18)}
+  .fend{position:absolute;top:640px;border-radius:30px;padding:22px 40px;font:900 48px V;color:#fff;box-shadow:0 14px 34px rgba(0,0,0,.15)}
+  .fend.g{background:linear-gradient(90deg,#1fbf7a,#3ee39a)} .fend.r{background:linear-gradient(90deg,#e0354f,#ff6b6b)}
+  .farr{position:absolute;left:0;top:360px;width:1080px;height:300px}
+  .farr path{fill:none;stroke:#b9c8e2;stroke-width:8;stroke-dasharray:18 14;stroke-linecap:round}
+  .fring{position:absolute;top:186px;width:180px;height:180px;border-radius:50%;box-shadow:0 0 0 10px #e0354f,0 0 50px 20px rgba(224,53,79,.45)}
+  .fcount{position:absolute;top:24px;width:200px;text-align:center;font:900 44px V;color:#fff;border-radius:999px;padding:8px 0}
+  .nobody{position:absolute;left:0;right:0;top:520px;text-align:center;font:900 96px V;color:var(--navy)}
+  .nobody em{font-style:normal;color:#e0354f}
+  .nochip{position:absolute;top:700px;display:flex;align-items:center;gap:18px;background:#fff;border-radius:999px;padding:16px 34px;font:900 44px V;color:var(--navy);box-shadow:0 12px 30px rgba(20,50,110,.16)}
+  .nochip b{color:#fff;background:#e0354f;border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font:900 34px V}
+  .tm{position:absolute;top:200px;width:280px;display:flex;flex-direction:column;align-items:center;gap:14px}
+  .tm .av{width:150px;height:150px;font-size:64px}
+  .tm .fn{font:900 40px V;color:var(--navy)}
+  .tbub{background:#fff;border-radius:30px 30px 30px 8px;padding:16px 26px;font:800 32px V;color:var(--navy2);box-shadow:0 12px 30px rgba(20,50,110,.16);white-space:nowrap;margin-bottom:10px}
+  .custw{left:110px;right:110px;top:420px;height:230px;display:flex;align-items:center;gap:34px;padding:0 50px}
+  .custw .av{width:140px;height:140px;font-size:60px}
+  .custw .q{font:900 54px V;color:var(--navy)}
+  .custw .w{display:flex;align-items:center;gap:12px;font:800 38px V;color:#e07a10;margin-top:10px}
+  .custw .hg{margin-right:auto;font-size:90px}
+  .cchip{position:absolute;top:720px;background:#fff;border-radius:999px;padding:16px 34px;font:900 44px V;color:var(--navy);box-shadow:0 12px 30px rgba(20,50,110,.16)}
+  .cchip.r{background:#e0354f;color:#fff}
+  .sw{position:absolute;left:380px;top:60px;width:320px;height:320px}
+  .sw svg{width:320px;height:320px}
+  .sw .bg{fill:#fff;stroke:#e3ebf8;stroke-width:16} .sw .fg{fill:none;stroke:var(--blue);stroke-width:16;stroke-linecap:round;transform:rotate(-90deg);transform-origin:100px 108px}
+  .sw rect{fill:var(--navy)}
+  .swt{position:absolute;left:0;right:0;top:110px;text-align:center;line-height:1}
+  .swt b{display:block;font:900 120px/1 V;color:var(--navy)} .swt small{font:800 36px V;color:var(--muted)}
+  .swsub{position:absolute;left:0;right:0;top:410px;text-align:center;font:900 60px V;color:var(--navy)}
+  .swsub em{font-style:normal;color:var(--blue)}
+  .wd{position:absolute;top:530px;width:180px;height:96px;border-radius:24px;background:#fff;box-shadow:0 10px 24px rgba(20,50,110,.12);display:flex;align-items:center;justify-content:center;font:800 32px V;color:var(--navy2)}
+  .wd.on{background:var(--blue);color:#fff}
+  .slot{position:absolute;right:50px;top:650px;background:var(--yellow);color:var(--navy);font:900 40px V;border-radius:999px;padding:12px 32px;box-shadow:0 10px 24px rgba(0,0,0,.15)}
+  .fpill{position:absolute;left:70px;top:650px;display:flex;align-items:center;gap:16px;background:linear-gradient(90deg,#6a5cff,#b14cff);color:#fff;font:900 42px V;border-radius:999px;padding:16px 36px;box-shadow:0 12px 30px rgba(90,60,200,.35)}
+  .dmini{left:200px;right:200px;top:70px;height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+  .dmini b{font:900 44px V;color:var(--navy)}
+  .oneof{position:absolute;left:0;right:0;top:250px;text-align:center;font:900 46px V;color:var(--muted)}
+  .opt{top:340px;width:440px;height:440px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px}
+  .opt.g{right:70px;background:#eafbf2} .opt.r{left:70px;background:#fff1f3}
+  .opt .oi{width:150px;height:150px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+  .opt b{font:900 66px V;color:var(--navy)}
+  .opt .od{font:900 38px V;border-radius:999px;padding:10px 30px;color:#fff}
+  .opt.g .od{background:#1fbf7a} .opt.r .od{background:#e0354f}
+  .funnel{position:absolute;left:140px;top:150px;width:800px;height:640px}
+  .funnel path{fill:#e8eef9;stroke:#c9d6ee;stroke-width:6;stroke-linejoin:round}
+  .ghost{position:absolute;width:150px;height:62px;margin-left:-75px;border-radius:16px;background:#cfd6e2;color:#6b7690;font:800 26px V;display:flex;align-items:center;justify-content:center;border:3px dashed #a9b4c8}
+  .fake{position:absolute;right:90px;top:430px;display:flex;align-items:center;gap:16px;border:9px solid #e0354f;background:rgba(255,255,255,.95);color:#e0354f;font:900 70px V;border-radius:30px;padding:16px 36px}
   `;
   const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
@@ -333,12 +420,171 @@
     });
   };
 
+
+  // ---- episode 5 (voice-only) overlays ----
+  const fa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+  // a deal card whose heartbeat fades to a flat line while the "days untouched" counter climbs
+  P.dying = (o, root) => {
+    const c = h(`<div class="card dcard"><div class="dtop"><span class="pill o">${o.stage || 'مذاکره'}</span><b>${o.title || 'قرارداد پشتیبانی سالانه'}</b></div>
+      <div class="damt">${o.amount || '۴۲۰ میلیون تومان'}</div><svg class="ecg" viewBox="0 0 800 170"><path/></svg><div class="dday">روز <b>۱</b> بدون تغییر</div></div>`);
+    root.appendChild(c); fadeIn(c, o.c0, .45, 60);
+    const path = c.querySelector('path'), day = c.querySelector('.dday b'), dd = c.querySelector('.dday'), inner = c;
+    const d0 = o.dayAt || o.c0 + .4, d1 = o.dayEnd || (o.dieAt - .5), die = o.dieAt;
+    for (let k = 1; k <= 7; k++) sfx(d0 + (d1 - d0) * (k - 1) / 6, 'click', .45);
+    for (let t = o.c0 + .6; t < die - .3; t += .95) sfx(t, 'thud', .18 * (1 - (t - o.c0) / (die - o.c0)) + .05);
+    sfx(die, 'down', .9);
+    const beat = x => { const p = ((x % 260) + 260) % 260; return p < 90 ? 0 : p < 100 ? -(p - 90) * 3 : p < 112 ? -30 + (p - 100) * 9 : p < 124 ? 78 - (p - 112) * 8 : p < 130 ? -18 + (p - 124) * 3 : 0; };
+    hook(t => {
+      const amp = 1 - EASE.io(clamp((t - o.c0 - .5) / (die - o.c0 - .5), 0, 1));
+      let d = ''; for (let x = 0; x <= 800; x += 5) d += (x ? 'L' : 'M') + x + ' ' + (85 + beat(x + t * 260) * amp).toFixed(1);
+      path.setAttribute('d', d);
+      const dead = t >= die; path.style.stroke = dead ? '#e0354f' : amp < .5 ? '#f5a524' : '#1fbf7a';
+      inner.style.filter = dead ? `grayscale(${clamp((t - die) / .6, 0, 1)})` : '';
+      day.textContent = fa(Math.max(1, Math.min(7, 1 + Math.floor((t - d0) / ((d1 - d0) / 6)))));
+      dd.style.background = t > d1 ? '#ffe9ec' : '#eef2f8'; dd.style.color = t > d1 ? '#e0354f' : '#5a6a8a';
+    });
+    if (o.dieText) { const s = h(`<div class="flat">${o.dieText}</div>`); root.appendChild(s); anim(s, [{ t: die - .001, o: 0, s: 1.6 }, { t: die + .25, o: 1, s: 1, e: 'out' }]); }
+  };
+  // seven day tiles fill one by one, then the answer stamps in
+  P.week = (o, root) => {
+    const q = h(`<div class="wordsub" style="top:70px">${o.question || 'چند روز طول می‌کشه؟'}</div>`); root.appendChild(q); fadeIn(q, o.c0);
+    const tiles = []; const f0 = o.fillAt || o.c0 + .6, fd = o.fillDur || 2.4;
+    for (let i = 0; i < 7; i++) {
+      const el = h(`<div class="dtile" style="right:${70 + i * 136}px"><small>روز</small><b>${fa(i + 1)}</b></div>`); root.appendChild(el); pop(el, o.c0 + .2 + i * .06, .3); tiles.push(el);
+      const ta = f0 + fd * i / 6; sfx(ta, 'click', .55);
+      hook(t => { const on = t >= ta, u = i / 6; el.style.background = on ? `hsl(${lerp(210, 352, u)},80%,${lerp(56, 55, u)}%)` : '#fff'; el.style.color = on ? '#fff' : 'var(--navy)'; });
+    }
+    const ra = o.revealAt; sfx(ra - .6, 'riser', .5); sfx(ra, 'thud', 1); sfx(ra + .05, 'ding', .7);
+    const big = h(`<div class="wbig">${o.answer || '۷ روز'}</div>`); root.appendChild(big);
+    anim(big, [{ t: ra - .001, o: 0, s: 2.2, b: 10 }, { t: ra + .3, o: 1, s: 1, b: 0, e: 'out' }]);
+    if (o.sub) { const s = h(`<div class="wsub2">${o.sub}</div>`); root.appendChild(s); fadeIn(s, ra + .4); }
+  };
+  // sales stages light up in order, a deal token travels along; optional fork, or it gets stuck while days pile up
+  P.flow = (o, root) => {
+    const st = o.stages || ['جدید', 'تماس گرفته شد', 'پیشنهاد ارسال شد', 'مذاکره'];
+    const X = i => 830 - i * 250;
+    const line = h(`<div class="fline"><i></i></div>`); root.appendChild(line); fadeIn(line, o.c0, .3, 0);
+    const fill = line.querySelector('i');
+    const nodes = st.map((s, i) => { const at = (o.at || [])[i] ?? o.c0 + .1 + i * .08;
+      const el = h(`<div class="fnode" style="left:${X(i)}px"><div class="fdot">${fa(i + 1)}</div><div class="flb">${s}</div></div>`); root.appendChild(el); pop(el, at, .35); return { el, at }; });
+    const tok = h(`<div class="ftok">فرصت</div>`); root.appendChild(tok);
+    const stopI = o.stuck ? st.length - 1 : null;
+    const keys = nodes.map((n, i) => ({ t: n.at + .05, x: X(i) - 10 }));
+    anim(tok, [{ t: nodes[0].at - .001, o: 0, x: X(0) - 10, y: 116, s: .6 }, { t: nodes[0].at + .2, o: 1, s: 1 }, ...keys.slice(1).map(k => ({ ...k, e: 'io' }))]);
+    keys.slice(1).forEach(k => sfx(k.t - .05, 'swish', .45));
+    hook(t => { let k = 0; nodes.forEach((n, i) => { if (t >= n.at) k = i; n.el.classList.toggle('on', t >= n.at); }); fill.style.transform = `scaleX(${clamp(k / (st.length - 1), 0, 1)})`; });
+    if (o.forkAt) {
+      const win = h(`<div class="fend g" style="right:120px">✓ ${o.win || 'فروش موفق'}</div>`), lose = h(`<div class="fend r" style="left:120px">✕ ${o.lose || 'از دست رفته'}</div>`);
+      root.append(win, lose); pop(win, o.forkAt, .4); pop(lose, o.loseAt || o.forkAt + .8, .4); sfx(o.forkAt, 'ding', .7); sfx(o.loseAt || o.forkAt + .8, 'buzz', .5);
+      const ar = h(`<svg class="farr" viewBox="0 0 1080 300"><path d="M${X(st.length - 1) + 60} 20 C ${X(st.length - 1) + 60} 160, 760 120, 780 240" /><path d="M${X(st.length - 1) + 60} 20 C ${X(st.length - 1) + 60} 160, 320 120, 300 240"/></svg>`);
+      root.appendChild(ar); fadeIn(ar, o.forkAt - .1, .4, 0);
+    }
+    if (o.stuck) {
+      const ring = h(`<div class="fring"></div>`); root.appendChild(ring); ring.style.left = (X(st.length - 1) - 30) + 'px';
+      const cnt = h(`<div class="fcount">${'۰'} روز</div>`); root.appendChild(cnt); cnt.style.left = (X(st.length - 1) - 40) + 'px';
+      const ca = o.countAt || o.c0 + .5, ce = o.countEnd || ca + 2; for (let k = 1; k <= 8; k++) sfx(ca + (ce - ca) * (k - 1) / 7, 'click', .45); sfx(ce, 'buzz', .6);
+      pop(cnt, ca, .3);
+      hook(t => { const n = clamp(1 + Math.floor((t - ca) / ((ce - ca) / 7)), 1, 8); cnt.textContent = fa(n) + ' روز'; const red = n >= 7;
+        cnt.style.background = red ? '#e0354f' : 'var(--navy)'; ring.style.opacity = t > ca ? (red ? .9 : .4) * (.6 + .4 * Math.sin(t * 8)) : 0; });
+      if (o.nobodyAt) { const nb = h(`<div class="nobody">${richSub(o.nobody || '*هیچ‌کس*، هیچ کاری')}</div>`); root.appendChild(nb); sfx(o.nobodyAt, 'thud', .8);
+        anim(nb, [{ t: o.nobodyAt - .001, o: 0, s: 1.5 }, { t: o.nobodyAt + .3, o: 1, s: 1, e: 'out' }]); }
+      (o.nos || []).forEach((n, i) => { const el = h(`<div class="nochip" style="${i ? 'left:140px' : 'right:140px'}">${S(n.icon || 'phone', 'ic" style="width:46px;height:46px;stroke:#e0354f')}<span>${n.text}</span><b>✕</b></div>`);
+        root.appendChild(el); pop(el, n.at, .35); sfx(n.at + .15, 'buzz', .55); });
+    }
+  };
+  // everyone thinks someone else is on it; meanwhile the customer waits, forgets, and buys from a competitor
+  P.team = (o, root) => {
+    const ppl = o.people || ['علی', 'سارا', 'رضا'], xs = [720, 400, 80];
+    const els = ppl.map((n, i) => { const el = h(`<div class="tm" style="left:${xs[i]}px"><div class="tbub">${o.think || 'اون پیگیری می‌کنه…'}</div><div class="av" style="background:${AV[i]}">${n[0]}</div><div class="fn">${n}</div></div>`);
+      root.appendChild(el); const t0 = o.c0 + i * .12; sfx(t0, 'soft', .5);
+      anim(el, [{ t: t0 - .001, o: 0, y: 30, s: 1 }, { t: t0 + .35, o: 1, y: 0 }, ...(o.custAt ? [{ t: o.custAt - .2, y: 0, s: 1, o: 1 }, { t: o.custAt + .3, y: -40, s: .82, o: .45 }] : [])]);
+      const b = el.querySelector('.tbub'); pop(b, o.c0 + .6 + i * .45, .35); return el; });
+    if (o.custAt) {
+      const ca = o.custAt;
+      const cu = h(`<div class="card custw"><div class="av" style="background:#33c49b">م</div><div><div class="q">مشتری</div><div class="w">${S('calendar', 'ic" style="width:40px;height:40px')}<span>${o.wait || 'یه هفته بی‌خبری…'}</span></div></div><div class="hg">⌛</div></div>`);
+      root.appendChild(cu); sfx(ca, 'soft', .5);
+      anim(cu, [{ t: ca - .001, o: 0, y: 60, x: 0 }, { t: ca + .4, o: 1, y: 0 }, ...(o.leftAt ? [{ t: o.leftAt + .3, x: 0, o: 1 }, { t: o.leftAt + 1.1, x: -900, o: 0, e: 'in' }] : [])]); const hg = cu.querySelector('.hg');
+      hook(t => { hg.style.transform = `rotate(${Math.floor(Math.max(0, t - ca) / .8) * 180 + 180 * EASE.io(clamp(((t - ca) % .8) / .3, 0, 1))}deg)`; });
+      if (o.forgotAt) { const f = h(`<div class="cchip" style="right:120px">💭 ${o.forgot || 'یادش رفت'}</div>`); root.appendChild(f); pop(f, o.forgotAt, .35); sfx(o.forgotAt, 'soft', .6); }
+      if (o.leftAt) { const l = h(`<div class="cchip r" style="left:120px">🏃 ${o.left || 'از رقیب خرید کرد'}</div>`); root.appendChild(l); pop(l, o.leftAt, .35); sfx(o.leftAt, 'swish', .8); sfx(o.leftAt + .4, 'coin', .6);}
+    }
+  };
+  // ten minutes a week: stopwatch fills, a fixed weekly slot, then the "untouched only" filter
+  P.timer = (o, root) => {
+    const sw = h(`<div class="sw"><svg viewBox="0 0 200 200"><circle cx="100" cy="108" r="78" class="bg"/><circle cx="100" cy="108" r="78" class="fg"/><rect x="88" y="6" width="24" height="18" rx="5"/></svg><div class="swt"><b>۱۰</b><small>دقیقه</small></div></div>`);
+    root.appendChild(sw); sfx(o.c0, 'pop', .6);
+    anim(sw, [{ t: o.c0, o: 0, s: .6 }, { t: o.c0 + .45, o: 1, s: 1, e: 'back' }, ...(o.filterAt ? [{ t: o.filterAt - .2, o: 1, s: 1 }, { t: o.filterAt + .3, o: .2, s: .8 }] : [])]);
+    const fg = sw.querySelector('.fg'), L = 2 * Math.PI * 78; fg.style.strokeDasharray = L;
+    const r0 = o.c0 + .3, r1 = o.fillEnd || r0 + 2; for (let t = r0; t < r1; t += .25) sfx(t, 'type', .25); sfx(r1, 'ding', .7);
+    hook(t => { fg.style.strokeDashoffset = L * (1 - EASE.io(clamp((t - r0) / (r1 - r0), 0, 1))); });
+    if (o.weekAt) { const w = h(`<div class="swsub">${o.weekText || 'فقط ده دقیقه *در هفته*'}</div>`); w.innerHTML = richSub(w.innerHTML); root.appendChild(w); fadeIn(w, o.weekAt); }
+    if (o.slotAt) {
+      const days = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه'];
+      days.forEach((d, i) => { const el = h(`<div class="wd" style="right:${60 + i * 196}px">${d}</div>`); root.appendChild(el); pop(el, o.slotAt + i * .07, .3);
+        if (i === 0) { const s = h(`<div class="slot">${o.slot || 'هر شنبه ساعت ۹'}</div>`); root.appendChild(s); pop(s, o.slotAt + .7, .4); sfx(o.slotAt + .7, 'ding', .6);
+          hook(t => el.classList.toggle('on', t > o.slotAt + .7)); } });
+    }
+    if (o.filterAt) { const f = h(`<div class="fpill">${S('chart', 'ic" style="width:42px;height:42px;stroke:#fff')}${o.filter || 'فقط فرصت‌های بی‌حرکت'}</div>`); root.appendChild(f); pop(f, o.filterAt, .4); sfx(o.filterAt, 'click', .8);}
+  };
+  // one stale deal, exactly two choices: a next step with a date, or close it with a reason
+  P.decide = (o, root) => {
+    const d = h(`<div class="card dmini"><span class="pill r">${o.age || '۹ روز بی‌حرکت'}</span><b>${o.title || 'خرید لایسنس سازمانی'}</b></div>`); root.appendChild(d); pop(d, o.c0, .4);
+    const tag = h(`<div class="oneof">${o.label || 'فقط یکی از این دو:'}</div>`); root.appendChild(tag); fadeIn(tag, o.c0 + .3);
+    const A = h(`<div class="card opt g"><div class="oi">${S('calendar', 'ic" style="width:70px;height:70px;stroke:#1a9a5e')}</div><b>${o.a || 'قدم بعدی'}</b><span class="od">${o.date || 'تماس · ۲۰ آبان'}</span></div>`);
+    const B = h(`<div class="card opt r"><div class="oi">${S('key', 'ic" style="width:70px;height:70px;stroke:#e0354f')}</div><b>${o.b || 'ببندش'}</b><span class="od">${o.reason || 'دلیل: قیمت'}</span></div>`);
+    root.append(A, B); pop(A, o.nextAt, .45); pop(B, o.closeAt, .45); sfx(o.nextAt, 'whoosh', .4); sfx(o.closeAt, 'whoosh', .4);
+    if (o.dateAt) { pop(A.querySelector('.od'), o.dateAt, .35); sfx(o.dateAt, 'ding', .6); } else A.querySelector('.od').style.display = 'none';
+    if (o.lockAt) { pop(B.querySelector('.od'), o.lockAt, .35); sfx(o.lockAt, 'thud', .8); } else B.querySelector('.od').style.display = 'none';
+  };
+  // the funnel looks full… of dead deals; "false sense of safety" stamp
+  P.crowd = (o, root) => {
+    const ttl = h(`<div class="wordsub" style="top:56px;color:var(--navy)">${richSub(o.title || 'قیف *پر*… از فرصت‌های مرده')}</div>`); root.appendChild(ttl); fadeIn(ttl, o.c0);
+    const fn = h(`<svg class="funnel" viewBox="0 0 800 640"><path d="M20 10 H780 L520 420 V620 H280 V420 Z"/></svg>`); root.appendChild(fn); fadeIn(fn, o.c0 + .1, .4, 30);
+    const spots = [[380, 210], [520, 220], [660, 210], [240, 220], [450, 300], [600, 300], [310, 300], [520, 380], [390, 380], [450, 460], [455, 540], [455, 610]];
+    spots.forEach(([x, y], i) => { const c = h(`<div class="ghost" style="left:${x + 40}px;top:${y + 20}px">${i % 3 ? '۱۴ روز' : '۲۱ روز'}</div>`); root.appendChild(c); pop(c, o.c0 + .4 + i * .14, .25); });
+    if (o.fakeAt) { const s = h(`<div class="fake">${S('shield', 'ic" style="width:80px;height:80px;stroke:#e0354f')}<span>${o.fake || 'امنیتِ دروغ'}</span></div>`); root.appendChild(s); sfx(o.fakeAt, 'buzz', .8); sfx(o.fakeAt + .02, 'thud', .7);
+      anim(s, [{ t: o.fakeAt - .001, o: 0, s: 1.8, r: -14 }, { t: o.fakeAt + .25, o: 1, s: 1, r: -8, e: 'out' }]); }
+  };
+
+  // voice-only stage: drifting light blobs, dot grid, floating particles, the Hoormand host badge with
+  // rings that breathe with the voice, a live waveform and Ramtin's name
+  function buildVoiceStage(data) {
+    const H = data.host || {};
+    const vs = h(`<div id="vs"><div class="grid"></div></div>`);
+    const blobs = [['#3ee0ff', 520, 120, 260], ['#8b6bff', 460, 640, 900], ['#2f7fe0', 600, -120, 1300], ['#1fd0a0', 380, 760, 300]].map(([c, r, x, y]) => {
+      const b = h(`<div class="blob" style="background:${c};width:${r}px;height:${r}px;left:${x}px;top:${y}px"></div>`); vs.appendChild(b); return b; });
+    const pts = Array.from({ length: 26 }, (_, i) => { const p = h(`<div class="pt"></div>`); vs.appendChild(p);
+      return { p, x: (i * 397) % 1080, y: (i * 733) % 1920, sp: 18 + (i * 7) % 30, ph: i * 1.7, sz: .5 + (i % 4) * .3 }; });
+    const rings = [0, 1, 2].map(() => { const r = h(`<div class="ring"></div>`); vs.appendChild(r); return r; });
+    const host = h(`<div class="host"><div><img src="${data.logoMark}"></div></div>`); vs.appendChild(host);
+    const mic = h(`<div class="mic"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>`); vs.appendChild(mic);
+    const wave = h(`<div class="wave"></div>`); vs.appendChild(wave);
+    const NB = 44, bars = Array.from({ length: NB }, () => { const i = h('<i></i>'); wave.appendChild(i); return i; });
+    vs.appendChild(h(`<div class="hn">${H.name || 'رامتین هادیان'}</div>`));
+    vs.appendChild(h(`<div class="hr"><span>${H.role || 'مدیرعامل هورمند'}</span></div>`));
+    const env = data.env, fps = data.fps || 30;
+    const E = t => { const f = t * fps, i = Math.floor(f); const a = env[Math.min(env.length - 1, Math.max(0, i))] || 0, b = env[Math.min(env.length - 1, i + 1)] || 0; return lerp(a, b, f - i); };
+    hook(t => {
+      const v = E(t);
+      blobs.forEach((b, i) => b.style.transform = `translate(${Math.sin(t * .23 + i * 2) * 90}px,${Math.cos(t * .19 + i) * 70}px) scale(${1 + .08 * Math.sin(t * .4 + i)})`);
+      pts.forEach(o => { const y = ((o.y - t * o.sp) % 1920 + 1920) % 1920; o.p.style.transform = `translate(${o.x + Math.sin(t * .6 + o.ph) * 30}px,${y}px) scale(${o.sz})`; o.p.style.opacity = .25 + .35 * (.5 + .5 * Math.sin(t * 1.3 + o.ph)); });
+      rings.forEach((r, i) => { const ph = ((t * .55 + i / 3) % 1); r.style.transform = `scale(${1 + ph * (.7 + v * .9)})`; r.style.opacity = (1 - ph) * (.25 + v * .75); });
+      host.style.transform = `scale(${1 + v * .07}) rotate(${Math.sin(t * .5) * 3}deg)`;
+      host.style.background = `conic-gradient(from ${t * 50}deg,#3ee0ff,#2f7fe0,#8b6bff,#ffd23f,#3ee0ff)`;
+      mic.style.transform = `scale(${1 + v * .12})`;
+      bars.forEach((b, i) => { const c = Math.abs(i - (NB - 1) / 2) / (NB / 2), lag = E(t - c * .12);
+        const n = .55 + .45 * Math.sin(i * 1.9 + t * 9.3) * Math.sin(i * .7 + t * 5.1);
+        b.style.height = (10 + 150 * lag * (1 - c * .55) * (.45 + .55 * Math.abs(n))) + 'px'; b.style.opacity = .55 + .45 * lag; });
+    });
+    return vs;
+  }
   window.buildPresenter = function (data) {
     DATA = data;
     const stage = document.getElementById('stage');
     document.getElementById('streak').style.display = 'none';
     const wrap = h(`<div id="pvwrap"><img id="pv"><div id="pvshade"></div></div>`); stage.insertBefore(wrap, stage.firstChild);
-    const pv = wrap.querySelector('#pv');
+    let pv = wrap.querySelector('#pv');
+    if (data.voiceOnly) { pv.remove(); wrap.querySelector('#pvshade').remove(); pv = buildVoiceStage(data); wrap.appendChild(pv); }
     const panel = document.getElementById('panel'); panel.style.height = '1000px';
     const scenes = document.getElementById('scenes'), caps = document.getElementById('caps');
     document.getElementById('wm').innerHTML = `<i><img src="${data.logoMark}"></i><span>${data.brand.website}</span>`;
@@ -362,8 +608,8 @@
       const p = pAt(t);
       panel.style.transform = `translateY(${-1060 * (1 - p)}px)`;
       let k = 0; for (const c of cutsAt) if (c <= t) k++;
-      const punch = (k % 2) ? 1.075 : 1.0;
-      const z = lerp(punch, 1, p), dy = 520 * p;
+      const punch = data.voiceOnly ? 1.0 : (k % 2) ? 1.075 : 1.0;
+      const z = lerp(punch, 1, p), dy = (data.voiceOnly ? 470 : 520) * p;
       pv.style.transform = `translateY(${dy}px) scale(${z})`;
       caps.style.transform = `translateY(${-440 * p}px)`;
     });

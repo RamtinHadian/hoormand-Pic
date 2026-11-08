@@ -220,6 +220,23 @@ const OBJ = {
     </g>
     ${badge ? `<g transform="translate(260 -360)"><circle r="78" fill="url(#blkR)"/><circle r="78" fill="none" stroke="${L1}" stroke-width="9"/><text y="30" text-anchor="middle" font-family="V" font-weight="900" font-size="80" fill="#fff">${badge}</text></g>` : ''}
   </g>`; },
+  // desk calendar with a big day count — stale deals (name = the number, note = the line under it)
+  calendar: (x, y, s, badge, name, note) => `<g transform="translate(${x} ${y}) scale(${s})">
+    <ellipse cx="0" cy="420" rx="330" ry="60" fill="#000" opacity=".55" filter="url(#soft)"/>
+    <path d="M-290 330 v70 a290 46 0 0 0 580 0 v-70z" fill="url(#blk)"/>
+    <ellipse cx="0" cy="330" rx="290" ry="46" fill="#2a2c28"/><ellipse cx="0" cy="330" rx="290" ry="46" fill="none" stroke="#4a4d46" stroke-width="3"/>
+    <g transform="rotate(-8 0 0)">
+      <rect x="-270" y="-330" width="540" height="620" rx="54" fill="${L4}" transform="translate(18 24)"/>
+      <rect x="-270" y="-330" width="540" height="620" rx="54" fill="url(#limeR)"/>
+      <path d="M-270 -200 v-76 a54 54 0 0 1 54 -54 h432 a54 54 0 0 1 54 54 v76z" fill="url(#blk)"/>
+      <text x="0" y="-238" direction="rtl" text-anchor="middle" font-family="V" font-weight="800" font-size="42" fill="${L1}">بدون تغییر</text>
+      ${[-160, -55, 55, 160].map(cx => `<rect x="${cx - 16}" y="-372" width="32" height="84" rx="16" fill="#3a3d37"/><rect x="${cx - 9}" y="-366" width="12" height="40" rx="6" fill="#6b6e66"/>`).join('')}
+      <text x="0" y="110" text-anchor="middle" font-family="V" font-weight="900" font-size="330" fill="#111">${name || '۷'}</text>
+      <text x="0" y="220" direction="rtl" text-anchor="middle" font-family="V" font-weight="900" font-size="64" fill="#1b2a02">${note || 'روز'}</text>
+      <path d="M-230 -170 C -250 -40 -250 120 -235 250" stroke="#f6ffd1" stroke-width="18" stroke-linecap="round" fill="none" opacity=".5"/>
+    </g>
+    ${badge ? `<g transform="translate(250 -330)"><circle r="80" fill="#e0354f"/><text y="30" text-anchor="middle" font-family="V" font-weight="900" font-size="78" fill="#fff">${badge}</text></g>` : ''}
+  </g>`,
   // megaphone — advertising
   megaphone: (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s}) rotate(-18)">
     <ellipse cx="40" cy="330" rx="300" ry="40" fill="#000" opacity=".4" filter="url(#soft)"/>

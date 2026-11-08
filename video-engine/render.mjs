@@ -55,7 +55,7 @@ if (!PRESENTER) {
   prep = { dir, ...JSON.parse(fs.readFileSync(path.join(dir, 'cuts.json'), 'utf8')) };
   voice = path.join(dir, 'voice.wav');
   // original recording time -> time after pause removal
-  const map = t => { let acc = 0; for (const [a, b] of prep.keep) { if (t < a) return acc; if (t <= b) return acc + t - a; acc += b - a; } return acc; };
+  const map = script.presenter.times === 'cut' ? (t => t) : t => { let acc = 0; for (const [a, b] of prep.keep) { if (t < a) return acc; if (t <= b) return acc + t - a; acc += b - a; } return acc; };
   { let acc = 0; for (const [a, b] of prep.keep.slice(0, -1)) { acc += b - a; cutTimes.push(acc); } }
   const caps = script.captions.map((c, i) => {
     const [t, text, end] = c; const nxt = script.captions[i + 1];
@@ -81,6 +81,19 @@ if (!PRESENTER) {
   const end = script.endCard ? { ...script.endCard, t0: prep.duration } : null;
   const total = prep.duration + (end ? end.dur : 0);
   data = { ...base, captions: caps, overlays, cutTimes, endCard: end, total };
+  if (prep.audioOnly) {
+    // voice-only episode: no picture of Ramtin; a per-frame loudness envelope drives the on-screen voice visual
+    const raw = execFileSync('ffmpeg', ['-v', 'error', '-i', voice, '-ac', '1', '-ar', '4800', '-f', 'f32le', '-'], { maxBuffer: 1 << 28 });
+    const smp = new Float32Array(raw.buffer, raw.byteOffset, raw.length / 4), per = 4800 / fps, env = [];
+    let lvl = 0;
+    for (let i = 0; i * per < smp.length; i++) {
+      let q = 0; const a = Math.floor(i * per), b = Math.min(smp.length, Math.floor((i + 1) * per));
+      for (let j = a; j < b; j++) q += smp[j] * smp[j];
+      const db = 10 * Math.log10(q / Math.max(1, b - a) + 1e-10), v = Math.max(0, Math.min(1, (db + 45) / 33));
+      lvl = v > lvl ? lvl + (v - lvl) * .7 : lvl + (v - lvl) * .25; env.push(+lvl.toFixed(3));
+    }
+    Object.assign(data, { voiceOnly: true, env, fps, host: script.presenter.host || {} });
+  }
   whooshes = overlays.map(o => o.t0);
 }
 if (problems.length) { console.error('Script check failed:\n - ' + problems.join('\n - ')); process.exit(2); }
@@ -96,7 +109,7 @@ console.log(`timeline ${total.toFixed(2)}s, ${Math.round(total * fps)} frames`);
 
 const frameSrc = f => PRESENTER ? pathToFileURL(path.join(prep.dir, 'frames', String(Math.min(prep.frames, f + 1)).padStart(5, '0') + '.jpg')).href : null;
 async function draw(t) {
-  if (PRESENTER) await page.evaluate(s => window.setFrame(s), frameSrc(Math.floor(t * fps + 1e-6)));
+  if (PRESENTER && !prep.audioOnly) await page.evaluate(s => window.setFrame(s), frameSrc(Math.floor(t * fps + 1e-6)));
   await page.evaluate(t => window.renderAt(t), t);
 }
 

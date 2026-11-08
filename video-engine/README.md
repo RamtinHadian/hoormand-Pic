@@ -86,6 +86,24 @@ The recording fills the frame. When a graphic is due, a light panel drops from t
 
 The check still applies: a caption that mentions «هورمند» must be covered by a `feature` overlay, so the app screens are always on screen there.
 
+## Voice-only clips (Ramtin sends audio, no video)
+
+1. **Prepare the audio.** `python3 presenter_prep.py voice.m4a <prep_dir> --audio-only --noise=-35dB --min-silence 0.25 --keep-gap 0.24`
+   - cuts the long pauses, including dead air
+   - runs a studio voice chain: rumble cut, denoise, less mud, more presence and air, de-ess, gentle compression, broadcast loudness
+   - writes `voice.wav` and `cuts.json` (no frames)
+2. **Transcribe** the cut `voice.wav` and write the script with `"presenter": {"prep": …, "times": "cut", "host": {"name": …, "role": …}}`, so the times are on the cut timeline.
+3. **Render** as usual. In place of the recording, an animated ocean stage shows the Hoormand badge with rings and a waveform that move with his voice, plus his name and role.
+
+Overlays made for episode 5 can be reused:
+- `dying`: a deal whose heartbeat goes flat
+- `week`: seven day tiles, then the answer
+- `flow`: sales stages, with a win/lose fork or a stuck deal and a day counter
+- `team`: everyone thinks someone else is following up, and the customer leaves
+- `timer`: ten minutes a week, a fixed weekly slot and the stale-only filter
+- `decide`: a next step with a date, or close it with a reason
+- `crowd`: a funnel full of dead deals, stamped «امنیتِ دروغ»
+
 ## Reels cover
 
 `node cover.mjs scripts/epNN-*.json` makes `../clips/epNN-*-cover.jpg` from the script's `cover` block.
@@ -96,7 +114,7 @@ The default is `"style": "agency"`, after Ramtin's Pinterest reference. It uses 
 - the HOORMAND logo, with small `meta` lines
 - a big bold headline in `lines`; the last line is lime
 - a small `sub` text
-- a 3D-looking object that fits the topic, set in `object`. The types so far are `bell` (follow-ups), `megaphone` (advertising), `phone` (incoming call), `bubble` (speech bubble), `monitor` (customer card on a screen) and `idcard` (customer ID card), `tags` (two price tags that disagree) and `ledger` (a sheet of logged prices); they take an optional `badge`, and `name` and `note` where text shows. More can be added in `OBJ`. Extra cover options go in `coverVariants`; render one with `node cover.mjs script.json --variant N`.
+- a 3D-looking object that fits the topic, set in `object`. The types so far are `bell` (follow-ups), `megaphone` (advertising), `phone` (incoming call), `bubble` (speech bubble), `monitor` (customer card on a screen) and `idcard` (customer ID card), `tags` (two price tags that disagree), `ledger` (a sheet of logged prices) and `calendar` (a desk calendar with a big day count); they take an optional `badge`, and `name` and `note` where text shows. More can be added in `OBJ`. Extra cover options go in `coverVariants`; render one with `node cover.mjs script.json --variant N`.
 - floating icon or text `chips`, an optional `timeline` (step cards joined by a dashed line; one can be `on`), and an optional `toast` notification card
 - a glowing lime sweep line and a dot grid
 - a lime arrow button with «ادامه‌ش توی ریلز», and @hoormandcrm
