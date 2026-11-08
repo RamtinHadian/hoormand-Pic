@@ -4,7 +4,7 @@ Pictures of the Hoormand office-automation system, taken from the demo (demo dat
 
 The pictures are always the CURRENT state of the app: when something changes, its picture is replaced in place (same file name) and a new screen gets a new file. There are no folders per version; the version of the picture is the last commit.
 
-- `ocean/` – every screen and window (1440×900) in ocean-blue and navy colours, plus the newest features as PNG: `ai-settings.png`, `ai-access.png` (who may use the AI), `minutes-voice.png` (minutes from the voice of a meeting), `reminder-to-task.png`, `today-layout.png`, `today-layout-limit.png`, `today-page.png` («امروز من» layout) and `admin-affairs-sticky-tabs.png`
+- `ocean/` – every screen and window (1440×900) in ocean-blue and navy colours, plus the newest features as PNG: `ai-settings.png`, `ai-access.png` (who may use the AI), `minutes-voice.png` (minutes from the voice of a meeting), `reminder-to-task.png`, `today-layout.png`, `today-layout-limit.png`, `today-page.png` («امروز من» layout) and `admin-affairs-sticky-tabs.png`. The CRM screens of version 1.69.2: `crm-funnel-window.png`, `crm-funnel-bars.png`, `crm-funnel-ai-running.png` and `crm-funnel-ai-result.png` (the sales funnel and its AI analysis), `crm-proforma-list.png`, `crm-marketing.png`, `crm-inventory.png`, `reports-funnel.png`, `admin-form-settings.png`, `admin-form-design.png` and `admin-permissions-new.png`
 - `ocean-tall/` – the same screens on a tall page (1440×2600), so long lists and report charts show in full
 - `original/` – the same screens in the app's own maroon colours
 
