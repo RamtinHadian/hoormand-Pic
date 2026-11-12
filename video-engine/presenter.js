@@ -537,6 +537,37 @@
     if (o.lockAt) { pop(B.querySelector('.od'), o.lockAt, .35); sfx(o.lockAt, 'thud', .8); } else B.querySelector('.od').style.display = 'none';
   };
   // the funnel looks full… of dead deals; "false sense of safety" stamp
+
+  P.reasons = (o, root) => {
+    // mode 'pick': a lost customer card + reason chips; mode 'tally': end-of-month count, one reason wins
+    const R = o.items || [['قیمت','tag'],['زمان تحویل','calendar'],['رقیب','users'],['پیگیری نکردیم','phone']];
+    if ((o.mode || 'pick') === 'pick') {
+      const c = h(`<div class="card" style="right:90px;left:90px;top:60px;height:190px;padding:30px 40px;display:flex;align-items:center;gap:26px">
+        <div style="width:110px;height:110px;border-radius:50%;background:#ffe3e3;display:flex;align-items:center;justify-content:center">${S('users','ic" style="width:60px;height:60px;stroke:#e0354f')}</div>
+        <div style="flex:1"><div style="font:900 44px V;color:var(--navy)">${o.name || 'رضا حیدری'}</div><div style="font:700 30px V;color:#e0354f;margin-top:6px">✕ نخرید</div></div></div>`);
+      root.appendChild(c); pop(c, o.c0, .4); sfx(o.c0 + .1, 'buzz', .5);
+      const line = h(`<div class="card" style="right:90px;left:90px;top:290px;height:120px;padding:0 40px;display:flex;align-items:center;gap:20px;font:800 40px V;color:var(--navy)">دلیل: <span class="rsv" style="flex:1;border-bottom:5px dashed #b8c6e0;height:56px;color:#1a9a5e"></span></div>`);
+      root.appendChild(line); pop(line, o.lineAt || o.c0 + .8, .4);
+      const pos = [[470,560],[470,120],[600,560],[600,120]];
+      R.forEach(([t, ic], i) => { const at = (o.at || [])[i] ?? o.c0 + 1.5 + i * .6;
+        const el = h(`<div class="card" style="left:${pos[i][1]}px;top:${pos[i][0]}px;width:400px;height:100px;display:flex;align-items:center;justify-content:center;gap:16px;font:800 38px V;color:var(--navy)">${S(ic,'ic" style="width:44px;height:44px;stroke:#1d5fd1')}${t}</div>`);
+        root.appendChild(el); pop(el, at, .35); sfx(at, 'pop', .6); });
+      if (o.oneAt) { const sp = line.querySelector('.rsv'); hook(t => { sp.textContent = t >= o.oneAt ? (o.one || 'پیگیری نکردیم') : ''; }); sfx(o.oneAt, 'ding', .6);
+        const w = h(`<div class="pill" style="position:absolute;left:90px;top:330px;background:#1a9a5e;color:#fff;font-size:30px">${o.oneText || 'فقط یه کلمه'}</div>`); root.appendChild(w); pop(w, o.oneAt + .2, .35); }
+    } else {
+      const ttl = h(`<div class="wordsub" style="top:56px;color:var(--navy)">${richSub(o.title || 'آخر ماه: *بشمار*')}</div>`); root.appendChild(ttl); fadeIn(ttl, o.c0);
+      const n = o.counts || [3, 2, 2, 9]; const mx = Math.max(...n); const ba = o.barsAt || o.c0 + .6;
+      R.forEach(([t], i) => { const top = 190 + i * 130, win = n[i] === mx, at = ba + i * .35, w = 140 + 420 * n[i] / mx;
+        const lb = h(`<div style="position:absolute;right:90px;top:${top}px;width:250px;height:100px;display:flex;align-items:center;font:800 36px V;color:var(--navy)">${t}</div>`);
+        const bar = h(`<div style="position:absolute;right:350px;top:${top + 18}px;height:64px;width:${w}px;border-radius:20px;background:${win ? '#e0354f' : '#9fb3d6'};transform-origin:right center;display:flex;align-items:center;padding-left:18px;font:900 34px V;color:#fff">${fa(n[i])}</div>`);
+        root.append(lb, bar); fadeIn(lb, at, .3, 10); sfx(at, 'swish', .35);
+        hook(t2 => { bar.style.transform = `scaleX(${EASE.out(clamp((t2 - at) / .7, 0, 1))})`; });
+        if (win && o.winAt) hook(t2 => { bar.style.boxShadow = t2 > o.winAt ? `0 0 ${30 + 14 * Math.sin(t2 * 7)}px rgba(224,53,79,.7)` : 'none'; }); });
+      if (o.winAt) sfx(o.winAt, 'thud', .7);
+      if (o.stampAt) { const st = h(`<div class="fake" style="top:auto;bottom:150px">${S('key','ic" style="width:70px;height:70px;stroke:#e0354f')}<span>${o.stamp || 'مشکل از کار خودمونه'}</span></div>`); root.appendChild(st);
+        sfx(o.stampAt, 'thud', .8); anim(st, [{ t: o.stampAt - .001, o: 0, s: 1.8, r: -12 }, { t: o.stampAt + .25, o: 1, s: 1, r: -6, e: 'out' }]); }
+    }
+  };
   P.crowd = (o, root) => {
     const ttl = h(`<div class="wordsub" style="top:56px;color:var(--navy)">${richSub(o.title || 'قیف *پر*… از فرصت‌های مرده')}</div>`); root.appendChild(ttl); fadeIn(ttl, o.c0);
     const fn = h(`<svg class="funnel" viewBox="0 0 800 640"><path d="M20 10 H780 L520 420 V620 H280 V420 Z"/></svg>`); root.appendChild(fn); fadeIn(fn, o.c0 + .1, .4, 30);

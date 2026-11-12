@@ -541,6 +541,30 @@
      }
     }
    ]
+  },
+  "lost": {
+   "title": "دلیل از دست رفتن فروش",
+   "short": "دلیل باخت",
+   "icon": "chart",
+   "keywords": [],
+   "screens": [
+    {
+     "file": "crm-pipeline.jpg",
+     "focus": {
+      "x": 0.12,
+      "y": 0.66,
+      "s": 1.9
+     }
+    },
+    {
+     "file": "crm-reports.jpg",
+     "focus": {
+      "x": 0.44,
+      "y": 0.39,
+      "s": 2.2
+     }
+    }
+   ]
   }
  }
 }
