@@ -578,7 +578,7 @@
   };
 
   // voice-only stage: drifting light blobs, dot grid, floating particles, the Hoormand host badge with
-  // rings that breathe with the voice, a live waveform and Ramtin's name
+  // rings that breathe with the voice, a live waveform
   function buildVoiceStage(data) {
     const H = data.host || {};
     const vs = h(`<div id="vs"><div class="grid"></div></div>`);
@@ -591,8 +591,9 @@
     const mic = h(`<div class="mic"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>`); vs.appendChild(mic);
     const wave = h(`<div class="wave"></div>`); vs.appendChild(wave);
     const NB = 44, bars = Array.from({ length: NB }, () => { const i = h('<i></i>'); wave.appendChild(i); return i; });
-    vs.appendChild(h(`<div class="hn">${H.name || 'رامتین هادیان'}</div>`));
-    vs.appendChild(h(`<div class="hr"><span>${H.role || 'مدیرعامل هورمند'}</span></div>`));
+    // no presenter name/title on screen (Ramtin's rule); only shown if a script explicitly sets host.name/role
+    if (H.name) vs.appendChild(h(`<div class="hn">${H.name}</div>`));
+    if (H.role) vs.appendChild(h(`<div class="hr"><span>${H.role}</span></div>`));
     const env = data.env, fps = data.fps || 30;
     const E = t => { const f = t * fps, i = Math.floor(f); const a = env[Math.min(env.length - 1, Math.max(0, i))] || 0, b = env[Math.min(env.length - 1, i + 1)] || 0; return lerp(a, b, f - i); };
     hook(t => {
