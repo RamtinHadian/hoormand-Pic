@@ -5,6 +5,7 @@
 // style "noir": dark black-and-white photo with neon teal Nastaliq headline (Ramtin's Pinterest reference);
 // style "hero": Ramtin's own relit, cut-out photo (relight.py) on a blue studio layout with a headline box;
 // style "card": illustrated sky cover; style "photo": a frame of the recording.
+// style "hook": dark ocean cover around one provocative claim — kicker, giant headline with a red-struck word, glass evidence card, stamp.
 // usage: node cover.mjs scripts/<name>.json [--variant N]  (N picks coverVariants[N-1] -> <name>-cover-N.jpg)
 // usage: node cover.mjs scripts/<name>.json   (uses the script's "cover" block) -> ../clips/<name>-cover.jpg
 // Keep text inside y 240..1680: Instagram's profile grid shows only the middle 3:4.
@@ -31,7 +32,7 @@ if (style === 'photo' && !photo && script.presenter) {
 const out = path.join(HERE, '..', 'clips', name + '-cover' + (variant ? '-' + variant : '') + '.jpg');
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
-await page.goto(pathToFileURL(path.join(HERE, { card: 'cover-card.html', photo: 'cover.html', hero: 'cover-hero.html', noir: 'cover-noir.html', note: 'cover-note.html', agency: 'cover-agency.html' }[style])).href);
+await page.goto(pathToFileURL(path.join(HERE, { card: 'cover-card.html', photo: 'cover.html', hero: 'cover-hero.html', noir: 'cover-noir.html', note: 'cover-note.html', agency: 'cover-agency.html', hook: 'cover-hook.html' }[style])).href);
 await page.evaluate(d => window.buildCover(d), { ...c, photo: photo ? pathToFileURL(path.resolve(photo)).href : null, instagram: brand.instagram });
 await page.screenshot({ path: out, type: 'jpeg', quality: 93 });
 await browser.close();
