@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<!-- style "quote": page palette (off-white/black + lime, theme dark|light). A customer chat bubble, a giant quoted
+     excuse with a black/lime verdict block, a people-dots stat and a CTA. Data: {meta, bubble, who, quote, verdict, sub, dots:[total,hit], cta, theme} -->
+<style>
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Medium.woff2);font-weight:500}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Bold.woff2);font-weight:700}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-ExtraBold.woff2);font-weight:800}
+@font-face{font-family:V;src:url(fonts/Vazirmatn-FD-Black.woff2);font-weight:900}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--lime:#c8f53a;--bg:#0e0f0d;--fg:#f4f5f0;--mute:#9a9d95;--card:#1c1d1a;--line:rgba(255,255,255,.1);--blk:#f4f5f0;--blkt:#111}
+.light{--bg:#ecebe6;--fg:#111210;--mute:#5d5f58;--card:#fff;--line:rgba(0,0,0,.08);--blk:#111210;--blkt:#c8f53a}
+html,body{width:1080px;height:1920px;overflow:hidden}
+body{font-family:V;color:var(--fg);background:var(--bg);position:relative}
+.dots{position:absolute;inset:0;background-image:radial-gradient(var(--line) 2px,transparent 2px);background-size:44px 44px;mask-image:radial-gradient(700px 800px at 80% 30%,#000 20%,transparent 75%)}
+.glow{position:absolute;left:-100px;width:900px;top:700px;height:600px;background:radial-gradient(closest-side,rgba(200,245,58,.5),transparent);filter:blur(40px)}
+.top{position:absolute;top:262px;left:70px;right:70px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:14px;direction:ltr}
+.logo i{width:58px;height:58px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.12)}
+.logo img{width:44px}.logo b{font:800 34px V;letter-spacing:4px}
+.ep{font:700 28px V;padding:12px 26px;border-radius:40px;border:2px solid var(--fg)}
+.chat{position:absolute;top:390px;right:70px;display:flex;gap:20px;align-items:flex-end}
+.av{width:92px;height:92px;border-radius:50%;background:linear-gradient(135deg,#d9d9d2,#b9bab2);display:flex;align-items:center;justify-content:center}
+.av svg{width:54px;fill:#fff}
+.bub{background:var(--card);padding:28px 38px 22px;border-radius:40px 40px 40px 10px;box-shadow:0 24px 50px rgba(0,0,0,.12);border:1.5px solid var(--line)}
+.bub p{font:700 46px V}
+.bub small{display:block;margin-top:6px;font:500 24px V;color:var(--mute)}
+.typing{position:absolute;top:600px;right:182px;font:500 26px V;color:var(--mute)}
+.q{position:absolute;top:650px;right:58px;font:900 230px/1 V;letter-spacing:-4px}
+.q span{color:var(--mute);font-weight:800}
+.verdict{position:absolute;top:905px;right:70px;padding:18px 44px 30px;border-radius:34px;background:var(--blk);color:var(--blkt);font:900 150px/1.05 V;transform:rotate(-2.5deg);box-shadow:0 30px 60px rgba(0,0,0,.25)}
+.sub{position:absolute;top:1160px;right:70px;left:70px;font:700 44px/1.5 V}
+.sub b{background:var(--lime);color:#111;padding:0 12px;border-radius:10px}
+.ppl{position:absolute;top:1310px;right:70px;left:70px;display:grid;grid-template-columns:repeat(8,1fr);gap:18px 14px}
+.ppl i{height:96px;display:flex;align-items:flex-end;justify-content:center}
+.ppl svg{width:64px;fill:var(--mute);opacity:.35}
+.ppl i.h svg{fill:var(--fg);opacity:1}
+.ppl i.h{position:relative}
+.ppl i.h:after{content:"";position:absolute;bottom:-8px;width:52px;height:8px;border-radius:4px;background:var(--lime)}
+.cta{position:absolute;top:1570px;right:70px;left:70px;display:flex;justify-content:space-between;align-items:center}
+.cta .p{display:flex;align-items:center;gap:20px;font:800 40px V}
+.cta .p i{width:84px;height:84px;border-radius:50%;background:var(--lime);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 12px rgba(200,245,58,.25)}
+.cta .ig{font:700 30px V;color:var(--mute);direction:ltr}
+</style></head><body>
+<div class="dots"></div><div class="glow"></div><div id="root"></div>
+<script>
+window.buildCover = d => {
+  if (d.theme === 'light') document.body.classList.add('light');
+  const man = '<svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4.2"/><path d="M3.5 22c0-5 3.8-8.2 8.5-8.2s8.5 3.2 8.5 8.2z"/></svg>';
+  const [tot, hit] = d.dots;
+  document.getElementById('root').innerHTML = `
+  <div class="top"><div class="logo"><i><img src="assets/logo-mark.png"></i><b>HOORMAND</b></div><div class="ep">${d.meta}</div></div>
+  <div class="chat"><div class="av">${man}</div><div class="bub"><p>${d.bubble}</p><small>${d.who}</small></div></div>
+  <div class="q"><span>«</span>${d.quote}<span>»</span></div>
+  <div class="verdict">${d.verdict}</div>
+  <div class="sub">${d.sub}</div>
+  <div class="ppl">${Array.from({ length: tot }, (_, i) => `<i class="${i < hit ? 'h' : ''}">${man}</i>`).join('')}</div>
+  <div class="cta"><div class="ig">@${d.instagram || 'hoormandcrm'}</div><div class="p">${d.cta}<i><svg width="36" height="36" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#111"/></svg></i></div></div>`;
+};
+</script></body></html>

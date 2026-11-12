@@ -32,7 +32,7 @@ if (style === 'photo' && !photo && script.presenter) {
 const out = path.join(HERE, '..', 'clips', name + '-cover' + (variant ? '-' + variant : '') + '.jpg');
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
-await page.goto(pathToFileURL(path.join(HERE, { card: 'cover-card.html', photo: 'cover.html', hero: 'cover-hero.html', noir: 'cover-noir.html', note: 'cover-note.html', agency: 'cover-agency.html', hook: 'cover-hook.html' }[style])).href);
+await page.goto(pathToFileURL(path.join(HERE, { card: 'cover-card.html', photo: 'cover.html', hero: 'cover-hero.html', noir: 'cover-noir.html', note: 'cover-note.html', agency: 'cover-agency.html', hook: 'cover-hook.html', quote: 'cover-quote.html' }[style])).href);
 await page.evaluate(d => window.buildCover(d), { ...c, photo: photo ? pathToFileURL(path.resolve(photo)).href : null, instagram: brand.instagram });
 await page.screenshot({ path: out, type: 'jpeg', quality: 93 });
 await browser.close();
