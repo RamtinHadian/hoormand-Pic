@@ -78,6 +78,27 @@ if (!PRESENTER) {
     const covered = overlays.some(o => o.type === 'feature' && o.t0 <= c.at + .3 && o.t1 >= c.at);
     if (mentionsHoormand && !covered) problems.push(`caption "${c.text}" (${c.at.toFixed(1)}s) talks about Hoormand but no feature overlay shows app screens there`);
   });
+  // every number Ramtin says is written on screen: a caption with digits that no graphic covers gets an auto `num` overlay
+  if (script.autoNumbers !== false) {
+    const DIG = /[0-9۰-۹]/;
+    caps.forEach(c => {
+      const plain = c.text.replace(/\*/g, '');
+      if (!DIG.test(plain)) {
+        if (/(^|\s)(صد|هزار|میلیون|میلیارد|درصد|نصف|دو برابر)(\s|$)/.test(plain)) console.warn(`number word in "${c.text}" — write it as digits so it shows on screen`);
+        return;
+      }
+      if (overlays.some(o => o.t0 <= c.at + .2 && o.t1 >= c.at + .3)) return;
+      const m = plain.match(/^(.*?)([0-9۰-۹][0-9۰-۹٫٬.,\/]*)\s*(.*)$/);
+      const lead = m[1].trim().split(/\s+/).filter(Boolean).slice(-3).join(' ');
+      const unit = m[3].trim().split(/\s+/).filter(Boolean).slice(0, 2).join(' ');
+      const nextT0 = Math.min(...overlays.filter(o => o.t0 > c.at).map(o => o.t0), Infinity);
+      const t0 = Math.max(0, c.at - .15), t1 = Math.min(Math.max(c.end + .5, c.at + 2.4), nextT0 - .1);
+      if (t1 - t0 < 1.2) return;
+      overlays.push({ type: 'num', t0, t1, value: m[2], lead: lead || undefined, unit: unit || undefined, auto: true });
+      console.log(`auto number overlay: ${m[2]} at ${t0.toFixed(2)}s`);
+    });
+    overlays.sort((a, b) => a.t0 - b.t0);
+  }
   const end = script.endCard ? { ...script.endCard, t0: prep.duration } : null;
   const total = prep.duration + (end ? end.dur : 0);
   data = { ...base, captions: caps, overlays, cutTimes, endCard: end, total };
@@ -154,7 +175,7 @@ else {
     const ev = out.replace(/\.mp4$/, '.sfx.json'), wav = out.replace(/\.mp4$/, '.sfx.wav');
     fs.writeFileSync(ev, JSON.stringify(sfxEvents));
     execFileSync('python3', [path.join(HERE, 'sfx.py'), ev, wav, String(total)], { stdio: 'inherit' });
-    inputs.push('-i', wav); parts.push(`[${k}:a]volume=${userAudio ? 0.42 : 0.7}[m${k}]`); k++;
+    inputs.push('-i', wav); parts.push(`[${k}:a]volume=${userAudio ? 0.55 : 0.75}[m${k}]`); k++;
     process.on('exit', () => { fs.rmSync(ev, { force: true }); fs.rmSync(wav, { force: true }); });
   }
   const labels = parts.map((_, i) => `[m${i + 1}]`).join('');

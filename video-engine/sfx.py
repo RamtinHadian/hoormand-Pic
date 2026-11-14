@@ -2,7 +2,8 @@
 """Sound effects for the motion graphics, synthesised from scratch (royalty-free).
 usage: sfx.py events.json out.wav seconds
 events.json: [{"t": 1.2, "type": "pop", "g": 0.6}, ...]
-types: whoosh, whooshOut, swish, pop, soft, click, ding, riser, coin, ring, buzz, type, down, thud, scratch, zoom
+types: whoosh, whooshOut, swish, pop, soft, click, ding, riser, coin, ring, buzz, type, down, thud, scratch, zoom,
+       impact, hit, whip, tick, suck, shimmer (action set for kinetic numbers/typography)
 """
 import sys, json, numpy as np
 from scipy.io import wavfile
@@ -50,6 +51,15 @@ LIB = {
     'type': lambda: hp(rng.standard_normal(int(.012 * SR)), 2500) * env(int(.012 * SR), 1, .003 * SR) * .5,
     'down': lambda: chirp(700, 180, .55, .4) * .5,
     'thud': lambda: add(chirp(160, 45, .35, .12) * .9, lp(rng.standard_normal(int(.35 * SR)), 400) * env(int(.35 * SR), 1, .03 * SR) * .4),
+    # --- action set: punchy trailer-style hits for kinetic numbers and typography ---
+    'impact': lambda: add(chirp(110, 38, .9, .35) * 1.0, lp(rng.standard_normal(int(.9 * SR)), 250) * env(int(.9 * SR), 1, .12 * SR) * .7,
+                          hp(rng.standard_normal(int(.25 * SR)), 1500) * env(int(.25 * SR), 1, .035 * SR) * .45),
+    'hit': lambda: add(chirp(190, 60, .22, .07) * .95, hp(rng.standard_normal(int(.08 * SR)), 1800) * env(int(.08 * SR), 1, .012 * SR) * .55),
+    'whip': lambda: sweep_noise(.2, 800, 7000, lambda u: np.sin(np.pi * u) ** 4) * 1.0,
+    'tick': lambda: add(tone(2400, .025, .005) * .45, hp(rng.standard_normal(int(.006 * SR)), 3000) * .35),
+    'suck': lambda: sweep_noise(.5, 5000, 600, lambda u: u ** 3) * .7,
+    'shimmer': lambda: add(*[tone(f, .9, .3, ((1, 1), (2, .2))) * g * (np.arange(int(.9 * SR)) >= int(d * SR))
+                            for f, g, d in ((1568, .25, 0), (2093, .2, .04), (2637, .16, .08), (3136, .12, .12))]),
     'scratch': lambda: bp(rng.standard_normal(int(.35 * SR)), 900, 4000) * (np.abs(np.sin(np.linspace(0, 9 * np.pi, int(.35 * SR)))) ** .5) * env(int(.35 * SR), .01 * SR, .25 * SR) * .5,
 }
 
@@ -60,7 +70,7 @@ last = {}
 for e in sorted(events, key=lambda e: e['t']):
     ty = e['type']
     if ty not in LIB or e['t'] < 0: continue
-    if ty in last and e['t'] - last[ty] < (.09 if ty in ('type', 'swish', 'coin') else .14): continue  # de-clutter
+    if ty in last and e['t'] - last[ty] < (.045 if ty == 'tick' else .09 if ty in ('type', 'swish', 'coin', 'whip', 'hit') else .14): continue  # de-clutter
     last[ty] = e['t']
     if ty not in cache: cache[ty] = LIB[ty]()
     s = cache[ty] * e.get('g', 1)

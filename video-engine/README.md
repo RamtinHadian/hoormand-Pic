@@ -81,6 +81,10 @@ The recording fills the frame. When a graphic is due, a light panel drops from t
      - `teaser`: the next episode, with a hidden number and its title.
      - `follow`: the Instagram follow button being tapped.
      - `share`: sending to friends.
+     - `num` (kinetic number, after Ramtin's kinetic-typography references): a `lead` line builds word by word, then the big orange `value` counts up from `from` (default 0) with fast ticks, lands with an impact, a punch and a ray burst, then `unit`, `sub` and dashed selection-box `tags` hit in one by one. Options: `prefix`, `suffix` (e.g. «٪»), `countDur`, `numberAt`, `numTop`, `stars:false`.
+     - `kinetic`: kinetic typography. `lines` build word by word with a blur-rise; the last line is big and heavy, `*word*` gets a yellow marker sweep. A line can be `{text, big, size, w, color, at}`. `shape: "arc"` draws a sweeping arc instead of the floating stars.
+   - **Every number is written on screen.** Write numbers in captions as digits (۱۰ دقیقه، ۱٫۵ میلیون). Any caption with digits that no overlay covers gets an automatic `num` overlay (lead = words before the number, unit = the two words after it). Set `"autoNumbers": false` to turn this off. Spelled-out number words (صد، هزار، میلیون، درصد…) without digits print a warning.
+   - **Action sounds.** `sfx.py` has an action set: `impact`, `hit`, `whip`, `tick`, `suck`, `shimmer`. `num` and `kinetic` use them automatically, and the panel lands with a `hit`.
    - `endCard`: the closing brand card.
 4. **Render.** `node render.mjs scripts/epNN-*.json` puts the clip in `../clips/`. Voice and music are mixed, with the music kept low under the voice.
 

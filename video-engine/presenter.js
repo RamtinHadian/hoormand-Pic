@@ -577,6 +577,103 @@
       anim(s, [{ t: o.fakeAt - .001, o: 0, s: 1.8, r: -14 }, { t: o.fakeAt + .25, o: 1, s: 1, r: -8, e: 'out' }]); }
   };
 
+  // ---------- kinetic set (after Ramtin's kinetic-typography references) ----------
+  // num: a number that counts up and lands with an impact; kinetic: lines that build word by word.
+  {
+    const k = document.createElement('style'); k.textContent = `
+    .kwrap{position:absolute;left:40px;right:40px;text-align:center;direction:rtl}
+    .kw{display:inline-block;margin:0 .14em;will-change:transform,filter,opacity}
+    .klead{font:500 60px/1.25 V;color:var(--muted)}
+    .kunit{font:900 92px/1.15 V;color:var(--navy)}
+    .ksub{font:700 46px/1.3 V;color:var(--muted)}
+    .kmark{position:relative;z-index:0}
+    .kmark i{position:absolute;z-index:-1;left:-10px;right:-10px;bottom:6%;height:42%;background:var(--yellow);border-radius:10px;transform-origin:right;display:block}
+    .knum{position:absolute;left:0;right:0;text-align:center;direction:ltr;font:900 270px/1 V;letter-spacing:-4px}
+    .knum span{background:linear-gradient(180deg,#ffc53a 0%,#ff8a1f 55%,#ff5e00 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+      filter:drop-shadow(0 0 26px rgba(255,140,30,.55)) drop-shadow(0 14px 24px rgba(255,110,0,.25))}
+    .kring{position:absolute;border-radius:50%;border:5px dashed rgba(47,127,224,.35)}
+    .kray{position:absolute;width:10px;height:70px;border-radius:6px;background:linear-gradient(180deg,#ffd23f,#ff8a1f);margin-left:-5px;transform-origin:50% 0}
+    .ktag{display:inline-block;position:relative;margin:0 18px;padding:10px 30px;font:800 46px V;color:var(--navy);border:3px dashed var(--navy2)}
+    .ktag b{position:absolute;width:14px;height:14px;background:#fff;border:3px solid var(--navy2)}
+    .kstar{position:absolute;width:190px;height:190px}
+    .karc{position:absolute;left:-200px;top:-260px;width:1480px;height:1480px;fill:none}
+    .kline{position:absolute;left:30px;right:30px;text-align:center;direction:rtl}
+    `; document.head.appendChild(k);
+  }
+  const faNum = (v, dec) => { let s = v.toFixed(dec); let [a, b] = s.split('.'); a = a.replace(/\B(?=(\d{3})+(?!\d))/g, '٬');
+    return (a + (b ? '٫' + b : '')).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]); };
+  // split text into word spans; *x* words get a yellow marker. returns [wrapper, words[]]
+  const kwords = (text, cls) => {
+    const el = h(`<div class="${cls}"></div>`), ws = [];
+    String(text).split(/\s+/).filter(Boolean).forEach(w => {
+      const hi = /^\*.*\*$/.test(w) || /^\*/.test(w) || /\*$/.test(w); const raw = w.replace(/\*/g, '');
+      const s = h(`<span class="kw${hi ? ' kmark' : ''}">${raw}${hi ? '<i></i>' : ''}</span>`); el.appendChild(s); ws.push(s);
+    });
+    // keep multi-word *..* groups marked
+    let on = false; String(text).split(/\s+/).filter(Boolean).forEach((w, i) => { if (w.startsWith('*')) on = true; if (on && !ws[i].querySelector('i')) { ws[i].classList.add('kmark'); ws[i].insertAdjacentHTML('beforeend', '<i></i>'); } if (w.endsWith('*')) on = false; });
+    return [el, ws];
+  };
+  const revealWords = (ws, t, gap, sound, g = .5) => ws.forEach((w, i) => {
+    const at = t + i * gap;
+    anim(w, [{ t: at - .001, o: 0, y: 46, s: 1.08, b: 16 }, { t: at + .32, o: 1, y: 0, s: 1, b: 0, e: 'out' }]);
+    if (sound) sfx(at, sound, g);
+    const m = w.querySelector('i'); if (m) hook(tt => { m.style.transform = `scaleX(${EASE.out(clamp((tt - at - .2) / .3, 0, 1))})`; });
+  });
+  const STAR = c => `<svg class="kstar" viewBox="0 0 100 100"><path d="M50 0 C55 38 62 45 100 50 C62 55 55 62 50 100 C45 62 38 55 0 50 C38 45 45 38 50 0Z" fill="${c}"/></svg>`;
+  const kStars = (root, c0, t1) => {
+    [[-60, 40, '#6a4cff', 1], [880, 640, 'var(--blue)', -1]].forEach(([x, y, col, d], i) => {
+      const s = h(STAR(col)); s.style.left = x + 'px'; s.style.top = y + 'px'; root.appendChild(s);
+      const a = c0 + .15 + i * .25; sfx(a, 'swish', .35);
+      anim(s, [{ t: a - .001, o: 0, s: .2, r: -90 * d, x: -160 * d, y: -60 }, { t: a + .6, o: .9, s: 1, r: 0, x: 0, y: 0, e: 'out' }, { t: t1, o: .9, s: 1.08, r: 25 * d, x: 30 * d, y: 20, e: 'lin' }]);
+    });
+  };
+  P.num = (o, root) => {
+    const c0 = o.c0, t1 = o.t1; let y = o.top || 70;
+    const ring = h(`<div class="kring" style="left:${540 - 290}px;top:${(o.numTop || 250) + 135 - 290}px;width:580px;height:580px"></div>`); root.appendChild(ring);
+    anim(ring, [{ t: c0 - .001, o: 0, s: .5 }, { t: c0 + .6, o: 1, s: 1, e: 'back' }]);
+    hook(t => { ring.style.rotate = (t * 14) + 'deg'; });
+    if (o.stars !== false) kStars(root, c0, t1);
+    let nAt = o.numberAt || c0 + .1;
+    if (o.lead) { const [el, ws] = kwords(o.lead, 'kwrap klead'); el.style.top = y + 'px'; root.appendChild(el); revealWords(ws, c0, .11, 'tick', .35); nAt = o.numberAt || c0 + .2 + ws.length * .11; }
+    const nTop = o.numTop || 250;
+    const box = h(`<div class="knum" style="top:${nTop}px"><span></span></div>`), sp = box.querySelector('span'); root.appendChild(box);
+    const str = String(o.value).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٫\/]/g, '.').replace(/[٬,]/g, '');
+    const target = parseFloat(str) || 0, dec = (str.split('.')[1] || '').length, from = o.from ?? 0;
+    const pre = o.prefix || '', post = o.suffix || '';
+    const cd = Math.max(.35, Math.min(o.countDur || 1.0, (t1 - nAt) * .45)), land = nAt + cd;
+    sfx(nAt - .02, 'whip', .7); sfx(land - .5, 'suck', .55);
+    for (let t = nAt + .05, i = 0; t < land - .03; t += .065, i++) sfx(t, 'tick', .25 + .35 * (t - nAt) / cd);
+    sfx(land, 'impact', 1); sfx(land + .02, 'shimmer', .5);
+    hook(t => { const u = EASE.out(clamp((t - nAt) / cd, 0, 1)); sp.textContent = pre + faNum(from + (target - from) * u, dec) + post; });
+    anim(box, [{ t: nAt - .001, o: 0, s: .55, b: 18, y: 40 }, { t: nAt + .25, o: 1, s: 1, b: 0, y: 0, e: 'out' }, { t: land - .001, s: 1 }, { t: land + .08, s: 1.16, e: 'out' }, { t: land + .4, s: 1, e: 'back' }, { t: t1, s: 1.04, e: 'lin' }]);
+    // burst rays when it lands
+    for (let i = 0; i < 12; i++) {
+      const a = i * 30, r = h(`<div class="kray" style="left:540px;top:${nTop + 135}px"></div>`); root.appendChild(r);
+      hook(t => { const u = clamp((t - land) / .55, 0, 1); r.style.opacity = u > 0 && u < 1 ? 1 - u : 0;
+        r.style.transform = `rotate(${a}deg) translateY(${190 + 170 * EASE.out(u)}px) scaleY(${1 - .6 * u})`; });
+    }
+    y = nTop + 300;
+    if (o.unit) { const [el, ws] = kwords(o.unit, 'kwrap kunit'); el.style.top = y + 'px'; root.appendChild(el); revealWords(ws, land + .12, .14, 'hit', .5); y += 120; }
+    if (o.sub) { const [el, ws] = kwords(o.sub, 'kwrap ksub'); el.style.top = y + 'px'; root.appendChild(el); revealWords(ws, (o.subAt || land + .45), .1, 'tick', .3); y += 80; }
+    if (o.tags) { const row = h(`<div class="kwrap" style="top:${y + 10}px"></div>`); root.appendChild(row);
+      o.tags.forEach((tg, i) => { const el = h(`<span class="ktag">${tg}<b style="left:-9px;top:-9px"></b><b style="right:-9px;top:-9px"></b><b style="left:-9px;bottom:-9px"></b><b style="right:-9px;bottom:-9px"></b></span>`); row.appendChild(el);
+        const at = (o.tagsAt || land + .6) + i * .32; pop(el, at, .35); sfx(at, 'hit', .45); }); }
+  };
+  P.kinetic = (o, root) => {
+    const c0 = o.c0; let y = o.top || 190, t = c0;
+    if (o.shape === 'arc') { const a = h(`<svg class="karc" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="rgba(47,127,224,.18)" stroke-width="3.2" stroke-dasharray="252" stroke-dashoffset="252" transform="rotate(-200 50 50)"/></svg>`); root.appendChild(a);
+      const c = a.querySelector('circle'); sfx(c0, 'whoosh', .6); hook(tt => { c.setAttribute('stroke-dashoffset', 252 - 140 * EASE.io(clamp((tt - c0) / 1.1, 0, 1))); }); }
+    if (o.shape !== 'arc' && o.stars !== false) kStars(root, c0, o.t1);
+    (o.lines || []).forEach((ln, i, arr) => {
+      if (typeof ln === 'string') ln = { text: ln };
+      const big = ln.big ?? (i === arr.length - 1), size = ln.size || (big ? 150 : 64), wt = ln.w || (big ? 900 : 500);
+      const [el, ws] = kwords(ln.text, 'kline'); el.style.top = y + 'px'; el.style.font = `${wt} ${size}px/1.12 V`; el.style.color = ln.color || (big ? 'var(--navy)' : 'var(--muted)'); root.appendChild(el);
+      const at = ln.at ?? t; revealWords(ws, at, big ? .17 : .1, big ? 'hit' : 'tick', big ? .55 : .3);
+      if (big) sfx(at - .02, 'whip', .45);
+      t = at + ws.length * (big ? .17 : .1) + .15; y += size * 1.12 * Math.ceil(ws.length / (big ? 4 : 7)) + 24;
+    });
+  };
+
   // voice-only stage: drifting light blobs, dot grid, floating particles, the Hoormand host badge with
   // rings that breathe with the voice, a live waveform
   function buildVoiceStage(data) {
@@ -626,7 +723,7 @@
     const iv = [];
     ovs.forEach(o => { const l = iv[iv.length - 1]; if (l && o.t0 - l[1] < .8) l[1] = Math.max(l[1], o.t1); else iv.push([o.t0, o.t1]); });
     window.__sfxOn = true;
-    iv.forEach(([a, b]) => { sfx(a, 'whoosh', 1); sfx(b - .35, 'whooshOut', .45); });
+    iv.forEach(([a, b]) => { sfx(a, 'whoosh', 1); sfx(a + .4, 'hit', .45); sfx(b - .35, 'whooshOut', .45); });
     const pAt = t => { let p = 0; for (const [a, b] of iv) { const u = Math.min(EASE.out(clamp((t - a) / .45, 0, 1)), 1 - EASE.in(clamp((t - (b - .35)) / .35, 0, 1))); p = Math.max(p, u); } return p; };
     ovs.forEach(o => {
       const panelAlready = iv.some(([a, b]) => a < o.t0 - .01 && b >= o.t0);
