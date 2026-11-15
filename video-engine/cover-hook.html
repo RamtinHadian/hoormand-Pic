@@ -55,7 +55,7 @@ window.buildCover = d => {
   <div class="h1">${d.strike[0]} <span class="s">${d.strike[1]}</span> ${d.strike[2]}<span class="big">${d.big}</span></div>
   <div class="sub">${d.sub}</div>
   <div class="card"><h3>${d.cardTitle}<em>${d.cardNote || ''}</em></h3>
-   ${bars.map(b => `<div class="row ${b[2] ? 'w' : ''}"><div class="l">${b[0]}</div><div class="b" style="width:${110 + 360 * b[1] / mx}px">${fa(b[1])}</div></div>`).join('')}
+   ${bars.map(b => `<div class="row ${b[2] ? 'w' : ''}"><div class="l">${b[0]}</div><div class="b" style="width:${(d.barMin || 110) + (d.barSpan || 360) * b[1] / mx}px">${b[3] || fa(b[1])}</div></div>`).join('')}
   </div>
   <div class="stamp">${d.stamp}</div>
   <div class="cta"><div class="ig">@${d.instagram || 'hoormandcrm'}</div><div class="p">${d.cta}<i><svg width="34" height="34" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#111"/></svg></i></div></div>`;
